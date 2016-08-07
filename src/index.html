@@ -3,8 +3,8 @@
         <title>Angular2 Date range picker</title>
         <style>
             body {
-                margin: 20px 60px;
-                min-width: 400px;
+                margin: 50px 200px;
+                min-width: 600px;
             }
             h3, h5 {
                 background-color: #78FA89;
@@ -15,17 +15,18 @@
             p {
                 font-size: 14px;
             }
+            @media screen and (max-width: 1200px) {
+                body {
+                    margin: 20px 10px;
+                }
+            }
         </style>
     </head>
-    <body style="margin: 50px 200px">
+    <body>
         <h3>Angular2 date range picker</h3>
         <ul style="margin-bottom: 40px">
             <li>Homepage of the component is <a href="http://kekeh.github.io/mydaterangepicker" target="_blank">here</a></li>
             <li>See all of my AngularJS 1 UI components from <a href="http://kekeh.github.io" target="_blank">here</a></li>
-        </ul>
-
-        <ul style="margin-bottom: 40px">
-            <li>First date picker is a normal mode.</li>
         </ul>
 
         <mydaterangepicker-app></mydaterangepicker-app>

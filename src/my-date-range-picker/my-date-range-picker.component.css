@@ -108,6 +108,10 @@
     padding-right: 4px;
 }
 
+.mydp .inline {
+    position: relative;
+}
+
 .mydp .caltable {
     table-layout: fixed;
     width: 100%;
@@ -221,7 +225,14 @@
     border-radius: 2px;
     cursor: pointer;
     font-size: 12px;
+}
+
+.mydp .headerclearbtn {
     min-width: 70px;
+}
+
+.mydp .footerbtn {
+    min-width: 100px;
 }
 
 .mydp .btndisable {

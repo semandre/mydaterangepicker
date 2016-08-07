@@ -41,13 +41,13 @@ export class MyDateRangePicker implements OnInit, OnChanges {
     monthLabels: IMyMonthLabels = { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' };
     dateFormat: string = 'yyyy-mm-dd'
     clearBtnTxt: string = 'Clear';
-    beginDateBtnTxt: string = 'Begin Date';
-    endDateBtnTxt: string = 'End Date';
+    beginDateBtnTxt: string = 'Set Begin Date';
+    endDateBtnTxt: string = 'Set End Date';
     acceptBtnTxt: string = 'Accept';
     firstDayOfWeek: string = 'mo';
     sunHighlight: boolean = true;
     height: string = '34px';
-    width: string = '100%';
+    width: string = '262px';
     inline: boolean = false;
 
     constructor(public elem: ElementRef) {
