@@ -11,8 +11,8 @@ export class SampleDateRangePickerNormal implements OnInit {
     selectedDateRange:string = '04.08.2016 - 26.08.2016';
     private myDatePickerOptions = {
         clearBtnTxt: 'Clear',
-        beginDateBtnTxt: 'Set Begin Date',
-        endDateBtnTxt: 'Set End Date',
+        beginDateBtnTxt: 'Begin Date',
+        endDateBtnTxt: 'End Date',
         acceptBtnTxt: 'OK',
         dateFormat: 'dd.mm.yyyy',
         firstDayOfWeek: 'mo',

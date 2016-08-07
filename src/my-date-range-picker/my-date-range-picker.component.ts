@@ -41,9 +41,11 @@ export class MyDateRangePicker implements OnInit, OnChanges {
     monthLabels: IMyMonthLabels = { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' };
     dateFormat: string = 'yyyy-mm-dd'
     clearBtnTxt: string = 'Clear';
-    beginDateBtnTxt: string = 'Set Begin Date';
-    endDateBtnTxt: string = 'Set End Date';
+    beginDateBtnTxt: string = 'Begin Date';
+    endDateBtnTxt: string = 'End Date';
     acceptBtnTxt: string = 'Accept';
+    selectBeginDateBtnTxt: string = 'Select Begin Date';
+    selectEndDateBtnTxt: string = 'Select End Date';
     firstDayOfWeek: string = 'mo';
     sunHighlight: boolean = true;
     height: string = '34px';
@@ -63,7 +65,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
     ngOnInit() {
         // the relatively ugly casts to any in this loop are needed to
         // avoid tsc errors when noImplicitAny is true.
-        let optionprops = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline'];
+        let optionprops = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateBtnTxt', 'selectEndDateBtnTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline'];
         for (let i = 0; i < optionprops.length; i++) {
             let propname = optionprops[i];
             if (this.options && (<any>this.options)[propname] !== undefined) {

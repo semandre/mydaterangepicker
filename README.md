@@ -1,4 +1,4 @@
-# mydaterangepicker v. 0.0.2
+# mydaterangepicker v. 0.0.3
 
 **Angular 2 date range picker - Angular2 reusable UI component**
 
@@ -46,13 +46,19 @@ Bind to an object containing replacements for any of the following defaults:
   `'Clear'`
 
 #### beginDateBtnTxt
-  `'Set Begin Date'`
+  `'Begin Date'`
 
-#### endDaterBtnTxt
-  `'Set End Date'`
+#### endDateBtnTxt
+  `'End Date'`
 
 #### acceptBtnTxt
   `'OK'`
+
+#### selectBeginDateBtnTxt
+  `'Select Begin Date'`
+
+#### selectEndDateBtnTxt
+  `'Select End Date'`
 
 #### firstDayOfWeek
   `'mo'`

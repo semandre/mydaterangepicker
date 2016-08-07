@@ -7,6 +7,9 @@
         </span>
     </div>
     <div class="selector" *ngIf="showSelector||inline" [ngClass]="{'inline': inline}">
+        <div class="titlearea">
+            <div class="titleareatxt">{{isBeginDate?selectBeginDateBtnTxt:selectEndDateBtnTxt}}</div>
+        </div>
         <table class="header">
             <tr>
                 <td>
