@@ -1,0 +1,29 @@
+.pagecontent {
+    margin: 20px 300px;
+}
+
+.maintitle {
+    padding: 4px;
+    border: 1px solid #CCC;
+    background-color: #EEE;
+    color: #000;
+    border-radius: 2px;
+}
+
+.maintext {
+    margin-bottom: 20px;
+}
+
+.normalmode {
+    margin-bottom: 340px;
+}
+
+.inlinemode {
+    margin-bottom: 340px;
+}
+
+@media screen and (max-width: 1200px) {
+    .pagecontent {
+        margin: 20px 10px;
+    }
+}
