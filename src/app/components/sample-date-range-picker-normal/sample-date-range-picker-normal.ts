@@ -4,12 +4,12 @@ import {MyDateRangePicker} from '../my-date-range-picker/index';
 @Component({
     selector: 'sample-date-range-picker-normal',
     directives: [MyDateRangePicker],
-    template: '<div style="padding:4px;border-radius:4px;margin-top:8px;float:right" [ngStyle]="{border: border}">{{selectedText}}</div><my-date-range-picker [options]="myDatePickerOptions" (dateRangeChanged)="onDateRangeChanged($event)" [selDateRange]="selectedDateRange"></my-date-range-picker>'
+    template: '<div style="padding:4px;border-radius:4px;margin-top:8px;float:right" [ngStyle]="{border: border}">{{selectedText}}</div><my-date-range-picker [options]="myDateRangePickerOptions" (dateRangeChanged)="onDateRangeChanged($event)" [selDateRange]="selectedDateRange"></my-date-range-picker>'
 })
 
 export class SampleDateRangePickerNormal implements OnInit {
     selectedDateRange:string = '04.08.2016 - 26.08.2016';
-    private myDatePickerOptions = {
+    private myDateRangePickerOptions = {
         clearBtnTxt: 'Clear',
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',

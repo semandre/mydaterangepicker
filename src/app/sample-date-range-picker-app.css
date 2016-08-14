@@ -3,11 +3,19 @@
 }
 
 .maintitle {
-    padding: 4px;
-    border: 1px solid #CCC;
     background-color: #EEE;
-    color: #000;
-    border-radius: 2px;
+    height: 180px;
+    border-bottom: 1px solid #CCC;
+    background: linear-gradient(to right, rgba(44,83,158,1) 0%,rgba(44,83,158,1) 100%);
+    text-align: center;
+}
+
+.maintitle div {
+    display: inline-block;
+    color: #FFF;
+    font-size: 46px;
+    font-weight: bold;
+    line-height: 180px;
 }
 
 .maintext {
@@ -21,6 +29,7 @@
 .inlinemode {
     margin-bottom: 340px;
 }
+
 
 @media screen and (max-width: 1200px) {
     .pagecontent {

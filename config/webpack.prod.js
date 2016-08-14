@@ -11,7 +11,7 @@ module.exports = webpackMerge(commonConfig, {
 
     output: {
         path: helpers.root('dist'),
-        publicPath: '/mydatepicker/',
+        publicPath: '/mydaterangepicker/dist/',
         filename: '[name].js',
         chunkFilename: '[id].chunk.js'
     },
@@ -23,7 +23,7 @@ module.exports = webpackMerge(commonConfig, {
     plugins: [
         new webpack.NoErrorsPlugin(),
         new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin({ output: {comments: false} }),
+        new webpack.optimize.UglifyJsPlugin({ output: {comments: false}, mangle: { screw_ie8 : true, keep_fnames: true} }),
         new ExtractTextPlugin('[name].css'),
         new webpack.DefinePlugin({
             'process.env': {
