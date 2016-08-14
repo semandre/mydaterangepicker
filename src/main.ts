@@ -1,7 +1,5 @@
 
-import {bootstrap} from "@angular/platform-browser-dynamic";
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { SampleDateRangePickerModule } from './sample-date-range-picker-module';
 
-// Sample app component
-import {MyDateRangePickerApp} from "./sample-date-range-picker-app";
-
-bootstrap(MyDateRangePickerApp, []).catch((error: Error) => console.error(error));
+platformBrowserDynamic().bootstrapModule(SampleDateRangePickerModule);

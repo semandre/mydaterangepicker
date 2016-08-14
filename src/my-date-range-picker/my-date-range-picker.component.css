@@ -1,11 +1,11 @@
-.mydp {
+.mydrp {
     min-width: 100px;
     border-radius: 2px;
     line-height: 1.1;
     display: inline-block;
 }
 
-.mydp * {
+.mydrp * {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -14,7 +14,7 @@
     margin: 0;
 }
 
-.mydp .selector {
+.mydrp .selector {
     margin-top: 2px;
     margin-left: -1px;
     position: absolute;
@@ -25,14 +25,14 @@
     z-index: 100;
 }
 
-.mydp .selectiongroup {
+.mydrp .selectiongroup {
     position: relative;
     display: table;
     border: none;
     background-color: #FFF;
 }
 
-.mydp .selection {
+.mydrp .selection {
     background-color: #FFF;
     display: table-cell;
     position: absolute;
@@ -47,7 +47,7 @@
     text-align: center;
 }
 
-.mydp .selbtngroup {
+.mydrp .selbtngroup {
     position: relative;
     vertical-align: middle;
     white-space: nowrap;
@@ -57,8 +57,8 @@
     font-size: 0;
 }
 
-.mydp .btnpicker,
-.mydp .btnclear {
+.mydrp .btnpicker,
+.mydrp .btnclear {
     height: 100%;
     width: 30px;
     border: none;
@@ -70,10 +70,10 @@
     -moz-user-select: none;
 }
 
-.mydp .btnpicker,
-.mydp .btnclear,
-.mydp .headerclearbtn,
-.mydp .footerbtn {
+.mydrp .btnpicker,
+.mydrp .btnclear,
+.mydrp .headerclearbtn,
+.mydrp .footerbtn {
     background: #FAFAFA;
     background-image: -webkit-linear-gradient(#F0F0F0 30%, #AEC2E1 100%);
     background-image: -moz-linear-gradient(#F0F0F0 30%, #AEC2E1 100%);
@@ -82,224 +82,224 @@
     background-image: linear-gradient(#F0F0F0 30%, #AEC2E1 100%);
 }
 
-.mydp .header {
+.mydrp .header {
     width: 100%;
     height: 34px;
     margin-bottom: 1px;
     background-color: #FAFAFA;
 }
 
-.mydp .header td {
+.mydrp .header td {
     vertical-align: middle;
     border: none;
 }
 
-.mydp .header td:nth-child(1) {
+.mydrp .header td:nth-child(1) {
     font-size: 16px;
     padding-left: 4px;
 }
 
-.mydp .header td:nth-child(2) {
+.mydrp .header td:nth-child(2) {
     text-align: center;
 }
 
-.mydp .header td:nth-child(3) {
+.mydrp .header td:nth-child(3) {
     font-size: 16px;
     padding-right: 4px;
 }
 
-.mydp .titlearea {
+.mydrp .titlearea {
     text-align: center;
     background-color: #FFF;
     margin-bottom: 4px;
 }
 
-.mydp .titleareatxt {
+.mydrp .titleareatxt {
     height: 26px;
     line-height: 26px;
     font-size: 12px;
     font-weight: bold;
 }
 
-.mydp .inline {
+.mydrp .inline {
     position: relative;
 }
 
-.mydp .caltable {
+.mydrp .caltable {
     table-layout: fixed;
     width: 100%;
     background-color: #FFF;
     font-size: 14px;
 }
 
-.mydp .caltable,
-.mydp .caltable th,
-.mydp .caltable td {
+.mydrp .caltable,
+.mydrp .caltable th,
+.mydrp .caltable td {
     border-collapse: collapse;
     color: #003366;
     line-height: 1.1;
 }
 
-.mydp .caltable th,
-.mydp .caltable td {
+.mydrp .caltable th,
+.mydrp .caltable td {
     padding: 5px;
     text-align: center;
 }
 
-.mydp .caltable th {
+.mydrp .caltable th {
     background-color: #DDD;
     font-size: 12px;
     vertical-align: middle;
 }
 
-.mydp .caltable td {
+.mydrp .caltable td {
     cursor: pointer;
     font-weight: bold;
     height: 30px;
 }
 
-.mydp .prevmonth,
-.mydp .nextmonth {
+.mydrp .prevmonth,
+.mydrp .nextmonth {
     color: #444;
 }
 
-.mydp .range {
-    background: #adffcf !important;
+.mydrp .range {
+    background: #9EFFCA !important;
 }
 
-.mydp .disabled {
+.mydrp .disabled {
     cursor: default !important;
     color: #444 !important;
     background: #FFF0F0 !important;
 }
 
-.mydp .sunday {
+.mydrp .sunday {
     color: #C30000;
 }
 
-.mydp .currmonth {
+.mydrp .currmonth {
     background-color: #F6F6F6;
     font-weight: bold;
 }
 
-.mydp .currday div {
+.mydrp .currday div {
     border: 1px solid #004198;
-    border-radius: 50%;
 }
 
-.mydp .selectedday div {
+.mydrp .selectedday div {
     border: 1px solid #004198;
     background-color: #8EBFFF !important;
     border-radius: 0;
 }
 
-.mydp .caltable tbody .currmonth:hover {
+.mydrp .caltable tbody .currmonth:hover {
     background-color: #6AD0EB;
 }
 
-.mydp .selectmenu {
+.mydrp .selectmenu {
     height: 24px;
     width: 60px
 }
 
-.mydp .headerbtn {
+.mydrp .headerbtn {
     background-color: #FAFAFA;
     cursor: pointer;
     display: table-cell;
 }
 
-.mydp,
-.mydp .selector,
-.mydp .header,
-.mydp .footerarea,
-.mydp .table,
-.mydp .table th,
-.mydp .table td,
-.mydp .titlearea,
-.mydp .headerclearbtn,
-.mydp .footerbtn,
-.mydp .caltable tbody {
+.mydrp,
+.mydrp .selector,
+.mydrp .header,
+.mydrp .footerarea,
+.mydrp .table,
+.mydrp .table th,
+.mydrp .table td,
+.mydrp .titlearea,
+.mydrp .headerclearbtn,
+.mydrp .footerbtn,
+.mydrp .caltable tbody {
     border: 1px solid #AAA;
 }
 
-.mydp .btnpicker,
-.mydp .btnclear,
-.mydp .headerbtn,
-.mydp .footerbtn,
-.mydp .headermonthtxt,
-.mydp .headeryeartxt,
-.mydp .headerclearbtn,
-.mydp .selection {
+.mydrp .btnpicker,
+.mydrp .btnclear,
+.mydrp .headerbtn,
+.mydrp .footerbtn,
+.mydrp .headermonthtxt,
+.mydrp .headeryeartxt,
+.mydrp .headerclearbtn,
+.mydrp .selection {
     color: #000;
 }
 
-.mydp .headerclearbtn,
-.mydp .footerbtn {
+.mydrp .headerclearbtn,
+.mydrp .footerbtn {
     padding: 4px 6px;
     border-radius: 2px;
     cursor: pointer;
     font-size: 12px;
 }
 
-.mydp .headerclearbtn {
+.mydrp .headerclearbtn {
     min-width: 60px;
 }
 
-.mydp .footerbtn {
+.mydrp .footerbtn {
     min-width: 80px;
 }
 
-.mydp .btndisable {
+.mydrp .btndisable {
     cursor: default;
     opacity: 0.5;
 }
 
-.mydp .footerarea {
+.mydrp .footerarea {
     margin-top: 4px;
     padding: 3px;
     text-align: center;
     background-color: #FAFAFA;
 }
 
-.mydp button::-moz-focus-inner {
+.mydrp button::-moz-focus-inner {
     border: 0;
 }
 
-.mydp .headermonthtxt,
-.mydp .headeryeartxt {
+.mydrp .headermonthtxt,
+.mydrp .headeryeartxt {
     width: 40px;
     text-align: center;
     display: table-cell;
     vertical-align: middle;
 }
 
-.mydp .btnclear:focus,
-.mydp .btnpicker:focus,
-.mydp .btnclear:hover,
-.mydp .btnpicker:hover {
+.mydrp .btnclear:focus,
+.mydrp .btnpicker:focus,
+.mydrp .btnclear:hover,
+.mydrp .btnpicker:hover {
     background: #ADD8E6;
 }
 
-.mydp .icon-calendar,
-.mydp .icon-cross {
+.mydrp .icon-calendar,
+.mydrp .icon-cross {
     font-size: 16px;
 }
 
-.mydp .icon-left,
-.mydp .icon-right {
-    font-size: 14px;
+.mydrp .icon-left,
+.mydrp .icon-right {
+    color: #222;
+    font-size: 18px;
 }
 
-.mydp .icon-left:hover,
-.mydp .icon-right:hover {
+.mydrp .icon-left:hover,
+.mydrp .icon-right:hover {
     color: #63B2CC;
 }
 
-.mydp table {
+.mydrp table {
     display: table;
 }
 
-.mydp table td {
+.mydrp table td {
     padding: 0;
 }
 
@@ -310,7 +310,7 @@
     font-style: normal;
 }
 
-.mydp .icon {
+.mydrp .icon {
     font-family: 'mydatepicker';
     speak: none;
     font-style: normal;
@@ -323,18 +323,18 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.mydp .icon-calendar:before {
+.mydrp .icon-calendar:before {
     content: "\e600";
 }
 
-.mydp .icon-cross:before {
+.mydrp .icon-cross:before {
     content: "\e602";
 }
 
-.mydp .icon-left:before {
+.mydrp .icon-left:before {
     content: "\e605";
 }
 
-.mydp .icon-right:before {
+.mydrp .icon-right:before {
     content: "\e607";
 }
