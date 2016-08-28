@@ -1,4 +1,4 @@
-# mydaterangepicker v. 0.0.4
+# mydaterangepicker v. 0.0.5
 
 **Angular 2 date range picker - Angular2 reusable UI component**
 
@@ -15,16 +15,46 @@ Simple Angular2 date range picker. Online demo is [here](http://kekeh.github.io/
 
 To install this component to an external project, follow the procedure:
 
-1. Make sure you're using Webpack.
+1. Make sure you're using Webpack. You can check needed dependencies from the package.json file of this module.
 2. `npm install mydaterangepicker`.
 3. `import {MyDateRangePicker} from 'MyDateRangePicker/src/index';`
 4. Use the following snippet inside your template:
 
    ```html
    <my-date-range-picker [options]="myDateRangePickerOptions"
-                   (dateRangeChanged)="onDateRangeChanged($event)"
-                   [selDateRange]="selectedDateRange"></my-date-range-picker>
+                   (dateRangeChanged)="onDateRangeChanged($event)"></my-date-range-picker>
    ```
+
+* Mandatory attributes:
+  * [options]="myDateRangePickerOptions"
+  * (dateRangeChanged)="onDateRangeChanged($event)"
+
+* Optional attributes:
+  * [selDateRange]="selectedDateRange"
+
+* Example of the options data (not all properties listed):
+```js
+    myDateRangePickerOptions = {
+            clearBtnTxt: 'Clear',
+            beginDateBtnTxt: 'Begin Date',
+            endDateBtnTxt: 'End Date',
+            acceptBtnTxt: 'OK',
+            dateFormat: 'yyyy-mm-dd',
+            firstDayOfWeek: 'mo',
+            sunHighlight: true,
+            inline: false
+        };
+    };
+```
+
+* Example of the date range changed callback:
+```js
+    onDateRangeChanged(event:any) {
+        console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate);
+        console.log('onDateRangeChanged(): Formatted: ', event.formatted);
+        console.log('onDateRangeChanged(): BeginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
+    }
+```
 
 ## Usage
 
