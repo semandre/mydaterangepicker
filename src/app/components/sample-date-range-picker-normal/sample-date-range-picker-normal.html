@@ -1,0 +1,7 @@
+<div>
+    <div style="padding:4px;border-radius:4px;margin-top:8px;float:right" [ngStyle]="{border: border}">
+        {{selectedText}}
+    </div>
+    <my-date-range-picker [options]="myDateRangePickerOptions" (dateRangeChanged)="onDateRangeChanged($event)"
+                          [selDateRange]="selectedDateRange"></my-date-range-picker>
+</div>

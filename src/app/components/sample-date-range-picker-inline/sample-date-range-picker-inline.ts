@@ -1,10 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {MyDateRangePicker} from '../my-date-range-picker/index';
 
+declare var require:any;
+const template: string = require('./sample-date-range-picker-inline.html');
+
 @Component({
     selector: 'sample-date-range-picker-inline',
     directives: [MyDateRangePicker],
-    template: '<div style="padding:4px;border-radius:4px;margin-bottom:8px;float:right" [ngStyle]="{border: border}">{{selectedText}}</div><my-date-range-picker [options]="myDateRangePickerOptions" (dateRangeChanged)="onDateRangeChanged($event)" [selDateRange]="selectedDateRange"></my-date-range-picker>'
+    template: template
 })
 
 export class SampleDateRangePickerInline implements OnInit {
@@ -23,8 +26,23 @@ export class SampleDateRangePickerInline implements OnInit {
     selectedText: string = '';
     border: string = 'none';
 
+    dateFormats:Array<string> = new Array('yyyy-mm-dd', 'dd.mm.yyyy', 'dd/mm/yyyy');
+
     constructor() {
         console.log('constructor(): SampleDateRangePickerInline');
+    }
+
+    onChangeDateFormat(format:string) {
+        this.myDateRangePickerOptions = {
+            clearBtnTxt: 'Clear',
+            beginDateBtnTxt: 'Begin Date',
+            endDateBtnTxt: 'End Date',
+            acceptBtnTxt: 'OK',
+            dateFormat: format,
+            firstDayOfWeek: 'mo',
+            sunHighlight: true,
+            inline: true
+        };
     }
 
     ngOnInit() {

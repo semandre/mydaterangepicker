@@ -164,13 +164,13 @@
 }
 
 .mydrp .range {
-    background: #9EFFCA !important;
+    background: #E1FFEF !important;
 }
 
 .mydrp .disabled {
     cursor: default !important;
     color: #444 !important;
-    background: #FFF0F0 !important;
+    background: #FFF3F3 !important;
 }
 
 .mydrp .sunday {
@@ -205,6 +205,7 @@
     background-color: #FAFAFA;
     cursor: pointer;
     display: table-cell;
+    vertical-align: middle;
 }
 
 .mydrp,
@@ -234,10 +235,11 @@
 
 .mydrp .headerclearbtn,
 .mydrp .footerbtn {
-    padding: 4px 6px;
+    padding: 4px;
     border-radius: 2px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 11px;
+    min-width: 60px;
 }
 
 .mydrp .headerclearbtn {
@@ -266,9 +268,15 @@
 
 .mydrp .headermonthtxt,
 .mydrp .headeryeartxt {
-    width: 40px;
+    min-width: 40px;
     text-align: center;
     display: table-cell;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.mydrp .headermonthtxt span,
+.mydrp .headeryeartxt span {
     vertical-align: middle;
 }
 
@@ -287,7 +295,8 @@
 .mydrp .icon-left,
 .mydrp .icon-right {
     color: #222;
-    font-size: 18px;
+    font-size: 16px;
+    vertical-align: middle;
 }
 
 .mydrp .icon-left:hover,
@@ -312,12 +321,10 @@
 
 .mydrp .icon {
     font-family: 'mydaterangepicker';
-    speak: none;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
     text-transform: none;
-    line-height: 1;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

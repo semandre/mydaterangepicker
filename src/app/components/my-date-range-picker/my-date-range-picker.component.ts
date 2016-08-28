@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange, ElementRef} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef} from '@angular/core';
 import {NgIf, NgFor, NgClass, NgStyle} from '@angular/common';
 import {IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels} from './interfaces/index';
 
@@ -13,7 +13,7 @@ const template: string = require('./my-date-range-picker.component.html');
     template
 })
 
-export class MyDateRangePicker implements OnInit, OnChanges {
+export class MyDateRangePicker implements OnChanges {
     @Input() options:any;
     @Input() selDateRange:string;
     @Output() dateRangeChanged:EventEmitter<Object> = new EventEmitter();
@@ -62,7 +62,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
         }, false);
     }
 
-    ngOnInit() {
+    parseOptions() {
         // the relatively ugly casts to any in this loop are needed to
         // avoid tsc errors when noImplicitAny is true.
         let optionprops = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateBtnTxt', 'selectEndDateBtnTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline'];
@@ -88,7 +88,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
         }
     }
 
-    ngOnChanges(changes: {[propName: string]: SimpleChange}) {
+    ngOnChanges(changes: SimpleChanges) {
         if (changes.hasOwnProperty('selDateRange')) {
             this.selectionDayTxt = changes['selDateRange'].currentValue;
 
@@ -99,6 +99,15 @@ export class MyDateRangePicker implements OnInit, OnChanges {
                 this.toBeginDate();
             }
         }
+        else {
+            this.clearBtnClicked();
+        }
+
+        if (changes.hasOwnProperty('options')) {
+            this.options = changes['options'].currentValue;
+            this.weekDays.length = 0;
+            this.parseOptions();
+        }
     }
 
     removeBtnClicked():void {
@@ -108,7 +117,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
 
     openBtnClicked():void {
         this.showSelector = !this.showSelector;
-        if (this.showSelector) {
+        if (this.showSelector || this.inline) {
             this.isBeginDate = true;
 
             if(this.beginDate.year !== 0 && this.beginDate.month !== 0 && this.beginDate.day !== 0) {
@@ -118,7 +127,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
                 let y = this.today.getFullYear();
                 let m = this.today.getMonth() + 1;
                 this.visibleMonth = {monthTxt: this.monthLabels[m], monthNbr: m, year: y};
-                this.createMonth(m, y);
+                this.generateCalendar(m, y);
             }
         }
     }
@@ -134,7 +143,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
             m--;
         }
         this.visibleMonth = {monthTxt: this.monthText(m), monthNbr: m, year: y};
-        this.createMonth(m, y);
+        this.generateCalendar(m, y);
     }
 
     nextMonth():void {
@@ -148,17 +157,17 @@ export class MyDateRangePicker implements OnInit, OnChanges {
             m++;
         }
         this.visibleMonth = {monthTxt: this.monthText(m), monthNbr: m, year: y};
-        this.createMonth(m, y);
+        this.generateCalendar(m, y);
     }
 
     prevYear():void {
         this.visibleMonth.year--;
-        this.createMonth(this.visibleMonth.monthNbr, this.visibleMonth.year);
+        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year);
     }
 
     nextYear():void {
         this.visibleMonth.year++;
-        this.createMonth(this.visibleMonth.monthNbr, this.visibleMonth.year);
+        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year);
     }
 
     clearBtnClicked():void {
@@ -169,7 +178,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
         this.endDate = {year: 0, month: 0, day: 0};
         this.disableSince = {year: 0, month: 0, day: 0};
         this.disableUntil = {year: 0, month: 0, day: 0};
-        this.createMonth(this.visibleMonth.monthNbr, this.visibleMonth.year);
+        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year);
     }
 
     cellClicked(cell:any):void {
@@ -191,11 +200,11 @@ export class MyDateRangePicker implements OnInit, OnChanges {
 
         if(this.endDate.year === 0 && this.endDate.month === 0 && this.endDate.day === 0) {
             this.visibleMonth = {monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year};
-            this.createMonth(this.beginDate.month, this.beginDate.year);
+            this.generateCalendar(this.beginDate.month, this.beginDate.year);
         }
         else {
             this.visibleMonth = {monthTxt: this.monthText(this.endDate.month), monthNbr: this.endDate.month, year: this.endDate.year};
-            this.createMonth(this.endDate.month, this.endDate.year);
+            this.generateCalendar(this.endDate.month, this.endDate.year);
         }
     }
 
@@ -207,7 +216,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
         this.disableSince = this.getNextDate(this.endDate);
 
         this.visibleMonth = {monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year};
-        this.createMonth(this.beginDate.month, this.beginDate.year);
+        this.generateCalendar(this.beginDate.month, this.beginDate.year);
     }
 
     rangeSelected():void {
@@ -300,16 +309,16 @@ export class MyDateRangePicker implements OnInit, OnChanges {
 
     getPreviousDate(date:IMyDate):IMyDate {
         // Get previous date from the given date
-        let d = new Date(date.year, date.month, date.day, 0, 0, 0, 0);
+        let d = new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0);
         d.setDate(d.getDate() - 1);
-        return {year: d.getFullYear(), month: d.getMonth(), day: d.getDate()};
+        return {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
     }
 
     getNextDate(date:IMyDate):IMyDate {
         // Get next date from the given date
-        let d = new Date(date.year, date.month, date.day, 0, 0, 0, 0);
+        let d = new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0);
         d.setDate(d.getDate() + 1);
-        return {year: d.getFullYear(), month: d.getMonth(), day: d.getDate()};
+        return {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
     }
     
     getTimeInMilliseconds(date:IMyDate):number {
@@ -328,7 +337,7 @@ export class MyDateRangePicker implements OnInit, OnChanges {
         return this.dayIdx > 0 ? 7 - this.dayIdx : 0;
     }
 
-    createMonth(m:number, y:number): void {
+    generateCalendar(m:number, y:number): void {
         this.dates.length = 0;
         let monthStart = this.monthStartIdx(y, m);
         let dInThisM = this.daysInMonth(m, y);

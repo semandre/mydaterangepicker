@@ -1,10 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {MyDateRangePicker} from '../my-date-range-picker/index';
 
+declare var require:any;
+const template: string = require('./sample-date-range-picker-normal.html');
+
 @Component({
     selector: 'sample-date-range-picker-normal',
     directives: [MyDateRangePicker],
-    template: '<div style="padding:4px;border-radius:4px;margin-top:8px;float:right" [ngStyle]="{border: border}">{{selectedText}}</div><my-date-range-picker [options]="myDateRangePickerOptions" (dateRangeChanged)="onDateRangeChanged($event)" [selDateRange]="selectedDateRange"></my-date-range-picker>'
+    template: template
 })
 
 export class SampleDateRangePickerNormal implements OnInit {
