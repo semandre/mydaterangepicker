@@ -8,7 +8,6 @@ const template: string = require('./my-date-range-picker.component.html');
 
 @Component({
     selector: 'my-date-range-picker',
-    directives: [NgIf, NgFor, NgClass, NgStyle],
     styles: [styles],
     template
 })

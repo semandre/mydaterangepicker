@@ -1,10 +1,13 @@
-import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { MyDateRangePickerApp }  from './sample-date-range-picker-app';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {MyDateRangePickerApp}  from './sample-date-range-picker-app';
+import {SampleDateRangePickerNormal} from './sample-date-range-picker-normal/index';
+import {SampleDateRangePickerInline} from './sample-date-range-picker-inline/index';
+import {MyDateRangePicker} from './my-date-range-picker/index';
 
 @NgModule({
     imports:      [ BrowserModule ],
-    declarations: [ MyDateRangePickerApp ],
+    declarations: [ MyDateRangePickerApp, SampleDateRangePickerNormal, SampleDateRangePickerInline, MyDateRangePicker ],
     bootstrap:    [ MyDateRangePickerApp ]
 })
 export class SampleDateRangePickerModule { }

@@ -1,12 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {MyDateRangePicker} from '../my-date-range-picker/index';
 
 declare var require:any;
 const template: string = require('./sample-date-range-picker-normal.html');
 
 @Component({
     selector: 'sample-date-range-picker-normal',
-    directives: [MyDateRangePicker],
     template: template
 })
 
