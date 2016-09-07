@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 
 declare var require:any;
-const styles: string = require('./sample-date-range-picker-app.css');
-const template: string = require('./sample-date-range-picker-app.html');
+const sampleAppStyles: string = require('./sample-date-range-picker-app.css');
+const sampleAppTemplate: string = require('./sample-date-range-picker-app.html');
 
 @Component({
   selector: 'mydaterangepicker-app',
-  styles: [styles],
-  template
+  styles: [sampleAppStyles],
+  template: sampleAppTemplate
 })
 
 export class MyDateRangePickerApp {

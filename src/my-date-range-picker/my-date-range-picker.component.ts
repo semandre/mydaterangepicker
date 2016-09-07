@@ -3,13 +3,13 @@ import {NgIf, NgFor, NgClass, NgStyle} from '@angular/common';
 import {IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels} from './interfaces/index';
 
 declare var require:any;
-const styles: string = require('./my-date-range-picker.component.css');
-const template: string = require('./my-date-range-picker.component.html');
+const myDrpStyles: string = require('./my-date-range-picker.component.css');
+const myDrpTemplate: string = require('./my-date-range-picker.component.html');
 
 @Component({
     selector: 'my-date-range-picker',
-    styles: [styles],
-    template
+    styles: [myDrpStyles],
+    template: myDrpTemplate
 })
 
 export class MyDateRangePicker implements OnChanges {
@@ -61,16 +61,20 @@ export class MyDateRangePicker implements OnChanges {
         }, false);
     }
 
-    parseOptions() {
-        // the relatively ugly casts to any in this loop are needed to
-        // avoid tsc errors when noImplicitAny is true.
-        let optionprops = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateBtnTxt', 'selectEndDateBtnTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline'];
-        for (let i = 0; i < optionprops.length; i++) {
-            let propname = optionprops[i];
-            if (this.options && (<any>this.options)[propname] !== undefined) {
-                (<any>this)[propname] = (<any>this.options)[propname];
+    setOptions():void {
+        let options = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateBtnTxt', 'selectEndDateBtnTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline'];
+        for (let prop of options) {
+            if (this.options && (this.options)[prop] !== undefined  && (this.options)[prop] instanceof Object) {
+                (this)[prop] = JSON.parse(JSON.stringify((this.options)[prop]));
+            }
+            else if(this.options && (this.options)[prop] !== undefined) {
+                (this)[prop] = (this.options)[prop];
             }
         }
+    }
+
+    parseOptions():void  {
+        this.setOptions();
 
         let days = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
         this.dayIdx = days.indexOf(this.firstDayOfWeek);
