@@ -9,8 +9,8 @@
     </div>
 
     <div style="padding:4px;border-radius:4px;margin-bottom:8px;float:right" [ngStyle]="{border: border}">
-        {{selectedText}}
+        {{selectedTextInline}}
     </div>
-    <my-date-range-picker [options]="myDateRangePickerOptions" (dateRangeChanged)="onDateRangeChanged($event)"
-                          [selDateRange]="selectedDateRange"></my-date-range-picker>
+    <my-date-range-picker [options]="myDateRangePickerOptionsInline" (dateRangeChanged)="onDateRangeChanged($event)"
+                          [selDateRange]="selectedDateRangeInline"></my-date-range-picker>
 </div>

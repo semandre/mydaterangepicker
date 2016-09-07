@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 
 declare var require:any;
-const template: string = require('./sample-date-range-picker-normal.html');
+const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-normal.html');
 
 @Component({
     selector: 'sample-date-range-picker-normal',
-    template: template
+    template: sampleDrpNormalTemplate
 })
 
 export class SampleDateRangePickerNormal implements OnInit {
-    selectedDateRange:string = '04.08.2016 - 26.08.2016';
-    private myDateRangePickerOptions = {
+
+    private myDateRangePickerOptionsNormal = {
         clearBtnTxt: 'Clear',
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',
@@ -22,8 +22,10 @@ export class SampleDateRangePickerNormal implements OnInit {
         width: '260px',
         inline: false
     };
-    
-    selectedText: string = '';
+
+    selectedDateRangeNormal:string = '04.08.2016 - 26.08.2016';
+
+    selectedTextNormal: string = '';
     border: string = 'none';
 
     constructor() {
@@ -37,11 +39,11 @@ export class SampleDateRangePickerNormal implements OnInit {
     onDateRangeChanged(event:any) {
         console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate, ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
         if(event.formatted !== '') {
-            this.selectedText = 'Formatted: ' + event.formatted;
+            this.selectedTextNormal = 'Formatted: ' + event.formatted;
             this.border = '1px solid #CCC';
         }
         else {
-            this.selectedText = '';
+            this.selectedTextNormal = '';
             this.border = 'none';
         }
     }

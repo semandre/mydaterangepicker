@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 
 declare var require:any;
-const template: string = require('./sample-date-range-picker-inline.html');
+const sampleDrpInlineTemplate: string = require('./sample-date-range-picker-inline.html');
 
 @Component({
     selector: 'sample-date-range-picker-inline',
-    template: template
+    template: sampleDrpInlineTemplate
 })
 
 export class SampleDateRangePickerInline implements OnInit {
-    selectedDateRange:string = '';
-    private myDateRangePickerOptions = {
+
+    private myDateRangePickerOptionsInline = {
         clearBtnTxt: 'Clear',
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',
@@ -20,8 +20,9 @@ export class SampleDateRangePickerInline implements OnInit {
         sunHighlight: true,
         inline: true
     };
-    
-    selectedText: string = '';
+
+    selectedDateRangeInline:string = '';
+    selectedTextInline: string = '';
     border: string = 'none';
 
     dateFormats:Array<string> = new Array('yyyy-mm-dd', 'dd.mm.yyyy', 'dd/mm/yyyy');
@@ -31,7 +32,7 @@ export class SampleDateRangePickerInline implements OnInit {
     }
 
     onChangeDateFormat(format:string) {
-        this.myDateRangePickerOptions = {
+        this.myDateRangePickerOptionsInline = {
             clearBtnTxt: 'Clear',
             beginDateBtnTxt: 'Begin Date',
             endDateBtnTxt: 'End Date',
@@ -50,11 +51,11 @@ export class SampleDateRangePickerInline implements OnInit {
     onDateRangeChanged(event:any) {
         console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate, ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
         if(event.formatted !== '') {
-            this.selectedText = 'Formatted: ' + event.formatted;
+            this.selectedTextInline = 'Formatted: ' + event.formatted;
             this.border = '1px solid #CCC';
         }
         else {
-            this.selectedText = '';
+            this.selectedTextInline = '';
             this.border = 'none';
         }
     }
