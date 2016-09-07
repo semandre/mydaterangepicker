@@ -1,5 +1,4 @@
 import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef} from '@angular/core';
-import {NgIf, NgFor, NgClass, NgStyle} from '@angular/common';
 import {IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels} from './interfaces/index';
 
 declare var require:any;
