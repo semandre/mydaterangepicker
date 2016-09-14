@@ -1,9 +1,11 @@
-# mydaterangepicker v. 0.0.7
+# mydaterangepicker v. 0.0.8
 
 **Angular 2 date range picker - Angular2 reusable UI component**
 
 ## Description
 Simple Angular2 date range picker. Online demo is [here](http://kekeh.github.io/mydaterangepicker)
+
+This module uses version RC 7 of Angular 2.
 
 ## Getting Started
 1. Fork and clone this repo
@@ -17,7 +19,20 @@ To install this component to an external project, follow the procedure:
 
 1. Make sure you're using Webpack. You can check needed dependencies from the package.json file of this module.
 2. `npm install mydaterangepicker`.
-3. `import {MyDateRangePicker} from 'MyDateRangePicker/src/index';`
+3. Add *MyDateRangePickerModule* import to your @NgModule like example below
+    ```js
+    import { NgModule } from '@angular/core';
+    import { BrowserModule } from '@angular/platform-browser';
+    import { MyTestApp } from './my-test-app';
+    import { MyDateRangePickerModule } from 'mydaterangepicker/src/my-date-range-picker/my-date-range-picker.module';
+
+    @NgModule({
+        imports:      [ BrowserModule, MyDateRangePickerModule ],
+        declarations: [ MyTestApp ],
+        bootstrap:    [ MyTestApp ]
+    })
+    export class MyTestAppModule {}
+    ```
 4. Use the following snippet inside your template:
 
    ```html
@@ -104,6 +119,12 @@ Bind to an object containing replacements for any of the following defaults:
   
 #### width
   `'100%'`
+
+#### selectionTxtFontSize
+`'16px'`
+
+#### alignSelectorRight
+ `'false'`
 
 ### selDateRange
 Provide the initially chosen date range that will display both in the text input field and the selector.

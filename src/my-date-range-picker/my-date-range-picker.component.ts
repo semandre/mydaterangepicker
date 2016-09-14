@@ -49,6 +49,8 @@ export class MyDateRangePicker implements OnChanges {
     height: string = '34px';
     width: string = '262px';
     inline: boolean = false;
+    selectionTxtFontSize: string = '16px';
+    alignSelectorRight: boolean = false;
 
     constructor(public elem: ElementRef) {
         this.today = new Date();
@@ -61,7 +63,7 @@ export class MyDateRangePicker implements OnChanges {
     }
 
     setOptions():void {
-        let options = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateBtnTxt', 'selectEndDateBtnTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline'];
+        let options = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateBtnTxt', 'selectEndDateBtnTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline', 'selectionTxtFontSize', 'alignSelectorRight'];
         for (let prop of options) {
             if (this.options && (this.options)[prop] !== undefined  && (this.options)[prop] instanceof Object) {
                 (this)[prop] = JSON.parse(JSON.stringify((this.options)[prop]));
@@ -246,6 +248,14 @@ export class MyDateRangePicker implements OnChanges {
         let end = this.getTimeInMilliseconds(this.endDate);
 
         if(input >= begin && input <= end) {
+            return true;
+        }
+        return false;
+    }
+
+    isRangeSelected():boolean {
+        // Check is both beginDate and the endDate selected
+        if (this.beginDate.year !== 0 && this.beginDate.month !== 0 && this.beginDate.day !== 0 && this.endDate.year !== 0 && this.endDate.month !== 0 && this.endDate.day !== 0) {
             return true;
         }
         return false;
