@@ -1,4 +1,4 @@
-# mydaterangepicker v. 0.0.9
+# mydaterangepicker v. 0.0.10
 
 **Angular 2 date range picker - Angular2 reusable UI component**
 

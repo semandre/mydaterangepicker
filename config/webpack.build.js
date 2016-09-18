@@ -32,12 +32,15 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.NoErrorsPlugin(),
+        new webpack.optimize.DedupePlugin(),
+        new webpack.optimize.UglifyJsPlugin({ output: {comments: false}, mangle: { screw_ie8 : true, keep_fnames: true} }),
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app']
         }),
-
         new HtmlWebpackPlugin({
-            template: 'src/index.html'
+            filename: 'index.html',
+            template: 'config/index.build.template.ejs'
         })
     ],
 
@@ -50,18 +53,5 @@ module.exports = {
 
     htmlLoader: {
         minimize: false // workaround for ng2
-    },
-
-    plugins: [
-        new webpack.NoErrorsPlugin(),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.UglifyJsPlugin({ output: {comments: false}, mangle: { screw_ie8 : true, keep_fnames: true} }),
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ['app']
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: 'config/index.build.template.ejs'
-        })
-    ]
+    }
 };
