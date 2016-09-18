@@ -26,7 +26,7 @@ export class SampleDateRangePickerNormal implements OnInit {
     };
 
     selectedDateRangeNormal:string = '04.08.2016 - 26.08.2016';
-    
+
     selectedTextNormal: string = '';
     border: string = 'none';
 

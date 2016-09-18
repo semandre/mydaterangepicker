@@ -166,8 +166,7 @@
 .mydrp .disabled {
     cursor: default !important;
     color: #444 !important;
-    background: #FFE6E6 !important;
-    opacity: 0.7;
+    background: #FFEBE6 !important;
 }
 
 .mydrp .sunday {
@@ -308,6 +307,18 @@
 
 .mydrp table td {
     padding: 0;
+}
+
+.mydrp .btnpicker:hover,
+.mydrp .btnclear:hover,
+.mydrp .headerclearbtn:hover,
+.mydrp .footerbtn:hover,
+.mydrp .caltable tbody tr td:hover {
+    background-color: #8BDAF4;
+}
+
+.mydrp .headerbtn span:hover {
+    color: #8BDAF4;
 }
 
 @font-face {

@@ -1,11 +1,13 @@
 <div class="mydrp" [ngStyle]="{'height': height, 'width': width, 'border': inline ? 'none' : '1px solid #AAA'}">
     <div class="selectiongroup" *ngIf="!inline">
-        <span class="selection" [ngStyle]="{'height': height, 'line-height': height, 'font-size': selectionTxtFontSize}" (click)="openBtnClicked()">{{selectionDayTxt}}</span>
+        <input type="text" class="selection" maxlength="23"
+               [ngStyle]="{'height': height, 'line-height': height, 'font-size': selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0 ? '60px' : '30px'}"
+               (keyup)="userDateRangeInput($event)" [value]="selectionDayTxt">
         <span class="selbtngroup" [style.height]="height">
-            <button type="button" class="btnclear" *ngIf="selectionDayTxt.length>0" (click)="removeBtnClicked()" [hoverItem]="{prop: 'backgroundColor', value: true}">
+            <button type="button" class="btnclear" *ngIf="selectionDayTxt.length>0" (click)="removeBtnClicked()">
                 <span class="icon icon-cross" [ngStyle]="{'line-height': height}"></span>
             </button>
-            <button type="button" class="btnpicker" (click)="openBtnClicked()" [hoverItem]="{prop: 'backgroundColor', value: true}">
+            <button type="button" class="btnpicker" (click)="openBtnClicked()">
                 <span class="icon icon-calendar" [ngStyle]="{'line-height': height}"></span>
             </button>
         </span>
@@ -18,19 +20,19 @@
             <tr>
                 <td>
                     <div style="float:left">
-                        <div class="headerbtn" (click)="prevMonth()"><span class="icon icon-left" [hoverItem]="{prop: 'color', value: true}"></span></div>
+                        <div class="headerbtn" (click)="prevMonth()"><span class="icon icon-left"></span></div>
                         <div class="headermonthtxt"><span>{{visibleMonth.monthTxt}}</span></div>
-                        <div class="headerbtn" (click)="nextMonth()"><span class="icon icon-right" [hoverItem]="{prop: 'color', value: true}"></span></div>
+                        <div class="headerbtn" (click)="nextMonth()"><span class="icon icon-right"></span></div>
                     </div>
                 </td>
                 <td>
-                    <button type="button" class="headerclearbtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0}" (click)="clearBtnClicked()" [hoverItem]="{prop: 'backgroundColor', value: true}">{{clearBtnTxt}}</button>
+                    <button type="button" class="headerclearbtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0}" (click)="clearBtnClicked()">{{clearBtnTxt}}</button>
                 </td>
                 <td>
                     <div style="float:right">
-                        <div class="headerbtn" (click)="prevYear()"><span class="icon icon-left" [hoverItem]="{prop: 'color', value: true}"></span></div>
+                        <div class="headerbtn" (click)="prevYear()"><span class="icon icon-left"></span></div>
                         <div class="headeryeartxt"><span>{{visibleMonth.year}}</span></div>
-                        <div class="headerbtn" (click)="nextYear()"><span class="icon icon-right" [hoverItem]="{prop: 'color', value: true}"></span></div>
+                        <div class="headerbtn" (click)="nextYear()"><span class="icon icon-right"></span></div>
                     </div>
                 </td>
             </tr>
@@ -41,7 +43,7 @@
                 <tr *ngFor="let w of dates">
                     <td *ngFor="let d of w" [ngClass]="{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'currday':d.currDay,
                     'range': isInRange(d),
-                    'disabled': d.disabled}" (click)="$event.stopPropagation(); !d.disabled && cellClicked(d)" [hoverItem]="{prop: 'backgroundColor', value: true}">
+                    'disabled': d.disabled}" (click)="$event.stopPropagation(); !d.disabled && cellClicked(d)">
                         <div style="background-color:inherit" [ngClass]="{'prevmonth':d.cmo===PREV_MONTH,
                         'selectedday':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year,
                         'currmonth':d.cmo===CURR_MONTH,
@@ -55,9 +57,9 @@
             </tbody>
         </table>
         <div class="footerarea">
-            <button type="button" class="footerbtn" *ngIf="isBeginDate" [disabled]="beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0}" (click)="$event.stopPropagation();toEndDate($event)" [hoverItem]="{prop: 'backgroundColor', value: true}">{{endDateBtnTxt}}</button>
-            <button type="button" class="footerbtn" *ngIf="!isBeginDate" (click)="$event.stopPropagation();toBeginDate($event)" [hoverItem]="{prop: 'backgroundColor', value: true}">{{beginDateBtnTxt}}</button>
-            <button type="button" class="footerbtn" *ngIf="!isBeginDate||endDate.year!==0" [disabled]="endDate.year===0" [ngClass]="{'btndisable':endDate.year===0}" (click)="$event.stopPropagation();rangeSelected($event)" [hoverItem]="{prop: 'backgroundColor', value: true}">{{acceptBtnTxt}}</button>
+            <button type="button" class="footerbtn" *ngIf="isBeginDate" [disabled]="beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0}" (click)="$event.stopPropagation();toEndDate($event)">{{endDateBtnTxt}}</button>
+            <button type="button" class="footerbtn" *ngIf="!isBeginDate" (click)="$event.stopPropagation();toBeginDate($event)">{{beginDateBtnTxt}}</button>
+            <button type="button" class="footerbtn" *ngIf="!isBeginDate||endDate.year!==0" [disabled]="endDate.year===0" [ngClass]="{'btndisable':endDate.year===0}" (click)="$event.stopPropagation();rangeSelected()">{{acceptBtnTxt}}</button>
         </div>
     </div>
 </div>

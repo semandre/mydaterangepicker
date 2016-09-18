@@ -1,11 +1,9 @@
-# mydaterangepicker v. 0.0.8
+# mydaterangepicker v. 0.0.9
 
 **Angular 2 date range picker - Angular2 reusable UI component**
 
 ## Description
 Simple Angular2 date range picker. Online demo is [here](http://kekeh.github.io/mydaterangepicker)
-
-This module uses version RC 7 of Angular 2.
 
 ## Getting Started
 1. Fork and clone this repo

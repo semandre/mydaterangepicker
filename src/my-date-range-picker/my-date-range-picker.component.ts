@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef} from '@angular/core';
-import {IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels} from './interfaces/index';
+import {IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels} from './interfaces/index';
+import {DateRangeValidatorService} from './services/my-date-range-picker.date.range.validator.service';
 
 declare var require:any;
 const myDrpStyles: string = require('./my-date-range-picker.component.css');
@@ -8,7 +9,8 @@ const myDrpTemplate: string = require('./my-date-range-picker.component.html');
 @Component({
     selector: 'my-date-range-picker',
     styles: [myDrpStyles],
-    template: myDrpTemplate
+    template: myDrpTemplate,
+    providers: [DateRangeValidatorService]
 })
 
 export class MyDateRangePicker implements OnChanges {
@@ -52,7 +54,7 @@ export class MyDateRangePicker implements OnChanges {
     selectionTxtFontSize: string = '16px';
     alignSelectorRight: boolean = false;
 
-    constructor(public elem: ElementRef) {
+    constructor(public elem: ElementRef, private dateValidatorRangeService: DateRangeValidatorService) {
         this.today = new Date();
         let doc = document.getElementsByTagName('html')[0];
         doc.addEventListener('click', (event) => {
@@ -70,6 +72,21 @@ export class MyDateRangePicker implements OnChanges {
             }
             else if(this.options && (this.options)[prop] !== undefined) {
                 (this)[prop] = (this.options)[prop];
+            }
+        }
+    }
+
+    userDateRangeInput(event:any):void {
+        if(event.target.value.length === 0) {
+            this.removeBtnClicked();
+        }
+        else {
+            let daterange:IMyDateRange = this.dateValidatorRangeService.isDateRangeValid(event.target.value, this.dateFormat);
+            if(daterange.beginDate.day !== 0 && daterange.beginDate.month !== 0 && daterange.beginDate.year !== 0
+                && daterange.endDate.day !== 0 && daterange.endDate.month !== 0 && daterange.endDate.year !== 0) {
+                this.beginDate = daterange.beginDate;
+                this.endDate = daterange.endDate;
+                this.rangeSelected();
             }
         }
     }
