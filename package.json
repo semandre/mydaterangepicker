@@ -1,11 +1,10 @@
 {
-  "name": "mydatepickerrangedemo",
+  "name": "mydaterangepickerdemo",
   "version": "1.0.0",
   "description": "mydaterangepicker demo app",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --config config/webpack.dev.js --progress",
-    "build": "rimraf dist && webpack --config config/webpack.build.js --progress --profile --bail",
-    "postinstall": "typings install"
+    "start": "webpack-dev-server --config config/webpack.dev.js --progress",
+    "build": "rimraf dist && webpack --config config/webpack.build.js --progress --profile --bail"
   },
   "license": "MIT",
   "dependencies": {
@@ -21,6 +20,7 @@
     "zone.js": "^0.6.23"
   },
   "devDependencies": {
+    "@types/node": "^6.0.39",
     "angular2-template-loader": "^0.5.0",
     "core-js": "^2.4.1",
     "css-loader": "^0.23.1",
