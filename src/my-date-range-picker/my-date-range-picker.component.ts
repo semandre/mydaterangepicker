@@ -23,6 +23,8 @@ export class MyDateRangePicker implements OnChanges {
     weekDays: Array<string> = [];
     dates: Array<Object> = [];
     selectionDayTxt: string = '';
+    invalidDateRange: boolean = false;
+    dateRangeFormat: string = '';
     dayIdx: number = 0;
     today: Date = null;
 
@@ -44,8 +46,8 @@ export class MyDateRangePicker implements OnChanges {
     beginDateBtnTxt: string = 'Begin Date';
     endDateBtnTxt: string = 'End Date';
     acceptBtnTxt: string = 'Accept';
-    selectBeginDateBtnTxt: string = 'Select Begin Date';
-    selectEndDateBtnTxt: string = 'Select End Date';
+    selectBeginDateTxt: string = 'Select Begin Date';
+    selectEndDateTxt: string = 'Select End Date';
     firstDayOfWeek: string = 'mo';
     sunHighlight: boolean = true;
     height: string = '34px';
@@ -53,6 +55,8 @@ export class MyDateRangePicker implements OnChanges {
     inline: boolean = false;
     selectionTxtFontSize: string = '16px';
     alignSelectorRight: boolean = false;
+    indicateInvalidDateRange: boolean = true;
+    showDateRangeFormatPlaceholder: boolean = false;
 
     constructor(public elem: ElementRef, private dateValidatorRangeService: DateRangeValidatorService) {
         this.today = new Date();
@@ -65,7 +69,7 @@ export class MyDateRangePicker implements OnChanges {
     }
 
     setOptions():void {
-        let options = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateBtnTxt', 'selectEndDateBtnTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline', 'selectionTxtFontSize', 'alignSelectorRight'];
+        let options = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateTxt', 'selectEndDateTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline', 'selectionTxtFontSize', 'alignSelectorRight', 'indicateInvalidDateRange', 'showDateRangeFormatPlaceholder'];
         for (let prop of options) {
             if (this.options && (this.options)[prop] !== undefined  && (this.options)[prop] instanceof Object) {
                 (this)[prop] = JSON.parse(JSON.stringify((this.options)[prop]));
@@ -77,6 +81,7 @@ export class MyDateRangePicker implements OnChanges {
     }
 
     userDateRangeInput(event:any):void {
+        this.invalidDateRange = false;
         if(event.target.value.length === 0) {
             this.removeBtnClicked();
         }
@@ -87,6 +92,9 @@ export class MyDateRangePicker implements OnChanges {
                 this.beginDate = daterange.beginDate;
                 this.endDate = daterange.endDate;
                 this.rangeSelected();
+            }
+            else {
+                this.invalidDateRange = true;
             }
         }
     }
@@ -128,12 +136,14 @@ export class MyDateRangePicker implements OnChanges {
             this.options = changes['options'].currentValue;
             this.weekDays.length = 0;
             this.parseOptions();
+            this.dateRangeFormat = this.dateFormat + ' - ' + this.dateFormat;
         }
     }
 
     removeBtnClicked():void {
         this.clearBtnClicked();
         this.dateRangeChanged.emit({beginDate: {}, endDate: {}, formatted: '', beginEpoc: 0, endEpoc: 0});
+        this.invalidDateRange = false;
     }
 
     openBtnClicked():void {
@@ -252,6 +262,7 @@ export class MyDateRangePicker implements OnChanges {
         let endEpoc = this.getTimeInMilliseconds(this.endDate) / 1000.0;
 
         this.dateRangeChanged.emit({beginDate: this.beginDate, endDate: this.endDate, formatted: this.selectionDayTxt, beginEpoc: beginEpoc, endEpoc: endEpoc});
+        this.invalidDateRange = false;
     }
 
     isInRange(val:any):boolean {

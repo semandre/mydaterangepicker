@@ -23,6 +23,8 @@ export class SampleDateRangePickerNormal implements OnInit {
         inline: false,
         selectionTxtFontSize: '15px',
         alignSelectorRight: false,
+        indicateInvalidDateRange: true,
+        showDateRangeFormatPlaceholder: false
     };
 
     selectedDateRangeNormal:string = '04.08.2016 - 26.08.2016';

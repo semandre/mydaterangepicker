@@ -1,23 +1,16 @@
-# mydaterangepicker v. 0.0.10
+# mydaterangepicker v. 0.0.11
 
 **Angular 2 date range picker - Angular2 reusable UI component**
 
 ## Description
 Simple Angular2 date range picker. Online demo is [here](http://kekeh.github.io/mydaterangepicker)
 
-## Getting Started
-1. Fork and clone this repo
-2. npm install
-3. Open a terminal and type "npm start"
-4. Open "http://localhost:5000" to browser
-
 ## Installation
 
 To install this component to an external project, follow the procedure:
 
-1. Make sure you're using Webpack. You can check needed dependencies from the package.json file of this module.
-2. `npm install mydaterangepicker`.
-3. Add *MyDateRangePickerModule* import to your @NgModule like example below
+1. __npm install mydaterangepicker --save__
+2. Add __MyDateRangePickerModule__ import to your __@NgModule__ like example below
     ```js
     import { NgModule } from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
@@ -31,7 +24,7 @@ To install this component to an external project, follow the procedure:
     })
     export class MyTestAppModule {}
     ```
-4. Use the following snippet inside your template:
+3. Use the following snippet inside your template:
 
    ```html
    <my-date-range-picker [options]="myDateRangePickerOptions"
@@ -48,15 +41,20 @@ To install this component to an external project, follow the procedure:
 * Example of the options data (not all properties listed):
 ```js
     myDateRangePickerOptions = {
-            clearBtnTxt: 'Clear',
-            beginDateBtnTxt: 'Begin Date',
-            endDateBtnTxt: 'End Date',
-            acceptBtnTxt: 'OK',
-            dateFormat: 'yyyy-mm-dd',
-            firstDayOfWeek: 'mo',
-            sunHighlight: true,
-            inline: false
-        };
+        clearBtnTxt: 'Clear',
+        beginDateBtnTxt: 'Begin Date',
+        endDateBtnTxt: 'End Date',
+        acceptBtnTxt: 'OK',
+        dateFormat: 'dd.mm.yyyy',
+        firstDayOfWeek: 'mo',
+        sunHighlight: true,
+        height: '34px',
+        width: '260px',
+        inline: false,
+        selectionTxtFontSize: '15px',
+        alignSelectorRight: false,
+        indicateInvalidDateRange: true,
+        showDateRangeFormatPlaceholder: false
     };
 ```
 
@@ -71,61 +69,42 @@ To install this component to an external project, follow the procedure:
 
 ## Usage
 
-All input properties are optional.
+### options attribute
 
-### options
-Bind to an object containing replacements for any of the following defaults:
+| Option        | Default       | Description  |
+| ------------- | ------------- | ----- |
+| __dayLabels__     | {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'} | Day labels visible on the selector. |
+| __monthLabels__   | { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' } | Month labels visible on the selector. |
+| __dateFormat__    | yyyy-mm-dd      | Date format on selection area and callback. |
+| __clearBtnTxt__   | Clear      | Clear selected range button text. |
+| __beginDateBtnTxt__   | Begin Date      | To begin date button text. |
+| __endDateBtnTxt__   | End Date      | To end date button text. |
+| __acceptBtnTxt__   | OK      | Accept date range button text. |
+| __selectBeginDateTxt__   | Select Begin Date      | Select begin date text. |
+| __selectEndDateTxt__   | Select End Date      | Select end date text. |
+| __firstDayOfWeek__   | mo | First day of week on calendar. One of the following: mo, tu, we, th, fr, sa, su |
+| __sunHighlight__   | true | Sunday red colored on calendar. |
+| __inline__   | false | Show mydaterangepicker in inline mode. |
+| __height__   | 34px | mydatepicker height without selector. Can be used if __inline = false__. |
+| __width__   | 100% | mydatepicker width. Can be used if __inline = false__. |
+| __selectionTxtFontSize__   | 18px | Selection area font size. Can be used if __inline = false__. |
+| __alignSelectorRight__   | false | Align selector right. Can be used if __inline = false__. |
+| __indicateInvalidDateRange__   | true | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
+| __showDateRangeFormatPlaceholder__   | false | Show value of __dateFormat__ - __dateFormat__ as placeholder in the selection area if it is empty. Can be used if __inline = false__. |
 
-#### dayLabels
-  `{su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'}`
-  
-#### monthLabels
-  `{ 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' }`
-    
-#### dateFormat
-  `'yyyy-mm-dd'`
-  
-#### clearBtnTxt
-  `'Clear'`
+### selDateRange attribute
 
-#### beginDateBtnTxt
-  `'Begin Date'`
+Provide the initially chosen date range that will display both in the text input field
+and provide the default for the popped-up selector.
 
-#### endDateBtnTxt
-  `'End Date'`
+## Development of this component
 
-#### acceptBtnTxt
-  `'OK'`
+To develop this component, follow the procedure:
 
-#### selectBeginDateBtnTxt
-  `'Select Begin Date'`
-
-#### selectEndDateBtnTxt
-  `'Select End Date'`
-
-#### firstDayOfWeek
-  `'mo'`
-  
-#### sunHighlight
-  `true`
-
-#### inline
-  `false`
-  
-#### height
-  `'34px'`
-  
-#### width
-  `'100%'`
-
-#### selectionTxtFontSize
-`'16px'`
-
-#### alignSelectorRight
- `'false'`
-
-### selDateRange
-Provide the initially chosen date range that will display both in the text input field and the selector.
+1. Fork and clone this repo
+2. Execute __npm install__
+3. Open a terminal and type __npm start__
+4. Open __http://localhost:5000__ to browser
 
 ## Demo
 Online demo is [here](http://kekeh.github.io/mydaterangepicker)

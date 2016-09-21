@@ -1,6 +1,6 @@
 {
   "name": "mydaterangepicker",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Angular2 date range picker",
   "keywords": [
     "Angular2",
@@ -15,10 +15,16 @@
   "engines": {
     "node": ">=5.4"
   },
+  "files": [
+    "LICENSE",
+    "package.json",
+    "README.md",
+    "tsconfig.json",
+    "src/my-date-range-picker"
+  ],
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --config config/webpack.dev.js --progress",
-    "build": "rimraf dist && webpack --config config/webpack.build.js --progress --profile --bail",
-    "postinstall": "./node_modules/.bin/typings install"
+    "start": "webpack-dev-server --config config/webpack.dev.js --progress",
+    "build": "rimraf dist && webpack --config config/webpack.build.js --progress --profile --bail"
   },
   "dependencies": {
     "@angular/common": "2.0.0",

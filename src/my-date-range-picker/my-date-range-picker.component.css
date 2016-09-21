@@ -51,6 +51,10 @@
     text-align: center;
 }
 
+.mydrp .invaliddaterange {
+    background-color: #F1DEDE;
+}
+
 .mydrp ::-ms-clear {
     display: none;
 }

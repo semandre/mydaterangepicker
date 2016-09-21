@@ -1,6 +1,6 @@
 <div class="mydrp" [ngStyle]="{'height': height, 'width': width, 'border': inline ? 'none' : '1px solid #AAA'}">
     <div class="selectiongroup" *ngIf="!inline">
-        <input type="text" class="selection" maxlength="23"
+        <input type="text" class="selection" maxlength="23" [ngClass]="{'invaliddaterange': invalidDateRange&&indicateInvalidDateRange}" placeholder="{{showDateRangeFormatPlaceholder?dateRangeFormat:''}}"
                [ngStyle]="{'height': height, 'line-height': height, 'font-size': selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0 ? '60px' : '30px'}"
                (keyup)="userDateRangeInput($event)" [value]="selectionDayTxt">
         <span class="selbtngroup" [style.height]="height">
@@ -14,7 +14,7 @@
     </div>
     <div class="selector" *ngIf="showSelector||inline" [ngClass]="{'inline': inline, 'alignselectorright': alignSelectorRight}">
         <div class="titlearea">
-            <div class="titleareatxt">{{isBeginDate?selectBeginDateBtnTxt:selectEndDateBtnTxt}}</div>
+            <div class="titleareatxt">{{isBeginDate?selectBeginDateTxt:selectEndDateTxt}}</div>
         </div>
         <table class="header">
             <tr>
