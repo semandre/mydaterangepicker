@@ -131,6 +131,7 @@ and provide the default for the popped-up selector.
 At first fork and clone this repo
 
 Install all dependencies:
+
 1. __npm install__
 2. __npm install --global gulp-cli__
 
