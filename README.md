@@ -1,4 +1,4 @@
-# mydaterangepicker v. 0.0.11
+# mydaterangepicker v. 0.0.12
 
 **Angular 2 date range picker - Angular2 reusable UI component**
 
@@ -15,7 +15,12 @@ To install this component to an external project, follow the procedure:
     import { NgModule } from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
     import { MyTestApp } from './my-test-app';
+
+    // If you are using webpack package loader import the MyDateRangePickerModule from here:
     import { MyDateRangePickerModule } from 'mydaterangepicker/src/my-date-range-picker/my-date-range-picker.module';
+
+    // If you are using systemjs package loader import the MyDateRangePickerModule from here:
+    import { MyDateRangePickerModule } from 'mydaterangepicker/dist/my-date-range-picker.module';
 
     @NgModule({
         imports:      [ BrowserModule, MyDateRangePickerModule ],
@@ -39,33 +44,57 @@ To install this component to an external project, follow the procedure:
   * [selDateRange]="selectedDateRange"
 
 * Example of the options data (not all properties listed):
-```js
-    myDateRangePickerOptions = {
-        clearBtnTxt: 'Clear',
-        beginDateBtnTxt: 'Begin Date',
-        endDateBtnTxt: 'End Date',
-        acceptBtnTxt: 'OK',
-        dateFormat: 'dd.mm.yyyy',
-        firstDayOfWeek: 'mo',
-        sunHighlight: true,
-        height: '34px',
-        width: '260px',
-        inline: false,
-        selectionTxtFontSize: '15px',
-        alignSelectorRight: false,
-        indicateInvalidDateRange: true,
-        showDateRangeFormatPlaceholder: false
-    };
-```
+    ```js
+        myDateRangePickerOptions = {
+            clearBtnTxt: 'Clear',
+            beginDateBtnTxt: 'Begin Date',
+            endDateBtnTxt: 'End Date',
+            acceptBtnTxt: 'OK',
+            dateFormat: 'dd.mm.yyyy',
+            firstDayOfWeek: 'mo',
+            sunHighlight: true,
+            height: '34px',
+            width: '260px',
+            inline: false,
+            selectionTxtFontSize: '15px',
+            alignSelectorRight: false,
+            indicateInvalidDateRange: true,
+            showDateRangeFormatPlaceholder: false
+        };
+    ```
 
 * Example of the date range changed callback:
-```js
-    onDateRangeChanged(event:any) {
-        console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate);
-        console.log('onDateRangeChanged(): Formatted: ', event.formatted);
-        console.log('onDateRangeChanged(): BeginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
-    }
-```
+    ```js
+        onDateRangeChanged(event:any) {
+            console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate);
+            console.log('onDateRangeChanged(): Formatted: ', event.formatted);
+            console.log('onDateRangeChanged(): BeginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
+        }
+    ```
+
+4. If you are using __systemjs__ package loader add the following mydaterangepicker properties to the __System.config__:
+    ```js
+    (function (global) {
+        System.config({
+            paths: {
+                'npm:': 'node_modules/'
+            },
+            map: {
+                // Other components are here...
+
+                'mydaterangepicker': 'npm:mydaterangepicker',
+            },
+            packages: {
+                // Other components are here...
+
+                mydaterangepicker: {
+                    main: './dist/index.js',
+                    defaultExtension: 'js'
+                }
+            }
+        });
+    })(this);
+    ```
 
 ## Usage
 
@@ -99,12 +128,19 @@ and provide the default for the popped-up selector.
 
 ## Development of this component
 
-To develop this component, follow the procedure:
+At first fork and clone this repo
 
-1. Fork and clone this repo
-2. Execute __npm install__
-3. Open a terminal and type __npm start__
-4. Open __http://localhost:5000__ to browser
+Install all dependencies:
+1. __npm install__
+2. __npm install --global gulp-cli__
+
+Run sample application:
+
+1. Open a terminal and type __npm start__
+2. Open __http://localhost:5000__ to browser
+
+Build dist folder (systemjs version of the component):
+* __gulp all__
 
 ## Demo
 Online demo is [here](http://kekeh.github.io/mydaterangepicker)

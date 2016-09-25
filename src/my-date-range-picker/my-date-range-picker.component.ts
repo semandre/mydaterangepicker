@@ -2,14 +2,24 @@ import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, Elemen
 import {IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels} from './interfaces/index';
 import {DateRangeValidatorService} from './services/my-date-range-picker.date.range.validator.service';
 
+//systemjs1
+
+//webpack1
 declare var require:any;
 const myDrpStyles: string = require('./my-date-range-picker.component.css');
 const myDrpTemplate: string = require('./my-date-range-picker.component.html');
+//webpack2
 
 @Component({
     selector: 'my-date-range-picker',
+
+    //webpack1
     styles: [myDrpStyles],
     template: myDrpTemplate,
+    //webpack2
+
+    //systemjs2
+
     providers: [DateRangeValidatorService]
 })
 
