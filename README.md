@@ -36,14 +36,14 @@ To install this component to an external project, follow the procedure:
                    (dateRangeChanged)="onDateRangeChanged($event)"></my-date-range-picker>
    ```
 
-* Mandatory attributes:
-  * [options]="myDateRangePickerOptions"
-  * (dateRangeChanged)="onDateRangeChanged($event)"
+    * Mandatory attributes:
+      * [options]="myDateRangePickerOptions"
+      * (dateRangeChanged)="onDateRangeChanged($event)"
 
-* Optional attributes:
-  * [selDateRange]="selectedDateRange"
+    * Optional attributes:
+      * [selDateRange]="selectedDateRange"
 
-* Example of the options data (not all properties listed):
+    * Example of the options data (not all properties listed):
     ```js
         myDateRangePickerOptions = {
             clearBtnTxt: 'Clear',
@@ -63,7 +63,7 @@ To install this component to an external project, follow the procedure:
         };
     ```
 
-* Example of the date range changed callback:
+    * Example of the date range changed callback:
     ```js
         onDateRangeChanged(event:any) {
             console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate);
