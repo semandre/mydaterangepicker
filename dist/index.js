@@ -1,26 +1,8 @@
-System.register(['./services/my-date-range-picker.date.range.validator.service', './my-date-range-picker.component', './my-date-range-picker.module'], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
-    function exportStar_1(m) {
-        var exports = {};
-        for(var n in m) {
-            if (n !== "default") exports[n] = m[n];
-        }
-        exports_1(exports);
-    }
-    return {
-        setters:[
-            function (my_date_range_picker_date_range_validator_service_1_1) {
-                exportStar_1(my_date_range_picker_date_range_validator_service_1_1);
-            },
-            function (my_date_range_picker_component_1_1) {
-                exportStar_1(my_date_range_picker_component_1_1);
-            },
-            function (my_date_range_picker_module_1_1) {
-                exportStar_1(my_date_range_picker_module_1_1);
-            }],
-        execute: function() {
-        }
-    }
-});
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(require('./services/my-date-range-picker.date.range.validator.service'));
+__export(require('./my-date-range-picker.component'));
+__export(require('./my-date-range-picker.module'));
 //# sourceMappingURL=index.js.map

@@ -1,4 +1,4 @@
-# mydaterangepicker v. 0.0.12
+# mydaterangepicker v. 0.0.13
 
 **Angular 2 date range picker - Angular2 reusable UI component**
 
@@ -140,7 +140,7 @@ Run sample application:
 1. Open a terminal and type __npm start__
 2. Open __http://localhost:5000__ to browser
 
-Build dist folder (systemjs version of the component):
+Build dist folder (javascript version of the component):
 * __gulp all__
 
 ## Demo
