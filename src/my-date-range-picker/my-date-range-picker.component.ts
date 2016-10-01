@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, ViewEncapsulation} from '@angular/core';
 import {IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels} from './interfaces/index';
 import {DateRangeValidatorService} from './services/my-date-range-picker.date.range.validator.service';
 
@@ -12,7 +12,8 @@ const myDrpTemplate: string = require('./my-date-range-picker.component.html');
     selector: 'my-date-range-picker',
     styles: [myDrpStyles],
     template: myDrpTemplate,
-    providers: [DateRangeValidatorService]
+    providers: [DateRangeValidatorService],
+    encapsulation: ViewEncapsulation.None
 })
 
 export class MyDateRangePicker implements OnChanges {
