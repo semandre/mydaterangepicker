@@ -15,17 +15,17 @@ export class SampleDateRangePickerNormal implements OnInit {
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',
         acceptBtnTxt: 'OK',
-        dateFormat: 'dd.mm.yyyy',
+        dateFormat: 'dd mmm yyyy',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
         height: '34px',
         width: '260px',
         inline: false,
-        selectionTxtFontSize: '15px',
+        selectionTxtFontSize: '14px',
         alignSelectorRight: false,
     };
 
-    selectedDateRangeNormal:string = '04.08.2016 - 26.08.2016';
+    selectedDateRangeNormal:string = '04 Nov 2016 - 18 Nov 2016';
 
     selectedTextNormal: string = '';
     border: string = 'none';

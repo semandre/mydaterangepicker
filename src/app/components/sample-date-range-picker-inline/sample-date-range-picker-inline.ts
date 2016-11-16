@@ -25,7 +25,7 @@ export class SampleDateRangePickerInline implements OnInit {
     selectedTextInline: string = '';
     border: string = 'none';
 
-    dateFormats:Array<string> = new Array('yyyy-mm-dd', 'dd.mm.yyyy', 'dd/mm/yyyy');
+    dateFormats:Array<string> = new Array('yyyy-mm-dd', 'dd.mm.yyyy', 'dd/mm/yyyy', 'dd mmm yyyy');
 
     constructor() {
         console.log('constructor(): SampleDateRangePickerInline');
