@@ -180,6 +180,8 @@ export class MyDateRangePicker implements OnChanges {
     parseOptions():void  {
         this.setOptions();
 
+        this.dateRangeFormat = this.dateFormat + ' - ' + this.dateFormat;
+
         let days = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
         this.dayIdx = days.indexOf(this.firstDayOfWeek);
         if (this.dayIdx !== -1) {
@@ -200,7 +202,6 @@ export class MyDateRangePicker implements OnChanges {
             this.options = changes['options'].currentValue;
             this.weekDays.length = 0;
             this.parseOptions();
-            this.dateRangeFormat = this.dateFormat + ' - ' + this.dateFormat;
         }
 
         if (changes.hasOwnProperty('defaultMonth')) {

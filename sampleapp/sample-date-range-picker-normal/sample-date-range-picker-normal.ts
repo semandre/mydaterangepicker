@@ -24,7 +24,7 @@ export class SampleDateRangePickerNormal implements OnInit {
         selectionTxtFontSize: '14px',
         alignSelectorRight: false,
         indicateInvalidDateRange: true,
-        showDateRangeFormatPlaceholder: false,
+        showDateRangeFormatPlaceholder: true,
         minYear: 2000,
         maxYear: 2099
     };

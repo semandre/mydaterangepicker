@@ -155,6 +155,7 @@ var MyDateRangePicker = (function () {
     };
     MyDateRangePicker.prototype.parseOptions = function () {
         this.setOptions();
+        this.dateRangeFormat = this.dateFormat + ' - ' + this.dateFormat;
         var days = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
         this.dayIdx = days.indexOf(this.firstDayOfWeek);
         if (this.dayIdx !== -1) {
@@ -173,7 +174,6 @@ var MyDateRangePicker = (function () {
             this.options = changes['options'].currentValue;
             this.weekDays.length = 0;
             this.parseOptions();
-            this.dateRangeFormat = this.dateFormat + ' - ' + this.dateFormat;
         }
         if (changes.hasOwnProperty('defaultMonth')) {
             this.selectedMonth = this.parseSelectedMonth((changes['defaultMonth'].currentValue).toString());
