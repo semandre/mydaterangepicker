@@ -92,7 +92,6 @@ To install this component to an external project, follow the procedure:
                 // Other components are here...
 
                 mydaterangepicker: {
-                    main: './index.js',
                     defaultExtension: 'js'
                 }
             }
