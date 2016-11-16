@@ -1,0 +1,1 @@
+export * from './src/my-date-range-picker/my-date-range-picker.module';

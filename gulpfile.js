@@ -1,19 +1,20 @@
 var gulp = require('gulp');
-var exec = require('child_process').exec;
 var clean = require('gulp-clean');
 var replace = require('gulp-replace');
 var sequence = require('run-sequence');
 var cleancss = require('gulp-clean-css');
 var htmlmin = require('gulp-htmlmin');
 var fs = require('fs');
+var ts = require('gulp-typescript');
+var merge = require('merge2');
+var sourcemaps = require('gulp-sourcemaps');
 
 var str1 = '//webpack1_';
 var str2 = '//webpack2_';
 var str3 = '/*';
 var str4 = '*/';
 
-var tsc = './node_modules/typescript/bin/tsc';
-var uglify = './node_modules/uglifyjs/bin/uglifyjs';
+var tsDistProject = ts.createProject('tsconfig.dist.json');
 
 /*
  *
@@ -25,20 +26,13 @@ var uglify = './node_modules/uglifyjs/bin/uglifyjs';
  *
  */
 
-gulp.task('tsc.compile.dist', function (cb) {
-    exec(tsc + ' -p ./tsconfig.dist.json', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-    });
-});
-
-gulp.task('tsc.compile.bundle', function (cb) {
-    exec(tsc + ' -p ./tsconfig.bundle.json && ' + uglify + ' bundles/mydaterangepicker.js --screw-ie8 --compress --mangle --output bundles/mydaterangepicker.min.js', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err);
-    });
+gulp.task('tsc.compile.dist', function () {
+    var tsResult = tsDistProject.src().pipe(sourcemaps.init()).pipe(tsDistProject());
+    return merge([
+        tsResult.js.pipe(gulp.dest('dist')),
+        tsResult.js.pipe(sourcemaps.write('./', {includeContent: false})).pipe(gulp.dest('dist')),
+        tsResult.dts.pipe(gulp.dest('dist'))
+    ]);
 });
 
 gulp.task('backup.component.tmp', function() {
@@ -86,7 +80,7 @@ gulp.task('delete.tmp', function () {
 });
 
 gulp.task('clean', function () {
-    return gulp.src(['./build', './tmp'], {read: false}).pipe(clean());
+    return gulp.src(['./build', './tmp', './test-output'], {read: false}).pipe(clean());
 });
 
 gulp.task('all', function(cb) {

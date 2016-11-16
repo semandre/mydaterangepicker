@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, ViewEncapsulation} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation} from '@angular/core';
 import {IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels} from './interfaces/index';
 import {DateRangeValidatorService} from './services/my-date-range-picker.date.range.validator.service';
 
@@ -17,12 +17,14 @@ const myDrpTemplate: string = require('./my-date-range-picker.component.html');
 })
 
 export class MyDateRangePicker implements OnChanges {
-    @Input() options:any;
-    @Input() selDateRange:string;
-    @Output() dateRangeChanged:EventEmitter<Object> = new EventEmitter();
+    @Input() options: any;
+    @Input() defaultMonth: string;
+    @Input() selDateRange: string;
+    @Output() dateRangeChanged: EventEmitter<Object> = new EventEmitter();
 
     showSelector: boolean = false;
     visibleMonth: IMyMonth = {monthTxt: '', monthNbr: 0, year: 0};
+    selectedMonth: IMyMonth = {monthTxt: '', monthNbr: 0, year: 0};
     weekDays: Array<string> = [];
     dates: Array<Object> = [];
     selectionDayTxt: string = '';
@@ -30,6 +32,11 @@ export class MyDateRangePicker implements OnChanges {
     dateRangeFormat: string = '';
     dayIdx: number = 0;
     today: Date = null;
+
+    editMonth: boolean = false;
+    invalidMonth: boolean = false;
+    editYear: boolean = false;
+    invalidYear: boolean = false;
 
     PREV_MONTH: number = 1;
     CURR_MONTH: number = 2;
@@ -43,8 +50,8 @@ export class MyDateRangePicker implements OnChanges {
 
     // Default options
     dayLabels: IMyDayLabels = {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'};
-    monthLabels: IMyMonthLabels = { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' };
-    dateFormat: string = 'yyyy-mm-dd'
+    monthLabels: IMyMonthLabels = {1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'};
+    dateFormat: string = 'yyyy-mm-dd';
     clearBtnTxt: string = 'Clear';
     beginDateBtnTxt: string = 'Begin Date';
     endDateBtnTxt: string = 'End Date';
@@ -60,26 +67,59 @@ export class MyDateRangePicker implements OnChanges {
     alignSelectorRight: boolean = false;
     indicateInvalidDateRange: boolean = true;
     showDateRangeFormatPlaceholder: boolean = false;
+    editableMonthAndYear: boolean = true;
+    minYear: number = 1000;
+    maxYear: number = 9999;
 
-    constructor(public elem: ElementRef, private dateValidatorRangeService: DateRangeValidatorService) {
+    constructor(public elem: ElementRef, private renderer: Renderer, private dateValidatorRangeService: DateRangeValidatorService) {
         this.today = new Date();
-        let doc = document.getElementsByTagName('html')[0];
-        doc.addEventListener('click', (event) => {
+
+        renderer.listenGlobal('document', 'click', (event:any) => {
             if (this.showSelector && event.target && this.elem.nativeElement !== event.target && !this.elem.nativeElement.contains(event.target)) {
                 this.showSelector = false;
             }
-        }, false);
+            if(this.editableMonthAndYear && event.target && this.elem.nativeElement.contains(event.target)) {
+                this.resetMonthYearEdit();
+            }
+        });
     }
 
     setOptions():void {
-        let options = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateTxt', 'selectEndDateTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline', 'selectionTxtFontSize', 'alignSelectorRight', 'indicateInvalidDateRange', 'showDateRangeFormatPlaceholder'];
+        let options = ['dayLabels', 'monthLabels', 'dateFormat', 'clearBtnTxt', 'beginDateBtnTxt', 'endDateBtnTxt', 'acceptBtnTxt', 'selectBeginDateTxt', 'selectEndDateTxt', 'firstDayOfWeek', 'sunHighlight', 'height', 'width', 'inline', 'selectionTxtFontSize', 'alignSelectorRight', 'indicateInvalidDateRange', 'showDateRangeFormatPlaceholder', 'editableMonthAndYear', 'minYear', 'maxYear'];
         for (let prop of options) {
             if (this.options && (this.options)[prop] !== undefined  && (this.options)[prop] instanceof Object) {
-                (this)[prop] = JSON.parse(JSON.stringify((this.options)[prop]));
+                (this)[prop] = Object.assign({}, (this.options)[prop]);
             }
             else if(this.options && (this.options)[prop] !== undefined) {
                 (this)[prop] = (this.options)[prop];
             }
+        }
+        if(this.minYear < 1000) {
+            this.minYear = 1000;
+        }
+        if(this.maxYear > 9999) {
+            this.minYear = 9999;
+        }
+    }
+
+    resetMonthYearEdit():void {
+        this.editMonth = false;
+        this.editYear = false;
+        this.invalidMonth = false;
+        this.invalidYear = false;
+    }
+
+    editMonthClicked(event:any):void {
+        event.stopPropagation();
+        if(this.editableMonthAndYear) {
+            this.editMonth = true;
+        }
+    }
+
+    editYearClicked(event:any):void {
+        event.stopPropagation();
+        if(this.editableMonthAndYear) {
+            this.editYear = true;
         }
     }
 
@@ -89,9 +129,8 @@ export class MyDateRangePicker implements OnChanges {
             this.removeBtnClicked();
         }
         else {
-            let daterange:IMyDateRange = this.dateValidatorRangeService.isDateRangeValid(event.target.value, this.dateFormat);
-            if(daterange.beginDate.day !== 0 && daterange.beginDate.month !== 0 && daterange.beginDate.year !== 0
-                && daterange.endDate.day !== 0 && daterange.endDate.month !== 0 && daterange.endDate.year !== 0) {
+            let daterange:IMyDateRange = this.dateValidatorRangeService.isDateRangeValid(event.target.value, this.dateFormat, this.minYear, this.maxYear, this.monthLabels);
+            if(daterange.beginDate.day !== 0 && daterange.beginDate.month !== 0 && daterange.beginDate.year !== 0 && daterange.endDate.day !== 0 && daterange.endDate.month !== 0 && daterange.endDate.year !== 0) {
                 this.beginDate = daterange.beginDate;
                 this.endDate = daterange.endDate;
                 this.rangeSelected();
@@ -99,6 +138,42 @@ export class MyDateRangePicker implements OnChanges {
             else {
                 this.invalidDateRange = true;
             }
+        }
+    }
+
+    userMonthInput(event:any):void {
+        if(event.keyCode === 37 || event.keyCode === 39) {
+            return;
+        }
+
+        this.invalidMonth = false;
+
+        let m = this.dateValidatorRangeService.isMonthLabelValid(event.target.value, this.monthLabels);
+        if (m !== -1) {
+            this.editMonth = false;
+            this.visibleMonth = {monthTxt: this.monthText(m), monthNbr: m, year: this.visibleMonth.year};
+            this.generateCalendar(m, this.visibleMonth.year);
+        }
+        else {
+            this.invalidMonth = true;
+        }
+    }
+
+    userYearInput(event:any):void {
+        if(event.keyCode === 37 || event.keyCode === 39) {
+            return;
+        }
+
+        this.invalidYear = false;
+
+        let y = this.dateValidatorRangeService.isYearLabelValid(Number(event.target.value), this.minYear, this.maxYear);
+        if (y !== -1) {
+            this.editYear = false;
+            this.visibleMonth = {monthTxt: this.visibleMonth.monthTxt, monthNbr: this.visibleMonth.monthNbr, year: y};
+            this.generateCalendar(this.visibleMonth.monthNbr, y);
+        }
+        else {
+            this.invalidYear = true;
         }
     }
 
@@ -114,32 +189,36 @@ export class MyDateRangePicker implements OnChanges {
                 idx = days[idx] === 'sa' ? 0 : idx + 1;
             }
         }
-        
+
         if(this.inline) {
             this.openBtnClicked();
         }
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.hasOwnProperty('selDateRange')) {
-            this.selectionDayTxt = changes['selDateRange'].currentValue;
-
-            let split = this.selectionDayTxt.split(' - ');
-            if(split.length === 2 && split[0].length === 10 && split[1].length === 10) {
-                this.beginDate = this.parseDate(split[0]);
-                this.endDate = this.parseDate(split[1]);
-                this.toBeginDate();
-            }
-        }
-        else {
-            this.clearBtnClicked();
-        }
-
         if (changes.hasOwnProperty('options')) {
             this.options = changes['options'].currentValue;
             this.weekDays.length = 0;
             this.parseOptions();
             this.dateRangeFormat = this.dateFormat + ' - ' + this.dateFormat;
+        }
+
+        if (changes.hasOwnProperty('defaultMonth')) {
+            this.selectedMonth = this.parseSelectedMonth((changes['defaultMonth'].currentValue).toString());
+        }
+
+        if (changes.hasOwnProperty('selDateRange')) {
+            this.selectionDayTxt = changes['selDateRange'].currentValue;
+
+            let split = this.selectionDayTxt.split(' - ');
+            if(split.length === 2) {
+                this.beginDate = this.parseSelectedDate(split[0]);
+                this.endDate = this.parseSelectedDate(split[1]);
+                this.toBeginDate();
+            }
+        }
+        else {
+            this.clearBtnClicked();
         }
     }
 
@@ -158,8 +237,14 @@ export class MyDateRangePicker implements OnChanges {
                 this.toBeginDate();
             }
             else {
-                let y = this.today.getFullYear();
-                let m = this.today.getMonth() + 1;
+                let y = 0, m = 0;
+                if (this.selectedMonth.year === 0 && this.selectedMonth.monthNbr === 0) {
+                    y = this.today.getFullYear();
+                    m = this.today.getMonth() + 1;
+                } else {
+                    y = this.selectedMonth.year;
+                    m = this.selectedMonth.monthNbr;
+                }
                 this.visibleMonth = {monthTxt: this.monthLabels[m], monthNbr: m, year: y};
                 this.generateCalendar(m, y);
             }
@@ -195,11 +280,17 @@ export class MyDateRangePicker implements OnChanges {
     }
 
     prevYear():void {
+        if(this.visibleMonth.year - 1 < this.minYear) {
+            return;
+        }
         this.visibleMonth.year--;
         this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year);
     }
 
     nextYear():void {
+        if(this.visibleMonth.year + 1 > this.maxYear) {
+            return;
+        }
         this.visibleMonth.year++;
         this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year);
     }
@@ -261,10 +352,10 @@ export class MyDateRangePicker implements OnChanges {
         this.selectionDayTxt = begin + ' - ' + end;
 
         this.showSelector = false;
-        let beginEpoc = this.getTimeInMilliseconds(this.beginDate) / 1000.0;
-        let endEpoc = this.getTimeInMilliseconds(this.endDate) / 1000.0;
+        let bEpoc = this.getTimeInMilliseconds(this.beginDate) / 1000.0;
+        let eEpoc = this.getTimeInMilliseconds(this.endDate) / 1000.0;
 
-        this.dateRangeChanged.emit({beginDate: this.beginDate, endDate: this.endDate, formatted: this.selectionDayTxt, beginEpoc: beginEpoc, endEpoc: endEpoc});
+        this.dateRangeChanged.emit({beginDate: this.beginDate, endDate: this.endDate, formatted: this.selectionDayTxt, beginEpoc: bEpoc, endEpoc: eEpoc});
         this.invalidDateRange = false;
     }
 
@@ -298,11 +389,13 @@ export class MyDateRangePicker implements OnChanges {
     }
 
     formatDate(val:any):string {
-        return this.dateFormat.replace('yyyy', val.year).replace('mm', this.preZero(val.month)).replace('dd', this.preZero(val.day));
+        // Returns formatted date string, if mmm is part of dateFormat returns month as a string
+        let formatted: string = this.dateFormat.replace('yyyy', val.year).replace('dd', this.preZero(val.day));
+        return this.dateFormat.indexOf('mmm') !== -1 ? formatted.replace('mmm', this.monthText(val.month)) : formatted.replace('mm', this.preZero(val.month));
     }
 
     monthText(m:number):string {
-        // Returns mont as a text
+        // Returns month as a text
         return this.monthLabels[m];
     }
 
@@ -337,7 +430,7 @@ export class MyDateRangePicker implements OnChanges {
         // Check is a given date the current date
         return d === this.today.getDate() && m === this.today.getMonth() + 1 && y === this.today.getFullYear() && cmo === 2;
     }
-    
+
     isDisabledDay(date:IMyDate):boolean {
         // Check is a given date <= disabledUntil or given date >= disabledSince or disabled weekend
         let givenDate = this.getTimeInMilliseconds(date);
@@ -363,9 +456,9 @@ export class MyDateRangePicker implements OnChanges {
         d.setDate(d.getDate() + 1);
         return {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
     }
-    
+
     getTimeInMilliseconds(date:IMyDate):number {
-        // Returns time in millisecons
+        // Returns time in milliseconds
         return new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0).getTime();
     }
 
@@ -374,7 +467,7 @@ export class MyDateRangePicker implements OnChanges {
         let d = new Date(date.year, date.month - 1 , date.day, 0, 0, 0, 0);
         return d.getDay();
     }
-    
+
     sundayIdx():number {
         // Index of Sunday day
         return this.dayIdx > 0 ? 7 - this.dayIdx : 0;
@@ -398,7 +491,7 @@ export class MyDateRangePicker implements OnChanges {
                     let date: IMyDate = {year: y, month: m - 1, day: j};
                     week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date)});
                 }
-                
+
                 cmo = this.CURR_MONTH;
                 // Current month
                 var daysLeft = 7 - week.length;
@@ -422,26 +515,24 @@ export class MyDateRangePicker implements OnChanges {
                 }
             }
             this.dates.push(week);
-        }  
+        }
     }
 
-    parseDate(ds:string): IMyDate {
+    parseSelectedDate(ds:string): IMyDate {
         let date:IMyDate = {day: 0, month: 0, year: 0};
         if (ds !== '') {
-            let fmt = this.options && this.options.dateFormat !== undefined ? this.options.dateFormat : this.dateFormat;
-            let dpos = fmt.indexOf('dd');
-            if (dpos >= 0) {
-                date.day = parseInt(ds.substring(dpos, dpos + 2));
-            }
-            let mpos = fmt.indexOf('mm');
-            if (mpos >= 0) {
-                date.month = parseInt(ds.substring(mpos, mpos + 2));
-            }
-            let ypos = fmt.indexOf('yyyy');
-            if (ypos >= 0) {
-                date.year = parseInt(ds.substring(ypos, ypos + 4));
-            }
+            date.day = this.dateValidatorRangeService.parseDatePartNumber(this.dateFormat, ds, 'dd');
+
+            date.month = this.dateFormat.indexOf('mmm') !== -1
+                ? this.dateValidatorRangeService.parseDatePartMonthName(this.dateFormat, ds, 'mmm', this.monthLabels)
+                : this.dateValidatorRangeService.parseDatePartNumber(this.dateFormat, ds, 'mm');
+
+            date.year = this.dateValidatorRangeService.parseDatePartNumber(this.dateFormat, ds, 'yyyy');
         }
         return date;
+    }
+
+    parseSelectedMonth(ms:string): IMyMonth {
+        return this.dateValidatorRangeService.parseDefaultMonth(ms);
     }
 }

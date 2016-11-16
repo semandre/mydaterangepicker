@@ -1,14 +1,17 @@
-import { EventEmitter, OnChanges, SimpleChanges, ElementRef } from '@angular/core';
+import { EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer } from '@angular/core';
 import { IMyDate, IMyMonth, IMyDayLabels, IMyMonthLabels } from './interfaces/index';
 import { DateRangeValidatorService } from './services/my-date-range-picker.date.range.validator.service';
 export declare class MyDateRangePicker implements OnChanges {
     elem: ElementRef;
+    private renderer;
     private dateValidatorRangeService;
     options: any;
+    defaultMonth: string;
     selDateRange: string;
     dateRangeChanged: EventEmitter<Object>;
     showSelector: boolean;
     visibleMonth: IMyMonth;
+    selectedMonth: IMyMonth;
     weekDays: Array<string>;
     dates: Array<Object>;
     selectionDayTxt: string;
@@ -16,6 +19,10 @@ export declare class MyDateRangePicker implements OnChanges {
     dateRangeFormat: string;
     dayIdx: number;
     today: Date;
+    editMonth: boolean;
+    invalidMonth: boolean;
+    editYear: boolean;
+    invalidYear: boolean;
     PREV_MONTH: number;
     CURR_MONTH: number;
     NEXT_MONTH: number;
@@ -42,9 +49,17 @@ export declare class MyDateRangePicker implements OnChanges {
     alignSelectorRight: boolean;
     indicateInvalidDateRange: boolean;
     showDateRangeFormatPlaceholder: boolean;
-    constructor(elem: ElementRef, dateValidatorRangeService: DateRangeValidatorService);
+    editableMonthAndYear: boolean;
+    minYear: number;
+    maxYear: number;
+    constructor(elem: ElementRef, renderer: Renderer, dateValidatorRangeService: DateRangeValidatorService);
     setOptions(): void;
+    resetMonthYearEdit(): void;
+    editMonthClicked(event: any): void;
+    editYearClicked(event: any): void;
     userDateRangeInput(event: any): void;
+    userMonthInput(event: any): void;
+    userYearInput(event: any): void;
     parseOptions(): void;
     ngOnChanges(changes: SimpleChanges): void;
     removeBtnClicked(): void;
@@ -74,5 +89,6 @@ export declare class MyDateRangePicker implements OnChanges {
     getDayNumber(date: IMyDate): number;
     sundayIdx(): number;
     generateCalendar(m: number, y: number): void;
-    parseDate(ds: string): IMyDate;
+    parseSelectedDate(ds: string): IMyDate;
+    parseSelectedMonth(ms: string): IMyMonth;
 }

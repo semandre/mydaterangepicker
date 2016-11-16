@@ -17,6 +17,11 @@
     "node_modules"
   ],
   "files": [
-    "./src/my-date-range-picker/index.ts"
+    "./src/my-date-range-picker/directives/*.ts",
+    "./src/my-date-range-picker/services/*.ts",
+    "./src/my-date-range-picker/interfaces/*.ts",
+    "./src/my-date-range-picker/index.ts",
+    "./src/my-date-range-picker/my-date-range-picker.component.ts",
+    "./src/my-date-range-picker/my-date-range-picker.module.ts"
   ]
 }

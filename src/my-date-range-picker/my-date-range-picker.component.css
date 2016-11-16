@@ -51,6 +51,8 @@
     text-align: center;
 }
 
+.mydrp .invalidyear,
+.mydrp .invalidmonth,
 .mydrp .invaliddaterange {
     background-color: #F1DEDE;
 }
@@ -227,6 +229,8 @@
 .mydrp .table th,
 .mydrp .table td,
 .mydrp .titlearea,
+.mydrp .monthinput,
+.mydrp .yearinput,
 .mydrp .headerclearbtn,
 .mydrp .footerbtn,
 .mydrp .caltable tbody {
@@ -237,6 +241,8 @@
 .mydrp .btnclear,
 .mydrp .headerbtn,
 .mydrp .footerbtn,
+.mydrp .monthinput,
+.mydrp .yearinput,
 .mydrp .headermonthtxt,
 .mydrp .headeryeartxt,
 .mydrp .headerclearbtn,
@@ -316,6 +322,12 @@
     padding: 0;
 }
 
+.mydrp table,
+.mydrp th,
+.mydrp td {
+    border: none;
+}
+
 .mydrp .btnpicker:hover,
 .mydrp .btnclear:hover,
 .mydrp .headerclearbtn:hover,
@@ -324,8 +336,29 @@
     background-color: #8BDAF4;
 }
 
+.mydrp .monthlabel,
+.mydrp .yearlabel {
+    cursor: pointer;
+}
+
+.mydrp .yearinput,
+.mydrp .monthinput {
+    width: 40px;
+    height: 22px;
+    text-align: center;
+    font-weight: bold;
+    outline: none;
+    border-radius: 2px;
+}
+
 .mydrp .headerbtn span:hover {
     color: #8BDAF4;
+}
+
+.mydrp .monthlabel:hover,
+.mydrp .yearlabel:hover {
+    color: #8BDAF4;
+    font-weight: bold;
 }
 
 @font-face {

@@ -11,18 +11,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var common_1 = require('@angular/common');
 var core_1 = require('@angular/core');
 var my_date_range_picker_component_1 = require('./my-date-range-picker.component');
+var my_date_range_picker_input_directive_1 = require('./directives/my-date-range-picker.input.directive');
 var MyDateRangePickerModule = (function () {
     function MyDateRangePickerModule() {
     }
     MyDateRangePickerModule = __decorate([
         core_1.NgModule({
             imports: [common_1.CommonModule],
-            declarations: [my_date_range_picker_component_1.MyDateRangePicker],
-            exports: [my_date_range_picker_component_1.MyDateRangePicker]
+            declarations: [my_date_range_picker_component_1.MyDateRangePicker, my_date_range_picker_input_directive_1.InputFocusDirective],
+            exports: [my_date_range_picker_component_1.MyDateRangePicker, my_date_range_picker_input_directive_1.InputFocusDirective]
         }), 
         __metadata('design:paramtypes', [])
     ], MyDateRangePickerModule);
     return MyDateRangePickerModule;
 }());
 exports.MyDateRangePickerModule = MyDateRangePickerModule;
+
 //# sourceMappingURL=my-date-range-picker.module.js.map

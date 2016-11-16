@@ -12,53 +12,89 @@ var core_1 = require('@angular/core');
 var DateRangeValidatorService = (function () {
     function DateRangeValidatorService() {
     }
-    DateRangeValidatorService.prototype.isDateRangeValid = function (daterange, dateFormat) {
+    DateRangeValidatorService.prototype.isDateRangeValid = function (daterange, dateFormat, minYear, maxYear, monthLabels) {
         var invalidDateRange = { beginDate: { day: 0, month: 0, year: 0 }, endDate: { day: 0, month: 0, year: 0 } };
-        if (daterange.length !== 23) {
+        var isMonthStr = dateFormat.indexOf('mmm') !== -1;
+        if (daterange.length !== 23 && !isMonthStr || daterange.length !== 25 && isMonthStr) {
             return invalidDateRange;
         }
-        var parts = daterange.split(' - ');
-        if (parts.length !== 2) {
+        var dates = daterange.split(' - ');
+        if (dates.length !== 2) {
             return invalidDateRange;
         }
-        var separator = dateFormat.replace(/[dmy]/g, '')[0];
-        var dpos = dateFormat.indexOf('dd');
-        var mpos = dateFormat.indexOf('mm');
-        var ypos = dateFormat.indexOf('yyyy');
-        var datesInMs = [];
-        for (var i in parts) {
-            var date = this.isDateValid(parts[i], separator, dpos, mpos, ypos);
+        var validDates = [];
+        for (var i in dates) {
+            var date = this.isDateValid(dates[i], dateFormat, minYear, maxYear, monthLabels, isMonthStr);
             if (date.day === 0 && date.month === 0 && date.year === 0) {
                 return invalidDateRange;
             }
-            datesInMs.push(date);
+            validDates.push(date);
         }
-        if (this.getTimeInMilliseconds(datesInMs[1]) < this.getTimeInMilliseconds(datesInMs[0])) {
+        if (this.getTimeInMilliseconds(validDates[1]) < this.getTimeInMilliseconds(validDates[0])) {
             return invalidDateRange;
         }
         return {
-            beginDate: { day: datesInMs[0].day, month: datesInMs[0].month, year: datesInMs[0].year },
-            endDate: { day: datesInMs[1].day, month: datesInMs[1].month, year: datesInMs[1].year }
+            beginDate: { day: validDates[0].day, month: validDates[0].month, year: validDates[0].year },
+            endDate: { day: validDates[1].day, month: validDates[1].month, year: validDates[1].year }
         };
     };
-    DateRangeValidatorService.prototype.isDateValid = function (date, separator, dpos, mpos, ypos) {
+    DateRangeValidatorService.prototype.isMonthLabelValid = function (monthLabel, monthLabels) {
+        for (var key = 1; key <= 12; key++) {
+            if (monthLabel.toLowerCase() === monthLabels[key].toLowerCase()) {
+                return key;
+            }
+        }
+        return -1;
+    };
+    DateRangeValidatorService.prototype.isYearLabelValid = function (yearLabel, minYear, maxYear) {
+        if (yearLabel >= minYear && yearLabel <= maxYear) {
+            return yearLabel;
+        }
+        return -1;
+    };
+    DateRangeValidatorService.prototype.parseDatePartNumber = function (dateFormat, dateString, datePart) {
+        var pos = dateFormat.indexOf(datePart);
+        if (pos !== -1) {
+            var value = dateString.substring(pos, pos + datePart.length);
+            if (!/^\d+$/.test(value)) {
+                return -1;
+            }
+            return parseInt(value);
+        }
+        return -1;
+    };
+    DateRangeValidatorService.prototype.parseDatePartMonthName = function (dateFormat, dateString, datePart, monthLabels) {
+        var pos = dateFormat.indexOf(datePart);
+        if (pos !== -1) {
+            return this.isMonthLabelValid(dateString.substring(pos, pos + datePart.length), monthLabels);
+        }
+        return -1;
+    };
+    DateRangeValidatorService.prototype.parseDefaultMonth = function (monthString) {
+        var month = { monthTxt: '', monthNbr: 0, year: 0 };
+        if (monthString !== '') {
+            var split = monthString.split(monthString.match(/[^0-9]/)[0]);
+            month.monthNbr = split[0].length === 2 ? parseInt(split[0]) : parseInt(split[1]);
+            month.year = split[0].length === 2 ? parseInt(split[1]) : parseInt(split[0]);
+        }
+        return month;
+    };
+    DateRangeValidatorService.prototype.isDateValid = function (date, dateFormat, minYear, maxYear, monthLabels, isMonthStr) {
         var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         var invalidDate = { day: 0, month: 0, year: 0 };
-        if (date.length !== 10) {
+        if (date.length !== 10 && !isMonthStr || date.length !== 11 && isMonthStr) {
             return invalidDate;
         }
+        var separator = dateFormat.replace(/[dmy]/g, '')[0];
         var parts = date.split(separator);
         if (parts.length !== 3) {
             return invalidDate;
         }
-        if (dpos !== -1 && mpos !== -1 && ypos !== -1) {
-            var day = parseInt(date.substring(dpos, dpos + 2)) || 0;
-            var month = parseInt(date.substring(mpos, mpos + 2)) || 0;
-            var year = parseInt(date.substring(ypos, ypos + 4)) || 0;
-            if (day === 0 || month === 0 || year === 0) {
-                return invalidDate;
-            }
-            if (year < 1000 || year > 9999 || month < 1 || month > 12) {
+        var day = this.parseDatePartNumber(dateFormat, date, 'dd');
+        var month = isMonthStr ? this.parseDatePartMonthName(dateFormat, date, 'mmm', monthLabels) : this.parseDatePartNumber(dateFormat, date, 'mm');
+        var year = this.parseDatePartNumber(dateFormat, date, 'yyyy');
+        if (day !== -1 && month !== -1 && year !== -1) {
+            if (year < minYear || year > maxYear || month < 1 || month > 12) {
                 return invalidDate;
             }
             if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0)) {
@@ -81,4 +117,5 @@ var DateRangeValidatorService = (function () {
     return DateRangeValidatorService;
 }());
 exports.DateRangeValidatorService = DateRangeValidatorService;
+
 //# sourceMappingURL=my-date-range-picker.date.range.validator.service.js.map
