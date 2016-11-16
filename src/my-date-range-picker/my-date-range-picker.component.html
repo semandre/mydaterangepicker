@@ -29,7 +29,7 @@
                     </div>
                 </td>
                 <td>
-                    <button type="button" class="headerclearbtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0}" (click)="clearBtnClicked()">{{clearBtnTxt}}</button>
+                    <button type="button" class="headerclearbtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0, 'headerclearbtnenabled':beginDate.year!==0||endDate.year!==0}" (click)="clearBtnClicked()">{{clearBtnTxt}}</button>
                 </td>
                 <td>
                     <div style="float:right">
@@ -61,9 +61,9 @@
             </tbody>
         </table>
         <div class="footerarea">
-            <button type="button" class="footerbtn" *ngIf="isBeginDate" [disabled]="beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0}" (click)="$event.stopPropagation();toEndDate($event)">{{endDateBtnTxt}}</button>
-            <button type="button" class="footerbtn" *ngIf="!isBeginDate" (click)="$event.stopPropagation();toBeginDate($event)">{{beginDateBtnTxt}}</button>
-            <button type="button" class="footerbtn" *ngIf="!isBeginDate||endDate.year!==0" [disabled]="endDate.year===0" [ngClass]="{'btndisable':endDate.year===0}" (click)="$event.stopPropagation();rangeSelected()">{{acceptBtnTxt}}</button>
+            <button type="button" class="footerbtn" *ngIf="isBeginDate" [disabled]="beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0,'footerbtnenabled': beginDate.year!==0}" (click)="$event.stopPropagation();toEndDate($event)">{{endDateBtnTxt}}</button>
+            <button type="button" class="footerbtn footerbtnenabled" *ngIf="!isBeginDate" (click)="$event.stopPropagation();toBeginDate($event)">{{beginDateBtnTxt}}</button>
+            <button type="button" class="footerbtn" *ngIf="!isBeginDate||endDate.year!==0" [disabled]="endDate.year===0" [ngClass]="{'btndisable':endDate.year===0, 'footerbtnenabled': endDate.year!==0}" (click)="$event.stopPropagation();rangeSelected()">{{acceptBtnTxt}}</button>
         </div>
     </div>
 </div>

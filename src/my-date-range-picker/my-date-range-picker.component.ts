@@ -338,7 +338,10 @@ export class MyDateRangePicker implements OnChanges {
         this.isBeginDate = true;
 
         this.disableUntil = {year: 0, month: 0, day: 0};
-        this.disableSince = this.getNextDate(this.endDate);
+
+        if(this.endDate.year !== 0 && this.endDate.month !== 0 && this.endDate.day !== 0) {
+            this.disableSince = this.getNextDate(this.endDate);
+        }
 
         this.visibleMonth = {monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year};
         this.generateCalendar(this.beginDate.month, this.beginDate.year);

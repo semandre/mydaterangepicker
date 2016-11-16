@@ -330,8 +330,8 @@
 
 .mydrp .btnpicker:hover,
 .mydrp .btnclear:hover,
-.mydrp .headerclearbtn:hover,
-.mydrp .footerbtn:hover,
+.mydrp .headerclearbtnenabled:hover,
+.mydrp .footerbtnenabled:hover,
 .mydrp .caltable tbody tr td:hover {
     background-color: #8BDAF4;
 }
