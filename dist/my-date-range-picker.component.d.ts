@@ -1,6 +1,6 @@
-import { EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer } from '@angular/core';
-import { IMyDate, IMyMonth, IMyDayLabels, IMyMonthLabels } from './interfaces/index';
-import { DateRangeValidatorService } from './services/my-date-range-picker.date.range.validator.service';
+import { EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer } from "@angular/core";
+import { IMyDate, IMyMonth, IMyOptions } from "./interfaces/index";
+import { DateRangeValidatorService } from "./services/my-date-range-picker.date.range.validator.service";
 export declare class MyDateRangePicker implements OnChanges {
     elem: ElementRef;
     private renderer;
@@ -31,29 +31,8 @@ export declare class MyDateRangePicker implements OnChanges {
     endDate: IMyDate;
     disableUntil: IMyDate;
     disableSince: IMyDate;
-    dayLabels: IMyDayLabels;
-    monthLabels: IMyMonthLabels;
-    dateFormat: string;
-    clearBtnTxt: string;
-    beginDateBtnTxt: string;
-    endDateBtnTxt: string;
-    acceptBtnTxt: string;
-    selectBeginDateTxt: string;
-    selectEndDateTxt: string;
-    firstDayOfWeek: string;
-    sunHighlight: boolean;
-    height: string;
-    width: string;
-    inline: boolean;
-    selectionTxtFontSize: string;
-    alignSelectorRight: boolean;
-    indicateInvalidDateRange: boolean;
-    showDateRangeFormatPlaceholder: boolean;
-    editableMonthAndYear: boolean;
-    minYear: number;
-    maxYear: number;
+    opts: IMyOptions;
     constructor(elem: ElementRef, renderer: Renderer, dateValidatorRangeService: DateRangeValidatorService);
-    setOptions(): void;
     resetMonthYearEdit(): void;
     editMonthClicked(event: any): void;
     editYearClicked(event: any): void;
@@ -87,6 +66,7 @@ export declare class MyDateRangePicker implements OnChanges {
     getNextDate(date: IMyDate): IMyDate;
     getTimeInMilliseconds(date: IMyDate): number;
     getDayNumber(date: IMyDate): number;
+    getDate(year: number, month: number, day: number): Date;
     sundayIdx(): number;
     generateCalendar(m: number, y: number): void;
     parseSelectedDate(ds: string): IMyDate;

@@ -8,9 +8,10 @@ var fs = require('fs');
 var ts = require('gulp-typescript');
 var merge = require('merge2');
 var sourcemaps = require('gulp-sourcemaps');
+var tslint = require('gulp-tslint');
 
-var str1 = '//webpack1_';
-var str2 = '//webpack2_';
+var str1 = '// webpack1_';
+var str2 = '// webpack2_';
 var str3 = '/*';
 var str4 = '*/';
 
@@ -83,6 +84,22 @@ gulp.task('clean', function () {
     return gulp.src(['./build', './tmp', './test-output'], {read: false}).pipe(clean());
 });
 
+gulp.task('tslint', function () {
+    return gulp.src([
+        "src/my-date-range-picker/directives/*.ts",
+        "src/my-date-range-picker/interfaces/*.ts",
+        "src/my-date-range-picker/services/*.ts",
+        "src/my-date-range-picker/index.ts",
+        "src/my-date-range-picker/my-date-range-picker.component.ts",
+        "src/my-date-range-picker/my-date-range-picker.module.ts"])
+        .pipe(tslint({
+            configuration: "tslint.json"
+        }))
+        .pipe(tslint.report({
+            emitError: false
+        }));
+});
+
 gulp.task('all', function(cb) {
     sequence(
         'clean',
@@ -94,5 +111,6 @@ gulp.task('all', function(cb) {
         'delete.modified.component',
         'restore.original.component',
         'delete.tmp',
+        'tslint',
         cb);
 });

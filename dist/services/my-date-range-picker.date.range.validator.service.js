@@ -8,17 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
+var core_1 = require("@angular/core");
 var DateRangeValidatorService = (function () {
     function DateRangeValidatorService() {
     }
     DateRangeValidatorService.prototype.isDateRangeValid = function (daterange, dateFormat, minYear, maxYear, monthLabels) {
-        var invalidDateRange = { beginDate: { day: 0, month: 0, year: 0 }, endDate: { day: 0, month: 0, year: 0 } };
-        var isMonthStr = dateFormat.indexOf('mmm') !== -1;
+        var invalidDateRange = {
+            beginDate: { day: 0, month: 0, year: 0 },
+            endDate: { day: 0, month: 0, year: 0 }
+        };
+        var isMonthStr = dateFormat.indexOf("mmm") !== -1;
         if (daterange.length !== 23 && !isMonthStr || daterange.length !== 25 && isMonthStr) {
             return invalidDateRange;
         }
-        var dates = daterange.split(' - ');
+        var dates = daterange.split(" - ");
         if (dates.length !== 2) {
             return invalidDateRange;
         }
@@ -71,8 +74,8 @@ var DateRangeValidatorService = (function () {
         return -1;
     };
     DateRangeValidatorService.prototype.parseDefaultMonth = function (monthString) {
-        var month = { monthTxt: '', monthNbr: 0, year: 0 };
-        if (monthString !== '') {
+        var month = { monthTxt: "", monthNbr: 0, year: 0 };
+        if (monthString !== "") {
             var split = monthString.split(monthString.match(/[^0-9]/)[0]);
             month.monthNbr = split[0].length === 2 ? parseInt(split[0]) : parseInt(split[1]);
             month.year = split[0].length === 2 ? parseInt(split[1]) : parseInt(split[0]);
@@ -85,14 +88,14 @@ var DateRangeValidatorService = (function () {
         if (date.length !== 10 && !isMonthStr || date.length !== 11 && isMonthStr) {
             return invalidDate;
         }
-        var separator = dateFormat.replace(/[dmy]/g, '')[0];
+        var separator = dateFormat.replace(/[dmy]/g, "")[0];
         var parts = date.split(separator);
         if (parts.length !== 3) {
             return invalidDate;
         }
-        var day = this.parseDatePartNumber(dateFormat, date, 'dd');
-        var month = isMonthStr ? this.parseDatePartMonthName(dateFormat, date, 'mmm', monthLabels) : this.parseDatePartNumber(dateFormat, date, 'mm');
-        var year = this.parseDatePartNumber(dateFormat, date, 'yyyy');
+        var day = this.parseDatePartNumber(dateFormat, date, "dd");
+        var month = isMonthStr ? this.parseDatePartMonthName(dateFormat, date, "mmm", monthLabels) : this.parseDatePartNumber(dateFormat, date, "mm");
+        var year = this.parseDatePartNumber(dateFormat, date, "yyyy");
         if (day !== -1 && month !== -1 && year !== -1) {
             if (year < minYear || year > maxYear || month < 1 || month > 12) {
                 return invalidDate;

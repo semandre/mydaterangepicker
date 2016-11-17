@@ -643,6 +643,7 @@ describe('MyDateRangePicker', () => {
 
         comp.parseOptions();
 
+        fixture.detectChanges();
         let value = {target:{value:'2016-08-22 - 2016-08-24'}};
         comp.userDateRangeInput(value);
         expect(comp.invalidDateRange).toBe(true);
@@ -1185,7 +1186,7 @@ describe('MyDateRangePicker', () => {
         fixture.detectChanges();
         let selection = getElement('.selection');
         expect(selection).not.toBe(null);
-        expect(selection.properties['placeholder']).toBe(comp.dateFormat + ' - ' + comp.dateFormat);
+        expect(selection.properties['placeholder']).toBe(comp.opts.dateFormat + ' - ' + comp.opts.dateFormat);
 
         comp.options = {
             showDateRangeFormatPlaceholder: false,

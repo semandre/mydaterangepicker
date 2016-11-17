@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var common_1 = require('@angular/common');
-var core_1 = require('@angular/core');
-var my_date_range_picker_component_1 = require('./my-date-range-picker.component');
-var my_date_range_picker_input_directive_1 = require('./directives/my-date-range-picker.input.directive');
+var common_1 = require("@angular/common");
+var core_1 = require("@angular/core");
+var my_date_range_picker_component_1 = require("./my-date-range-picker.component");
+var my_date_range_picker_input_directive_1 = require("./directives/my-date-range-picker.input.directive");
 var MyDateRangePickerModule = (function () {
     function MyDateRangePickerModule() {
     }
