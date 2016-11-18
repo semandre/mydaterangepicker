@@ -10,7 +10,8 @@ module.exports = {
         loaders: [
             {
                 test: /\.ts$/,
-                loader: 'ts'
+                loader: 'ts',
+                exclude: [/npmdist/]
             },
             {
                 test: /\.html$/,

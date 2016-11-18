@@ -1,6 +1,6 @@
 {
   "name": "mydaterangepicker",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Angular2 date range picker",
   "keywords": [
     "Angular2",
@@ -16,15 +16,8 @@
     "LICENSE",
     "package.json",
     "README.md",
-    "src/my-date-range-picker/directives",
-    "src/my-date-range-picker/interfaces",
-    "src/my-date-range-picker/services",
-    "src/my-date-range-picker/index.ts",
-    "src/my-date-range-picker/my-date-range-picker.component.css",
-    "src/my-date-range-picker/my-date-range-picker.component.html",
-    "src/my-date-range-picker/my-date-range-picker.component.ts",
-    "src/my-date-range-picker/my-date-range-picker.module.ts",
     "index.ts",
+    "src",
     "dist"
   ],
   "scripts": {
