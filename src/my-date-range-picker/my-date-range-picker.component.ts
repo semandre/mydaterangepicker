@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation } from "@angular/core";
-import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyOptions } from "./interfaces/index";
+import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions } from "./interfaces/index";
 import { DateRangeValidatorService } from "./services/my-date-range-picker.date.range.validator.service";
 
 // webpack1_
@@ -50,27 +50,27 @@ export class MyDateRangePicker implements OnChanges {
 
     // Default options
     opts: IMyOptions = {
-        dayLabels: {su: "Sun", mo: "Mon", tu: "Tue", we: "Wed", th: "Thu", fr: "Fri", sa: "Sat"},
-        monthLabels: {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"},
-        dateFormat: "yyyy-mm-dd",
-        clearBtnTxt: "Clear",
-        beginDateBtnTxt: "Begin Date",
-        endDateBtnTxt: "End Date",
-        acceptBtnTxt: "Accept",
-        selectBeginDateTxt: "Select Begin Date",
-        selectEndDateTxt: "Select End Date",
-        firstDayOfWeek: "mo",
-        sunHighlight: true,
-        height: "34px",
-        width: "262px",
-        inline: false,
-        selectionTxtFontSize: "16px",
-        alignSelectorRight: false,
-        indicateInvalidDateRange: true,
-        showDateRangeFormatPlaceholder: false,
-        editableMonthAndYear: true,
-        minYear: 1000,
-        maxYear: 9999
+        dayLabels: <IMyDayLabels> {su: "Sun", mo: "Mon", tu: "Tue", we: "Wed", th: "Thu", fr: "Fri", sa: "Sat"},
+        monthLabels: <IMyMonthLabels> {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"},
+        dateFormat: <string> "yyyy-mm-dd",
+        clearBtnTxt: <string> "Clear",
+        beginDateBtnTxt: <string> "Begin Date",
+        endDateBtnTxt: <string> "End Date",
+        acceptBtnTxt: <string> "Accept",
+        selectBeginDateTxt: <string> "Select Begin Date",
+        selectEndDateTxt: <string> "Select End Date",
+        firstDayOfWeek: <string> "mo",
+        sunHighlight: <boolean> true,
+        height: <string> "34px",
+        width: <string> "262px",
+        inline: <boolean> false,
+        selectionTxtFontSize: <string> "16px",
+        alignSelectorRight: <boolean> false,
+        indicateInvalidDateRange: <boolean> true,
+        showDateRangeFormatPlaceholder: <boolean> false,
+        editableMonthAndYear: <boolean> true,
+        minYear: <number> 1000,
+        maxYear: <number> 9999
     };
 
     constructor(public elem: ElementRef, private renderer: Renderer, private dateValidatorRangeService: DateRangeValidatorService) {
