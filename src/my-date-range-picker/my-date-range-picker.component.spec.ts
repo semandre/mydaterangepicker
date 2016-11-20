@@ -1291,6 +1291,25 @@ describe('MyDateRangePicker', () => {
         expect(selection.properties['placeholder']).toBe('');
     });
 
+    it('options - disable component', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
+        comp.options = {componentDisabled: true};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+
+        btnpicker.nativeElement.click();
+        fixture.detectChanges();
+
+        let selector = getElement('.selector');
+        expect(selector).toBe(null);
+
+        fixture.detectChanges();
+        let selection = getElement('.selection');
+        expect(selector).toBe(null);
+    });
+
     // attributes
     it('selDateRange - initially selected date - month as number', () => {
         comp.selectionDayTxt = '2016-11-04 - 2016-11-18';

@@ -70,7 +70,8 @@ export class MyDateRangePicker implements OnChanges {
         showDateRangeFormatPlaceholder: <boolean> false,
         editableMonthAndYear: <boolean> true,
         minYear: <number> 1000,
-        maxYear: <number> 9999
+        maxYear: <number> 9999,
+        componentDisabled: <boolean> false
     };
 
     constructor(public elem: ElementRef, private renderer: Renderer, private dateValidatorRangeService: DateRangeValidatorService) {
@@ -205,16 +206,17 @@ export class MyDateRangePicker implements OnChanges {
 
         if (changes.hasOwnProperty("selDateRange")) {
             this.selectionDayTxt = changes["selDateRange"].currentValue;
-
-            let split: Array<string> = this.selectionDayTxt.split(" - ");
-            if (split.length === 2) {
-                this.beginDate = this.parseSelectedDate(split[0]);
-                this.endDate = this.parseSelectedDate(split[1]);
-                this.toBeginDate();
+            if (this.selectionDayTxt !== "") {
+                let split: Array<string> = this.selectionDayTxt.split(" - ");
+                if (split.length === 2) {
+                    this.beginDate = this.parseSelectedDate(split[0]);
+                    this.endDate = this.parseSelectedDate(split[1]);
+                    this.toBeginDate();
+                }
             }
-        }
-        else {
-            this.clearBtnClicked();
+            else {
+                this.removeBtnClicked();
+            }
         }
     }
 

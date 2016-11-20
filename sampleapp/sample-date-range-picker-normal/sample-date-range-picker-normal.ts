@@ -26,7 +26,8 @@ export class SampleDateRangePickerNormal implements OnInit {
         indicateInvalidDateRange: true,
         showDateRangeFormatPlaceholder: true,
         minYear: 2000,
-        maxYear: 2099
+        maxYear: 2099,
+        componentDisabled: false
     };
 
     selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
@@ -38,6 +39,16 @@ export class SampleDateRangePickerNormal implements OnInit {
         console.log('constructor(): SampleDateRangePickerNormal');
     }
 
+    clearDate() {
+        this.selectedDateRangeNormal = '';
+    }
+
+    enableDisable() {
+        let copy = Object.assign({}, this.myDateRangePickerOptionsNormal);
+        copy.componentDisabled = !this.myDateRangePickerOptionsNormal.componentDisabled;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
     ngOnInit() {
         console.log('onInit(): SampleDateRangePickerNormal');
     }
@@ -47,6 +58,8 @@ export class SampleDateRangePickerNormal implements OnInit {
         if(event.formatted !== '') {
             this.selectedTextNormal = 'Formatted: ' + event.formatted;
             this.border = '1px solid #CCC';
+
+            this.selectedDateRangeNormal = event.formatted;
         }
         else {
             this.selectedTextNormal = '';

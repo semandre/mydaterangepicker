@@ -126,6 +126,7 @@ To install this component to an external project, follow the procedure:
 | __alignSelectorRight__   | false | Align selector right. Can be used if __inline = false__. |
 | __indicateInvalidDateRange__   | true | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
 | __showDateRangeFormatPlaceholder__   | false | Show value of __dateFormat__ - __dateFormat__ as placeholder in the selection area if it is empty. Can be used if __inline = false__. |
+| __componentDisabled__   | false | Is selection area and buttons disabled or not. Can be used if __inline = false__. |
 
 ### selDateRange attribute
 

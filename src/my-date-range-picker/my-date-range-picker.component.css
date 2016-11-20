@@ -84,6 +84,16 @@
     -moz-user-select: none;
 }
 
+.mydrp .btnpickerenabled,
+.mydrp .btnclearenabled {
+    cursor: pointer;
+}
+
+.mydrp .btnpickerdisabled,
+.mydrp .btncleardisabled {
+    cursor: not-allowed;
+}
+
 .mydrp .btnpicker,
 .mydrp .btnclear,
 .mydrp .headerclearbtn,
@@ -158,12 +168,12 @@
 .mydrp .caltable th {
     background-color: #DDD;
     font-size: 12px;
+    font-weight: bold;
     vertical-align: middle;
 }
 
 .mydrp .caltable td {
     cursor: pointer;
-    font-weight: bold;
     height: 30px;
 }
 
@@ -175,7 +185,7 @@
 .mydrp .disabled {
     cursor: default !important;
     color: #444 !important;
-    background: #FFEBE6 !important;
+    background: #FBEFEF !important;
 }
 
 .mydrp .sunday {
@@ -328,8 +338,8 @@
     border: none;
 }
 
-.mydrp .btnpicker:hover,
-.mydrp .btnclear:hover,
+.mydrp .btnpickerenabled:hover,
+.mydrp .btnclearenabled:hover,
 .mydrp .headerclearbtnenabled:hover,
 .mydrp .footerbtnenabled:hover,
 .mydrp .caltable tbody tr td:hover {

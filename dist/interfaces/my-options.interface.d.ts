@@ -22,4 +22,5 @@ export interface IMyOptions {
     editableMonthAndYear?: boolean;
     minYear?: number;
     maxYear?: number;
+    componentDisabled?: boolean;
 }
