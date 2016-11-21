@@ -44,10 +44,10 @@
             </tr>
         </table>
         <table class="caltable">
-            <thead><tr><th *ngFor="let d of weekDays">{{d}}</th></tr></thead>
+            <thead><tr><th class="weekdaytitle" *ngFor="let d of weekDays">{{d}}</th></tr></thead>
             <tbody>
                 <tr *ngFor="let w of dates">
-                    <td *ngFor="let d of w" [ngClass]="{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'currday':d.currDay, 'range': isInRange(d), 'disabled': d.disabled}" (click)="$event.stopPropagation(); !d.disabled && cellClicked(d)">
+                    <td class="daycell" *ngFor="let d of w" [ngClass]="{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'currday':d.currDay, 'range': isInRange(d), 'disabled': d.disabled}" (click)="$event.stopPropagation(); !d.disabled && cellClicked(d)">
                         <div style="background-color:inherit" [ngClass]="{'prevmonth':d.cmo===PREV_MONTH, 'selectedday':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year, 'currmonth':d.cmo===CURR_MONTH, 'nextmonth':d.cmo===NEXT_MONTH, 'selecteddaygreen':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year&&isBeginDate&&isRangeSelected()||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year&&!isBeginDate&&isRangeSelected(), 'sunday':d.dayNbr===0&&opts.sunHighlight}">
                             <span [ngClass]="{'sundayDim': opts.sunHighlight && d.dayNbr === 0 && (d.cmo===PREV_MONTH || d.cmo===NEXT_MONTH || d.disabled)}">{{d.dateObj.day}}</span>
                         </div>

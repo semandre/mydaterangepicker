@@ -152,27 +152,27 @@
 }
 
 .mydrp .caltable,
-.mydrp .caltable th,
-.mydrp .caltable td {
+.mydrp .weekdaytitle,
+.mydrp .daycell {
     border-collapse: collapse;
     color: #003366;
     line-height: 1.1;
 }
 
-.mydrp .caltable th,
-.mydrp .caltable td {
+.mydrp .weekdaytitle,
+.mydrp .daycell {
     padding: 5px;
     text-align: center;
 }
 
-.mydrp .caltable th {
+.mydrp .weekdaytitle {
     background-color: #DDD;
     font-size: 12px;
     font-weight: bold;
     vertical-align: middle;
 }
 
-.mydrp .caltable td {
+.mydrp .daycell {
     cursor: pointer;
     height: 30px;
 }
@@ -232,19 +232,19 @@
 }
 
 .mydrp,
-.mydrp .selector,
-.mydrp .header,
-.mydrp .footerarea,
-.mydrp .table,
-.mydrp .table th,
-.mydrp .table td,
-.mydrp .titlearea,
 .mydrp .monthinput,
 .mydrp .yearinput,
 .mydrp .headerclearbtn,
-.mydrp .footerbtn,
-.mydrp .caltable tbody {
+.mydrp .footerbtn {
     border: 1px solid #AAA;
+}
+
+.mydrp .selector,
+.mydrp .header,
+.mydrp .titlearea,
+.mydrp .footerarea,
+.mydrp .caltable tbody {
+    border: 1px solid #DDD;
 }
 
 .mydrp .btnpicker,
