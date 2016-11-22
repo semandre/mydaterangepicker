@@ -165,7 +165,7 @@ __08-2016__, __08/2016__.
   * Example of the input field changed callbac:
   ```js
   onInputFieldChanged(event:any) {
-    console.log('onInputFieldChanged(): Value: ', event.value, ' - dateFormat: ', event.dateFormat, ' - valid: ', event.valid);
+    console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
   }
   ```
 
