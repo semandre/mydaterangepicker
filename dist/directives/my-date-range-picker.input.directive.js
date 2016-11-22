@@ -17,15 +17,15 @@ var InputFocusDirective = (function () {
     InputFocusDirective.prototype.ngOnInit = function () {
         this.renderer.invokeElementMethod(this.el.nativeElement, "focus", []);
     };
-    InputFocusDirective = __decorate([
-        core_1.Directive({
-            selector: "[inputFocus]",
-            inputs: ["inputFocus"]
-        }), 
-        __metadata('design:paramtypes', [core_1.ElementRef, core_1.Renderer])
-    ], InputFocusDirective);
     return InputFocusDirective;
 }());
+InputFocusDirective = __decorate([
+    core_1.Directive({
+        selector: "[inputFocus]",
+        inputs: ["inputFocus"]
+    }),
+    __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer])
+], InputFocusDirective);
 exports.InputFocusDirective = InputFocusDirective;
 
 //# sourceMappingURL=my-date-range-picker.input.directive.js.map

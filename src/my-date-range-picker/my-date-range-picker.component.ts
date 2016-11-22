@@ -21,6 +21,7 @@ export class MyDateRangePicker implements OnChanges {
     @Input() defaultMonth: string;
     @Input() selDateRange: string;
     @Output() dateRangeChanged: EventEmitter<Object> = new EventEmitter();
+    @Output() inputFieldChanged: EventEmitter<Object> = new EventEmitter();
 
     showSelector: boolean = false;
     visibleMonth: IMyMonth = {monthTxt: "", monthNbr: 0, year: 0};
@@ -124,6 +125,9 @@ export class MyDateRangePicker implements OnChanges {
                 this.invalidDateRange = true;
             }
         }
+        if (this.invalidDateRange) {
+            this.inputFieldChanged.emit({value: event.target.value, dateRangeFormat: this.dateRangeFormat, valid: !(event.target.value.length === 0 || this.invalidDateRange)});
+        }
     }
 
     userMonthInput(event: any): void {
@@ -223,6 +227,7 @@ export class MyDateRangePicker implements OnChanges {
     removeBtnClicked(): void {
         this.clearBtnClicked();
         this.dateRangeChanged.emit({beginDate: {}, endDate: {}, formatted: "", beginEpoc: 0, endEpoc: 0});
+        this.inputFieldChanged.emit({value: '', dateRangeFormat: this.dateRangeFormat, valid: false});
         this.invalidDateRange = false;
     }
 
@@ -369,6 +374,7 @@ export class MyDateRangePicker implements OnChanges {
             beginEpoc: bEpoc,
             endEpoc: eEpoc
         });
+        this.inputFieldChanged.emit({value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true});
         this.invalidDateRange = false;
     }
 

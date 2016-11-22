@@ -44,7 +44,7 @@ export class SampleDateRangePickerNormal implements OnInit {
     }
 
     enableDisable() {
-        let copy = Object.assign({}, this.myDateRangePickerOptionsNormal);
+        let copy = JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
         copy.componentDisabled = !this.myDateRangePickerOptionsNormal.componentDisabled;
         this.myDateRangePickerOptionsNormal = copy;
     }
@@ -65,5 +65,9 @@ export class SampleDateRangePickerNormal implements OnInit {
             this.selectedTextNormal = '';
             this.border = 'none';
         }
+    }
+
+    onInputFieldChanged(event:any) {
+        console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
     }
 }

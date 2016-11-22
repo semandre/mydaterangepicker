@@ -46,35 +46,7 @@ To install this component to an external project, follow the procedure:
 
     * Optional attributes:
       * [selDateRange]="selectedDateRange"
-
-    * Example of the options data (not all properties listed):
-    ```js
-        myDateRangePickerOptions = {
-            clearBtnTxt: 'Clear',
-            beginDateBtnTxt: 'Begin Date',
-            endDateBtnTxt: 'End Date',
-            acceptBtnTxt: 'OK',
-            dateFormat: 'dd.mm.yyyy',
-            firstDayOfWeek: 'mo',
-            sunHighlight: true,
-            height: '34px',
-            width: '260px',
-            inline: false,
-            selectionTxtFontSize: '15px',
-            alignSelectorRight: false,
-            indicateInvalidDateRange: true,
-            showDateRangeFormatPlaceholder: false
-        };
-    ```
-
-    * Example of the date range changed callback:
-    ```js
-        onDateRangeChanged(event:any) {
-            console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate);
-            console.log('onDateRangeChanged(): Formatted: ', event.formatted);
-            console.log('onDateRangeChanged(): BeginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
-        }
-    ```
+      * (inputFieldChanged)="onInputFieldChanged($event)"
 
 4. If you are using __systemjs__ package loader add the following mydaterangepicker properties to the __System.config__:
     ```js
@@ -128,6 +100,26 @@ To install this component to an external project, follow the procedure:
 | __showDateRangeFormatPlaceholder__   | false | Show value of __dateFormat__ - __dateFormat__ as placeholder in the selection area if it is empty. Can be used if __inline = false__. |
 | __componentDisabled__   | false | Is selection area and buttons disabled or not. Can be used if __inline = false__. |
 
+* Example of the options data (not all properties listed):
+```js
+    myDateRangePickerOptions = {
+        clearBtnTxt: 'Clear',
+        beginDateBtnTxt: 'Begin Date',
+        endDateBtnTxt: 'End Date',
+        acceptBtnTxt: 'OK',
+        dateFormat: 'dd.mm.yyyy',
+        firstDayOfWeek: 'mo',
+        sunHighlight: true,
+        height: '34px',
+        width: '260px',
+        inline: false,
+        selectionTxtFontSize: '15px',
+        alignSelectorRight: false,
+        indicateInvalidDateRange: true,
+        showDateRangeFormatPlaceholder: false
+    };
+```
+
 ### selDateRange attribute
 
 Provide the initially chosen date range that will display both in the text input field
@@ -144,6 +136,38 @@ Value of the __[defaultMonth]__ attribute is a string which contain year number 
 month number separated by delimiter. The delimiter can be any special character.
 For example the value of the __[defaultMonth]__ attribute can be: __2016.08__,
 __08-2016__, __08/2016__.
+
+### dateRangeChanged callback:
+  * called when the date range is selected, removed or input field typing is valid
+  * event parameter:
+    * event.beginDate: Date object in the following format: { day: 22, month: 11, year: 2016 }
+    * event.endDate: Date object in the following format: { day: 23, month: 11, year: 2016 }
+    * event.formatted: Date range string: '2016-11-22 - 2016-11-23'
+    * event.beginEpoc: Epoc time stamp number: 1479765600
+    * event.endEpoc: Epoc time stamp number: 1479852000
+
+  * Example of the dateChanged callback:
+  ```js
+      onDateRangeChanged(event:any) {
+          console.log('onDateRangeChanged(): Begin date: ', event.beginDate, ' End date: ', event.endDate);
+          console.log('onDateRangeChanged(): Formatted: ', event.formatted);
+          console.log('onDateRangeChanged(): BeginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
+      }
+  ```
+
+### inputFieldChanged callback:
+  * called when the value change in the input field
+  * event parameter:
+    * event.value: Value of the input field. For example: '2016-11-22 - 2016-11-23'
+    * event.dateRangeFormat: Date range format string. For example: 'yyyy-mm-dd - yyyy-mm-dd'
+    * event.valid: Boolean value indicating is the typed value valid. For example: true
+
+  * Example of the input field changed callbac:
+  ```js
+  onInputFieldChanged(event:any) {
+    console.log('onInputFieldChanged(): Value: ', event.value, ' - dateFormat: ', event.dateFormat, ' - valid: ', event.valid);
+  }
+  ```
 
 ### Change styles of the component
 

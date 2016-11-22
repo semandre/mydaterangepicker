@@ -9,6 +9,7 @@ export declare class MyDateRangePicker implements OnChanges {
     defaultMonth: string;
     selDateRange: string;
     dateRangeChanged: EventEmitter<Object>;
+    inputFieldChanged: EventEmitter<Object>;
     showSelector: boolean;
     visibleMonth: IMyMonth;
     selectedMonth: IMyMonth;
