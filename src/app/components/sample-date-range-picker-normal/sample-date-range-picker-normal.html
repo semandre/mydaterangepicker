@@ -2,6 +2,6 @@
     <div style="padding:4px;border-radius:4px;margin-top:8px;float:right" [ngStyle]="{border: border}">
         {{selectedTextNormal}}
     </div>
-    <my-date-range-picker [options]="myDateRangePickerOptionsNormal" (dateRangeChanged)="onDateRangeChanged($event)"
+    <my-date-range-picker [options]="myDateRangePickerOptionsNormal" (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)"
                           [selDateRange]="selectedDateRangeNormal"></my-date-range-picker>
 </div>
