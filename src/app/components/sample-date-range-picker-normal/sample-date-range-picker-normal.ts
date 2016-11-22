@@ -51,6 +51,6 @@ export class SampleDateRangePickerNormal implements OnInit {
     }
 
     onInputFieldChanged(event:any) {
-        console.log('onInputFieldChanged(): Value: ', event.value, ' - dateFormat: ', event.dateFormat, ' - valid: ', event.valid);
+        console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
     }
 }
