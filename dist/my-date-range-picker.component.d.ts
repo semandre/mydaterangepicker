@@ -1,3 +1,4 @@
+/// <reference types="core-js" />
 import { EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer } from "@angular/core";
 import { IMyDate, IMyMonth, IMyOptions } from "./interfaces/index";
 import { DateRangeValidatorService } from "./services/my-date-range-picker.date.range.validator.service";
@@ -20,6 +21,7 @@ export declare class MyDateRangePicker implements OnChanges {
     dateRangeFormat: string;
     dayIdx: number;
     today: Date;
+    weekDayOpts: Array<string>;
     editMonth: boolean;
     invalidMonth: boolean;
     editYear: boolean;

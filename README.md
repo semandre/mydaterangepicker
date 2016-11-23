@@ -162,7 +162,7 @@ __08-2016__, __08/2016__.
     * event.dateRangeFormat: Date range format string. For example: 'yyyy-mm-dd - yyyy-mm-dd'
     * event.valid: Boolean value indicating is the typed value valid. For example: true
 
-  * Example of the input field changed callbac:
+  * Example of the input field changed callback:
   ```js
   onInputFieldChanged(event:any) {
     console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);

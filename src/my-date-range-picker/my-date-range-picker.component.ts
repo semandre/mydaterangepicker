@@ -33,6 +33,7 @@ export class MyDateRangePicker implements OnChanges {
     dateRangeFormat: string = "";
     dayIdx: number = 0;
     today: Date = null;
+    weekDayOpts: Array<string> = ["su", "mo", "tu", "we", "th", "fr", "sa"];
 
     editMonth: boolean = false;
     invalidMonth: boolean = false;
@@ -182,13 +183,12 @@ export class MyDateRangePicker implements OnChanges {
 
         this.dateRangeFormat = this.opts.dateFormat + " - " + this.opts.dateFormat;
 
-        let days: Array<string> = ["su", "mo", "tu", "we", "th", "fr", "sa"];
-        this.dayIdx = days.indexOf(this.opts.firstDayOfWeek);
+        this.dayIdx = this.weekDayOpts.indexOf(this.opts.firstDayOfWeek);
         if (this.dayIdx !== -1) {
             let idx: number = this.dayIdx;
-            for (let i = 0; i < days.length; i++) {
-                this.weekDays.push(this.opts.dayLabels[days[idx]]);
-                idx = days[idx] === "sa" ? 0 : idx + 1;
+            for (let i = 0; i < this.weekDayOpts.length; i++) {
+                this.weekDays.push(this.opts.dayLabels[this.weekDayOpts[idx]]);
+                idx = this.weekDayOpts[idx] === "sa" ? 0 : idx + 1;
             }
         }
 
@@ -227,7 +227,7 @@ export class MyDateRangePicker implements OnChanges {
     removeBtnClicked(): void {
         this.clearBtnClicked();
         this.dateRangeChanged.emit({beginDate: {}, endDate: {}, formatted: "", beginEpoc: 0, endEpoc: 0});
-        this.inputFieldChanged.emit({value: '', dateRangeFormat: this.dateRangeFormat, valid: false});
+        this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
         this.invalidDateRange = false;
     }
 

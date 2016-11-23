@@ -19,7 +19,7 @@ module.exports = {
             {
                 test: /\.ts$/,
                 exclude: [/\.spec\.ts$/, /npmdist/],
-                loader: 'ts'
+                loaders: ['awesome-typescript-loader', 'angular2-template-loader']
             },
             {
                 test: /\.html$/,
@@ -50,7 +50,8 @@ module.exports = {
     entry: {
         app: [
             'webpack-dev-server/client?http://localhost:5000',
-            'sampleapp/main'
+            'sampleapp/main',
+            'sampleapp/vendor'
         ]
     },
 
