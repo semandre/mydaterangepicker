@@ -47,6 +47,7 @@ To install this component to an external project, follow the procedure:
     * Optional attributes:
       * [selDateRange]="selectedDateRange"
       * (inputFieldChanged)="onInputFieldChanged($event)"
+      * (calendarViewChanged)="onCalendarViewChanged($event)"
 
 4. If you are using __systemjs__ package loader add the following mydaterangepicker properties to the __System.config__:
     ```js
@@ -80,7 +81,8 @@ To install this component to an external project, follow the procedure:
 | __dayLabels__     | {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'} | Day labels visible on the selector. |
 | __monthLabels__   | { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' } | Month labels visible on the selector. |
 | __dateFormat__    | yyyy-mm-dd      | Date format on the selection area and the callback. For example: dd.mm.yyyy, yyyy-mm-dd, dd mmm yyyy (mmm = Month as a text) |
-| __clearBtnTxt__   | Clear      | Clear selected range button text. |
+| __showClearBtn__   | true      | Show 'Clear' button on calendar. |
+| __clearBtnTxt__   | Clear      | Clear button text. Can be used if __showClearBtn__ = true__. |
 | __beginDateBtnTxt__   | Begin Date      | To begin date button text. |
 | __endDateBtnTxt__   | End Date      | To end date button text. |
 | __acceptBtnTxt__   | OK      | Accept date range button text. |
@@ -88,6 +90,7 @@ To install this component to an external project, follow the procedure:
 | __selectEndDateTxt__   | Select End Date      | Select end date text. |
 | __firstDayOfWeek__   | mo | First day of week on calendar. One of the following: mo, tu, we, th, fr, sa, su |
 | __sunHighlight__   | true | Sunday red colored on calendar. |
+| __markCurrentDay__   | true | Is current day (today) marked on calendar. |
 | __editableMonthAndYear__   | true | Is month and year labels editable or not. |
 | __minYear__   | 1000 | Minimum allowed year in calendar. Cannot be less than 1000. |
 | __maxYear__   | 9999 | Maximum allowed year in calendar. Cannot be more than 9999. |
@@ -99,6 +102,7 @@ To install this component to an external project, follow the procedure:
 | __indicateInvalidDateRange__   | true | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
 | __showDateRangeFormatPlaceholder__   | false | Show value of __dateFormat__ - __dateFormat__ as placeholder in the selection area if it is empty. Can be used if __inline = false__. |
 | __componentDisabled__   | false | Is selection area and buttons disabled or not. Can be used if __inline = false__. |
+| __editableDateRangeField__   | true | Is selected date range field editable or not. Can be used if __inline = false__. |
 
 * Example of the options data (not all properties listed):
 ```js
@@ -166,6 +170,22 @@ __08-2016__, __08/2016__.
   ```js
   onInputFieldChanged(event:any) {
     console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
+  }
+  ```
+
+### calendarViewChanged callback:
+  * called when the calendar view change (year or month change)
+  * event parameter:
+    * event.year: Year number in calendar. For example: 2016
+    * event.month: Month number in calendar. For example: 11
+    * event.first: First day of selected month and year. Object which contain day number and weekday string. For example: {number: 1, weekday: "tu"}
+    * event.last: Last day of selected month and year. Object which contain day number and weekday string. For example: {number: 30, weekday: "we"}
+  * values of the weekday property are same as values of the __firstDayOfWeek__ option
+
+  * Example of the calendar view changed callback:
+  ```js
+  onCalendarViewChanged(event:any) {
+    console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
   }
   ```
 

@@ -18,6 +18,7 @@ var MyDateRangePicker = (function () {
         this.dateValidatorRangeService = dateValidatorRangeService;
         this.dateRangeChanged = new core_1.EventEmitter();
         this.inputFieldChanged = new core_1.EventEmitter();
+        this.calendarViewChanged = new core_1.EventEmitter();
         this.showSelector = false;
         this.visibleMonth = { monthTxt: "", monthNbr: 0, year: 0 };
         this.selectedMonth = { monthTxt: "", monthNbr: 0, year: 0 };
@@ -27,7 +28,6 @@ var MyDateRangePicker = (function () {
         this.invalidDateRange = false;
         this.dateRangeFormat = "";
         this.dayIdx = 0;
-        this.today = null;
         this.weekDayOpts = ["su", "mo", "tu", "we", "th", "fr", "sa"];
         this.editMonth = false;
         this.invalidMonth = false;
@@ -45,6 +45,7 @@ var MyDateRangePicker = (function () {
             dayLabels: { su: "Sun", mo: "Mon", tu: "Tue", we: "Wed", th: "Thu", fr: "Fri", sa: "Sat" },
             monthLabels: { 1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec" },
             dateFormat: "yyyy-mm-dd",
+            showClearBtn: true,
             clearBtnTxt: "Clear",
             beginDateBtnTxt: "Begin Date",
             endDateBtnTxt: "End Date",
@@ -53,6 +54,7 @@ var MyDateRangePicker = (function () {
             selectEndDateTxt: "Select End Date",
             firstDayOfWeek: "mo",
             sunHighlight: true,
+            markCurrentDay: true,
             height: "34px",
             width: "262px",
             inline: false,
@@ -60,12 +62,12 @@ var MyDateRangePicker = (function () {
             alignSelectorRight: false,
             indicateInvalidDateRange: true,
             showDateRangeFormatPlaceholder: false,
+            editableDateRangeField: true,
             editableMonthAndYear: true,
             minYear: 1000,
             maxYear: 9999,
             componentDisabled: false
         };
-        this.today = new Date();
         renderer.listenGlobal("document", "click", function (event) {
             if (_this.showSelector && event.target && _this.elem.nativeElement !== event.target && !_this.elem.nativeElement.contains(event.target)) {
                 _this.showSelector = false;
@@ -96,7 +98,7 @@ var MyDateRangePicker = (function () {
     MyDateRangePicker.prototype.userDateRangeInput = function (event) {
         this.invalidDateRange = false;
         if (event.target.value.length === 0) {
-            this.removeBtnClicked();
+            this.clearDateRange();
         }
         else {
             var daterange = this.dateValidatorRangeService.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.monthLabels);
@@ -165,9 +167,6 @@ var MyDateRangePicker = (function () {
                 idx = this.weekDayOpts[idx] === "sa" ? 0 : idx + 1;
             }
         }
-        if (this.opts.inline) {
-            this.openBtnClicked();
-        }
     };
     MyDateRangePicker.prototype.ngOnChanges = function (changes) {
         if (changes.hasOwnProperty("options")) {
@@ -189,37 +188,47 @@ var MyDateRangePicker = (function () {
                 }
             }
             else {
-                this.removeBtnClicked();
+                this.clearDateRange();
             }
+        }
+        if (this.opts.inline) {
+            this.setVisibleMonth();
         }
     };
     MyDateRangePicker.prototype.removeBtnClicked = function () {
+        this.clearDateRange();
+    };
+    MyDateRangePicker.prototype.openBtnClicked = function () {
+        this.showSelector = !this.showSelector;
+        if (this.showSelector) {
+            this.setVisibleMonth();
+        }
+    };
+    MyDateRangePicker.prototype.setVisibleMonth = function () {
+        this.isBeginDate = true;
+        if (this.beginDate.year !== 0 && this.beginDate.month !== 0 && this.beginDate.day !== 0) {
+            this.toBeginDate();
+        }
+        else {
+            var y = 0, m = 0;
+            if (this.selectedMonth.year === 0 && this.selectedMonth.monthNbr === 0) {
+                var today = this.getToday();
+                y = today.year;
+                m = today.month;
+            }
+            else {
+                y = this.selectedMonth.year;
+                m = this.selectedMonth.monthNbr;
+            }
+            this.visibleMonth = { monthTxt: this.opts.monthLabels[m], monthNbr: m, year: y };
+            this.generateCalendar(m, y);
+        }
+    };
+    MyDateRangePicker.prototype.clearDateRange = function () {
         this.clearBtnClicked();
         this.dateRangeChanged.emit({ beginDate: {}, endDate: {}, formatted: "", beginEpoc: 0, endEpoc: 0 });
         this.inputFieldChanged.emit({ value: "", dateRangeFormat: this.dateRangeFormat, valid: false });
         this.invalidDateRange = false;
-    };
-    MyDateRangePicker.prototype.openBtnClicked = function () {
-        this.showSelector = !this.showSelector;
-        if (this.showSelector || this.opts.inline) {
-            this.isBeginDate = true;
-            if (this.beginDate.year !== 0 && this.beginDate.month !== 0 && this.beginDate.day !== 0) {
-                this.toBeginDate();
-            }
-            else {
-                var y = 0, m = 0;
-                if (this.selectedMonth.year === 0 && this.selectedMonth.monthNbr === 0) {
-                    y = this.today.getFullYear();
-                    m = this.today.getMonth() + 1;
-                }
-                else {
-                    y = this.selectedMonth.year;
-                    m = this.selectedMonth.monthNbr;
-                }
-                this.visibleMonth = { monthTxt: this.opts.monthLabels[m], monthNbr: m, year: y };
-                this.generateCalendar(m, y);
-            }
-        }
     };
     MyDateRangePicker.prototype.prevMonth = function () {
         var d = this.getDate(this.visibleMonth.year, this.visibleMonth.monthNbr, 1);
@@ -273,11 +282,7 @@ var MyDateRangePicker = (function () {
         this.disableSince = { year: 0, month: 0, day: 0 };
         this.disableUntil = this.getPreviousDate(this.beginDate);
         if (this.endDate.year === 0 && this.endDate.month === 0 && this.endDate.day === 0) {
-            this.visibleMonth = {
-                monthTxt: this.monthText(this.beginDate.month),
-                monthNbr: this.beginDate.month,
-                year: this.beginDate.year
-            };
+            this.visibleMonth = { monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year };
             this.generateCalendar(this.beginDate.month, this.beginDate.year);
         }
         else {
@@ -295,11 +300,7 @@ var MyDateRangePicker = (function () {
         if (this.endDate.year !== 0 && this.endDate.month !== 0 && this.endDate.day !== 0) {
             this.disableSince = this.getNextDate(this.endDate);
         }
-        this.visibleMonth = {
-            monthTxt: this.monthText(this.beginDate.month),
-            monthNbr: this.beginDate.month,
-            year: this.beginDate.year
-        };
+        this.visibleMonth = { monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year };
         this.generateCalendar(this.beginDate.month, this.beginDate.year);
     };
     MyDateRangePicker.prototype.rangeSelected = function () {
@@ -309,13 +310,7 @@ var MyDateRangePicker = (function () {
         this.showSelector = false;
         var bEpoc = this.getTimeInMilliseconds(this.beginDate) / 1000.0;
         var eEpoc = this.getTimeInMilliseconds(this.endDate) / 1000.0;
-        this.dateRangeChanged.emit({
-            beginDate: this.beginDate,
-            endDate: this.endDate,
-            formatted: this.selectionDayTxt,
-            beginEpoc: bEpoc,
-            endEpoc: eEpoc
-        });
+        this.dateRangeChanged.emit({ beginDate: this.beginDate, endDate: this.endDate, formatted: this.selectionDayTxt, beginEpoc: bEpoc, endEpoc: eEpoc });
         this.inputFieldChanged.emit({ value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true });
         this.invalidDateRange = false;
     };
@@ -363,8 +358,8 @@ var MyDateRangePicker = (function () {
         d.setMonth(d.getMonth() - 1);
         return this.daysInMonth(d.getMonth() + 1, d.getFullYear());
     };
-    MyDateRangePicker.prototype.isCurrDay = function (d, m, y, cmo) {
-        return d === this.today.getDate() && m === this.today.getMonth() + 1 && y === this.today.getFullYear() && cmo === 2;
+    MyDateRangePicker.prototype.isCurrDay = function (d, m, y, cmo, today) {
+        return d === today.day && m === today.month && y === today.year && cmo === this.CURR_MONTH;
     };
     MyDateRangePicker.prototype.isDisabledDay = function (date) {
         var givenDate = this.getTimeInMilliseconds(date);
@@ -393,14 +388,22 @@ var MyDateRangePicker = (function () {
         var d = this.getDate(date.year, date.month, date.day);
         return d.getDay();
     };
+    MyDateRangePicker.prototype.getWeekday = function (date) {
+        return this.weekDayOpts[this.getDayNumber(date)];
+    };
     MyDateRangePicker.prototype.getDate = function (year, month, day) {
         return new Date(year, month - 1, day, 0, 0, 0, 0);
+    };
+    MyDateRangePicker.prototype.getToday = function () {
+        var date = new Date();
+        return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
     };
     MyDateRangePicker.prototype.sundayIdx = function () {
         return this.dayIdx > 0 ? 7 - this.dayIdx : 0;
     };
     MyDateRangePicker.prototype.generateCalendar = function (m, y) {
         this.dates.length = 0;
+        var today = this.getToday();
         var monthStart = this.monthStartIdx(y, m);
         var dInThisM = this.daysInMonth(m, y);
         var dInPrevM = this.daysInPrevMonth(m, y);
@@ -412,13 +415,13 @@ var MyDateRangePicker = (function () {
                 var pm = dInPrevM - monthStart + 1;
                 for (var j = pm; j <= dInPrevM; j++) {
                     var date = { year: y, month: m - 1, day: j };
-                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
+                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
                 }
                 cmo = this.CURR_MONTH;
                 var daysLeft = 7 - week.length;
                 for (var j = 0; j < daysLeft; j++) {
                     var date = { year: y, month: m, day: dayNbr };
-                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
+                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
                     dayNbr++;
                 }
             }
@@ -429,12 +432,13 @@ var MyDateRangePicker = (function () {
                         cmo = this.NEXT_MONTH;
                     }
                     var date = { year: y, month: cmo === this.CURR_MONTH ? m : m + 1, day: dayNbr };
-                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
+                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
                     dayNbr++;
                 }
             }
             this.dates.push(week);
         }
+        this.calendarViewChanged.emit({ year: y, month: m, first: { number: 1, weekday: this.getWeekday({ year: y, month: m, day: 1 }) }, last: { number: dInThisM, weekday: this.getWeekday({ year: y, month: m, day: dInThisM }) } });
     };
     MyDateRangePicker.prototype.parseSelectedDate = function (ds) {
         var date = { day: 0, month: 0, year: 0 };
@@ -470,11 +474,15 @@ var MyDateRangePicker = (function () {
         core_1.Output(), 
         __metadata('design:type', core_1.EventEmitter)
     ], MyDateRangePicker.prototype, "inputFieldChanged", void 0);
+    __decorate([
+        core_1.Output(), 
+        __metadata('design:type', core_1.EventEmitter)
+    ], MyDateRangePicker.prototype, "calendarViewChanged", void 0);
     MyDateRangePicker = __decorate([
         core_1.Component({
             selector: "my-date-range-picker",
             styles: [".mydrp{min-width:100px;border-radius:2px;line-height:1.1;display:inline-block;position:relative}.mydrp *{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;padding:0;margin:0}.mydrp .selector{margin-top:2px;margin-left:-1px;position:absolute;width:262px;padding:3px;border-radius:2px;background-color:#DDD;z-index:100}.mydrp .alignselectorright{right:-1px}.mydrp .selectiongroup{position:relative;display:table;border:none;background-color:#FFF}.mydrp .selection{background-color:#FFF;display:table-cell;position:absolute;width:100%;font-size:14px;font-weight:700;padding:0 64px 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}.mydrp .invaliddaterange,.mydrp .invalidmonth,.mydrp .invalidyear{background-color:#F1DEDE}.mydrp ::-ms-clear{display:none}.mydrp .headerbtn,.mydrp .selbtngroup{display:table-cell;vertical-align:middle}.mydrp .selbtngroup{position:relative;white-space:nowrap;width:1%;text-align:right;font-size:0}.mydrp .btnclear,.mydrp .btnpicker{height:100%;width:30px;border:none;border-left:1px solid #AAA;padding:0;cursor:pointer;outline:0;font:inherit;-moz-user-select:none}.mydrp .btnclearenabled,.mydrp .btnpickerenabled{cursor:pointer}.mydrp .btncleardisabled,.mydrp .btnpickerdisabled{cursor:not-allowed}.mydrp .btnclear,.mydrp .btnpicker,.mydrp .footerbtn,.mydrp .headerclearbtn{background:#FFF}.mydrp .header{width:100%;height:34px;margin-bottom:1px;background-color:#FAFAFA}.mydrp .header td{vertical-align:middle;border:none}.mydrp .currday div,.mydrp .selectedday{border:1px solid #004198}.mydrp .header td:nth-child(1){font-size:16px;padding-left:4px}.mydrp .header td:nth-child(2){text-align:center}.mydrp .header td:nth-child(3){font-size:16px;padding-right:4px}.mydrp .titlearea{text-align:center;background-color:#FFF;margin-bottom:4px}.mydrp .titleareatxt{height:26px;line-height:26px;font-size:12px;font-weight:700}.mydrp .inline{position:relative}.mydrp .caltable{table-layout:fixed;width:100%;background-color:#FFF;font-size:14px}.mydrp .caltable,.mydrp .daycell,.mydrp .weekdaytitle{border-collapse:collapse;color:#036;line-height:1.1}.mydrp .daycell,.mydrp .weekdaytitle{padding:5px;text-align:center}.mydrp .weekdaytitle{background-color:#DDD;font-size:12px;font-weight:700;vertical-align:middle}.mydrp .daycell{cursor:pointer;height:30px}.mydrp .nextmonth,.mydrp .prevmonth{color:#444}.mydrp .disabled{cursor:default!important;color:#444!important;background:#FBEFEF!important}.mydrp .sunday{color:#C30000}.mydrp .sundayDim{opacity:.5}.mydrp .currmonth{background-color:#F6F6F6;font-weight:700}.mydrp .range{background:#D9F2E6}.mydrp .selectedday{background-color:#8EBFFF!important;border-radius:0}.mydrp .selecteddaygreen{background-color:#28A828!important}.mydrp .selectmenu{height:24px;width:60px}.mydrp .headerbtn{background-color:#FAFAFA;cursor:pointer}.mydrp,.mydrp .footerbtn,.mydrp .headerclearbtn,.mydrp .monthinput,.mydrp .yearinput{border:1px solid #AAA}.mydrp .caltable tbody,.mydrp .footerarea,.mydrp .header,.mydrp .selector,.mydrp .titlearea{border:1px solid #DDD}.mydrp .btnclear,.mydrp .btnpicker,.mydrp .footerbtn,.mydrp .headerbtn,.mydrp .headerclearbtn,.mydrp .headermonthtxt,.mydrp .headeryeartxt,.mydrp .monthinput,.mydrp .selection,.mydrp .yearinput{color:#000}.mydrp .footerbtn,.mydrp .headerclearbtn{padding:4px;border-radius:2px;cursor:pointer;font-size:11px;min-width:60px}.mydrp .headerclearbtn{min-width:60px}.mydrp .footerbtn{min-width:80px}.mydrp .btndisable{cursor:default;opacity:.5}.mydrp .footerarea{margin-top:4px;padding:3px;text-align:center;background-color:#FAFAFA}.mydrp button::-moz-focus-inner{border:0}.mydrp .headermonthtxt,.mydrp .headeryeartxt{min-width:40px;text-align:center;display:table-cell;vertical-align:middle;font-size:14px}.mydrp .headermonthtxt span,.mydrp .headeryeartxt span{vertical-align:middle}.mydrp .btnclear:focus,.mydrp .btnpicker:focus{background:#ADD8E6}.mydrp .icon-calendar,.mydrp .icon-cross{font-size:16px}.mydrp .icon-left,.mydrp .icon-right{color:#222;font-size:16px;vertical-align:middle}.mydrp table{display:table}.mydrp table td{padding:0}.mydrp table,.mydrp td,.mydrp th{border:none}.mydrp .btnclearenabled:hover,.mydrp .btnpickerenabled:hover,.mydrp .caltable tbody tr td:hover,.mydrp .footerbtnenabled:hover,.mydrp .headerclearbtnenabled:hover{background-color:#8BDAF4}.mydrp .monthlabel,.mydrp .yearlabel{cursor:pointer}.mydrp .monthinput,.mydrp .yearinput{width:40px;height:22px;text-align:center;font-weight:700;outline:0;border-radius:2px}.mydrp .headerbtn span:hover{color:#8BDAF4}.mydrp .monthlabel:hover,.mydrp .yearlabel:hover{color:#8BDAF4;font-weight:700}@font-face{font-family:mydaterangepicker;src:url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SAssAAAC8AAAAYGNtYXDMUczTAAABHAAAAGxnYXNwAAAAEAAAAYgAAAAIZ2x5ZmFQ1q4AAAGQAAABbGhlYWQGZuTFAAAC/AAAADZoaGVhB4IDyQAAAzQAAAAkaG10eBYAAnAAAANYAAAAIGxvY2EBdAE0AAADeAAAABJtYXhwABUAPgAAA4wAAAAgbmFtZQ5R9RkAAAOsAAABnnBvc3QAAwAAAAAFTAAAACAAAwOaAZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADmBwPA/8AAQAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAADAAAAAwAAABwAAQADAAAAHAADAAEAAAAcAAQAUAAAABAAEAADAAAAAQAg5gDmAuYF5gf//f//AAAAAAAg5gDmAuYF5gf//f//AAH/4xoEGgMaARoAAAMAAQAAAAAAAAAAAAAAAAAAAAAAAQAB//8ADwABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAAMAEAAAAPAA4AABAAJAA4AEwAYAB0AIgAnACwAMQA2ADsAABMRMxEjFyE1IRUDITUhFQERMxEjJRUzNSMTFTM1IzMVMzUjMxUzNSMBFTM1IzMVMzUjMxUzNSMTFTM1I0Bzc0ADAP0AQAOA/IADDXNz/ZOAgCCAgMCAgMCAgP6AgIDAgIDAgIAggIADAP1AAsBzc3P9c3NzAwD9QALAgMDA/sCAgICAgID/AICAgICAgAJAwMAAAAAAAgBwADADkANQAAQACQAANwEnARcDATcBB+kCp3n9WXl5Aqd5/Vl5MAKnef1ZeQKn/Vl5Aqd5AAABAOAAAAMgA4AAAwAAAQMBJQMgA/3DASADgPyAAcPfAAEA4AAAAyADgAADAAA3EwEF4AMCPf7gAAOA/j3fAAAAAQAAAAEAAF0/BsNfDzz1AAsEAAAAAADRxFAkAAAAANHEUCQAAAAAA8ADgAAAAAgAAgAAAAAAAAABAAADwP/AAAAEAAAAAAADwAABAAAAAAAAAAAAAAAAAAAACAQAAAAAAAAAAAAAAAIAAAAEAABABAAAcAQAAOAEAADgAAAAAAAKABQAHgB6AJYApgC2AAAAAQAAAAgAPAAMAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA4ArgABAAAAAAABAAkAAAABAAAAAAACAAcAcgABAAAAAAADAAkAPAABAAAAAAAEAAkAhwABAAAAAAAFAAsAGwABAAAAAAAGAAkAVwABAAAAAAAKABoAogADAAEECQABABIACQADAAEECQACAA4AeQADAAEECQADABIARQADAAEECQAEABIAkAADAAEECQAFABYAJgADAAEECQAGABIAYAADAAEECQAKADQAvHZzZHBpY2tlcgB2AHMAZABwAGkAYwBrAGUAclZlcnNpb24gMS4wAFYAZQByAHMAaQBvAG4AIAAxAC4AMHZzZHBpY2tlcgB2AHMAZABwAGkAYwBrAGUAcnZzZHBpY2tlcgB2AHMAZABwAGkAYwBrAGUAclJlZ3VsYXIAUgBlAGcAdQBsAGEAcnZzZHBpY2tlcgB2AHMAZABwAGkAYwBrAGUAckZvbnQgZ2VuZXJhdGVkIGJ5IEljb01vb24uAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAGIAeQAgAEkAYwBvAE0AbwBvAG4ALgAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=) format('truetype');font-weight:400;font-style:normal}.mydrp .icon{font-family:mydaterangepicker;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.mydrp .icon-calendar:before{content:\"\\e600\"}.mydrp .icon-cross:before{content:\"\\e602\"}.mydrp .icon-left:before{content:\"\\e605\"}.mydrp .icon-right:before{content:\"\\e607\"}"],
-            template: "<div class=\"mydrp\" [ngStyle]=\"{'width': opts.width, 'border': opts.inline ? 'none' : '1px solid #AAA'}\"><div class=\"selectiongroup\" *ngIf=\"!opts.inline\"><input type=\"text\" class=\"selection\" [attr.maxlength]=\"dateRangeFormat.length\" [ngClass]=\"{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}\" placeholder=\"{{opts.showDateRangeFormatPlaceholder?dateRangeFormat:''}}\" [ngStyle]=\"{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0 ? '60px' : '30px'}\" (keyup)=\"userDateRangeInput($event)\" [value]=\"selectionDayTxt\" [readonly]=\"opts.componentDisabled\"> <span class=\"selbtngroup\" [style.height]=\"opts.height\"><button type=\"button\" class=\"btnclear\" *ngIf=\"selectionDayTxt.length>0\" (click)=\"removeBtnClicked()\" [ngClass]=\"{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}\" [disabled]=\"opts.componentDisabled\"><span class=\"icon icon-cross\" [ngStyle]=\"{'line-height': opts.height}\"></span></button> <button type=\"button\" class=\"btnpicker\" (click)=\"openBtnClicked()\" [ngClass]=\"{'btnpickerenabled': !opts.componentDisabled, 'btnpickerdisabled': opts.componentDisabled}\" [disabled]=\"opts.componentDisabled\"><span class=\"icon icon-calendar\" [ngStyle]=\"{'line-height': opts.height}\"></span></button></span></div><div class=\"selector\" *ngIf=\"showSelector||opts.inline\" [ngClass]=\"{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight}\"><div class=\"titlearea\"><div class=\"titleareatxt\">{{isBeginDate?opts.selectBeginDateTxt:opts.selectEndDateTxt}}</div></div><table class=\"header\"><tr><td><div style=\"float:left\"><div class=\"headerbtn\" (click)=\"prevMonth()\"><span class=\"icon icon-left\"></span></div><div class=\"headermonthtxt\"><input type=\"text\" *ngIf=\"editMonth\" class=\"monthinput\" maxlength=\"4\" [inputFocus] [value]=\"visibleMonth.monthTxt\" (keyup)=\"userMonthInput($event)\" (click)=\"$event.stopPropagation()\" [ngClass]=\"{'invalidmonth': invalidMonth}\"> <span [ngClass]=\"{'monthlabel': opts.editableMonthAndYear}\" *ngIf=\"!editMonth\" (click)=\"editMonthClicked($event)\">{{visibleMonth.monthTxt}}</span></div><div class=\"headerbtn\" (click)=\"nextMonth()\"><span class=\"icon icon-right\"></span></div></div></td><td><button type=\"button\" class=\"headerclearbtn\" [disabled]=\"beginDate.year===0&&endDate.year===0\" [ngClass]=\"{'btndisable':beginDate.year===0&&endDate.year===0, 'headerclearbtnenabled':beginDate.year!==0||endDate.year!==0}\" (click)=\"clearBtnClicked()\">{{opts.clearBtnTxt}}</button></td><td><div style=\"float:right\"><div class=\"headerbtn\" (click)=\"prevYear()\"><span class=\"icon icon-left\"></span></div><div class=\"headeryeartxt\"><input type=\"text\" *ngIf=\"editYear\" class=\"yearinput\" maxlength=\"4\" [inputFocus] [value]=\"visibleMonth.year\" (keyup)=\"userYearInput($event)\" (click)=\"$event.stopPropagation()\" [ngClass]=\"{'invalidyear': invalidYear}\"> <span [ngClass]=\"{'yearlabel': opts.editableMonthAndYear}\" *ngIf=\"!editYear\" (click)=\"editYearClicked($event)\">{{visibleMonth.year}}</span></div><div class=\"headerbtn\" (click)=\"nextYear()\"><span class=\"icon icon-right\"></span></div></div></td></tr></table><table class=\"caltable\"><thead><tr><th class=\"weekdaytitle\" *ngFor=\"let d of weekDays\">{{d}}</th></tr></thead><tbody><tr *ngFor=\"let w of dates\"><td class=\"daycell\" *ngFor=\"let d of w\" [ngClass]=\"{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'currday':d.currDay, 'range': isInRange(d), 'disabled': d.disabled}\" (click)=\"$event.stopPropagation(); !d.disabled && cellClicked(d)\"><div style=\"background-color:inherit\" [ngClass]=\"{'prevmonth':d.cmo===PREV_MONTH, 'selectedday':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year, 'currmonth':d.cmo===CURR_MONTH, 'nextmonth':d.cmo===NEXT_MONTH, 'selecteddaygreen':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year&&isBeginDate&&isRangeSelected()||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year&&!isBeginDate&&isRangeSelected(), 'sunday':d.dayNbr===0&&opts.sunHighlight}\"><span [ngClass]=\"{'sundayDim': opts.sunHighlight && d.dayNbr === 0 && (d.cmo===PREV_MONTH || d.cmo===NEXT_MONTH || d.disabled)}\">{{d.dateObj.day}}</span></div></td></tr></tbody></table><div class=\"footerarea\"><button type=\"button\" class=\"footerbtn\" *ngIf=\"isBeginDate\" [disabled]=\"beginDate.year===0\" [ngClass]=\"{'btndisable':beginDate.year===0,'footerbtnenabled': beginDate.year!==0}\" (click)=\"$event.stopPropagation();toEndDate($event)\">{{opts.endDateBtnTxt}}</button> <button type=\"button\" class=\"footerbtn footerbtnenabled\" *ngIf=\"!isBeginDate\" (click)=\"$event.stopPropagation();toBeginDate($event)\">{{opts.beginDateBtnTxt}}</button> <button type=\"button\" class=\"footerbtn\" *ngIf=\"!isBeginDate||endDate.year!==0\" [disabled]=\"endDate.year===0\" [ngClass]=\"{'btndisable':endDate.year===0, 'footerbtnenabled': endDate.year!==0}\" (click)=\"$event.stopPropagation();rangeSelected()\">{{opts.acceptBtnTxt}}</button></div></div></div>",
+            template: "<div class=\"mydrp\" [ngStyle]=\"{'width': opts.width, 'border': opts.inline ? 'none' : '1px solid #AAA'}\"><div class=\"selectiongroup\" *ngIf=\"!opts.inline\"><input type=\"text\" class=\"selection\" [attr.maxlength]=\"dateRangeFormat.length\" [ngClass]=\"{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}\" placeholder=\"{{opts.showDateRangeFormatPlaceholder?dateRangeFormat:''}}\" [ngStyle]=\"{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0 ? '60px' : '30px'}\" (keyup)=\"userDateRangeInput($event)\" [value]=\"selectionDayTxt\" [disabled]=\"opts.componentDisabled\" [readonly]=\"!opts.editableDateRangeField\"> <span class=\"selbtngroup\" [style.height]=\"opts.height\"><button type=\"button\" class=\"btnclear\" *ngIf=\"selectionDayTxt.length>0\" (click)=\"removeBtnClicked()\" [ngClass]=\"{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}\" [disabled]=\"opts.componentDisabled\"><span class=\"icon icon-cross\" [ngStyle]=\"{'line-height': opts.height}\"></span></button> <button type=\"button\" class=\"btnpicker\" (click)=\"openBtnClicked()\" [ngClass]=\"{'btnpickerenabled': !opts.componentDisabled, 'btnpickerdisabled': opts.componentDisabled}\" [disabled]=\"opts.componentDisabled\"><span class=\"icon icon-calendar\" [ngStyle]=\"{'line-height': opts.height}\"></span></button></span></div><div class=\"selector\" *ngIf=\"showSelector||opts.inline\" [ngClass]=\"{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight}\"><div class=\"titlearea\"><div class=\"titleareatxt\">{{isBeginDate?opts.selectBeginDateTxt:opts.selectEndDateTxt}}</div></div><table class=\"header\"><tr><td><div style=\"float:left\"><div class=\"headerbtn\" (click)=\"prevMonth()\"><span class=\"icon icon-left\"></span></div><div class=\"headermonthtxt\"><input type=\"text\" *ngIf=\"editMonth\" class=\"monthinput\" maxlength=\"4\" inputFocus [value]=\"visibleMonth.monthTxt\" (keyup)=\"userMonthInput($event)\" (click)=\"$event.stopPropagation()\" [ngClass]=\"{'invalidmonth': invalidMonth}\"> <span [ngClass]=\"{'monthlabel': opts.editableMonthAndYear}\" *ngIf=\"!editMonth\" (click)=\"editMonthClicked($event)\">{{visibleMonth.monthTxt}}</span></div><div class=\"headerbtn\" (click)=\"nextMonth()\"><span class=\"icon icon-right\"></span></div></div></td><td *ngIf=\"opts.showClearBtn\"><button type=\"button\" class=\"headerclearbtn\" [disabled]=\"beginDate.year===0&&endDate.year===0\" [ngClass]=\"{'btndisable':beginDate.year===0&&endDate.year===0, 'headerclearbtnenabled':beginDate.year!==0||endDate.year!==0}\" (click)=\"clearBtnClicked()\">{{opts.clearBtnTxt}}</button></td><td><div style=\"float:right\"><div class=\"headerbtn\" (click)=\"prevYear()\"><span class=\"icon icon-left\"></span></div><div class=\"headeryeartxt\"><input type=\"text\" *ngIf=\"editYear\" class=\"yearinput\" maxlength=\"4\" inputFocus [value]=\"visibleMonth.year\" (keyup)=\"userYearInput($event)\" (click)=\"$event.stopPropagation()\" [ngClass]=\"{'invalidyear': invalidYear}\"> <span [ngClass]=\"{'yearlabel': opts.editableMonthAndYear}\" *ngIf=\"!editYear\" (click)=\"editYearClicked($event)\">{{visibleMonth.year}}</span></div><div class=\"headerbtn\" (click)=\"nextYear()\"><span class=\"icon icon-right\"></span></div></div></td></tr></table><table class=\"caltable\"><thead><tr><th class=\"weekdaytitle\" *ngFor=\"let d of weekDays\">{{d}}</th></tr></thead><tbody><tr *ngFor=\"let w of dates\"><td class=\"daycell\" *ngFor=\"let d of w\" [ngClass]=\"{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'currday':d.currDay&&opts.markCurrentDay, 'range': isInRange(d), 'disabled': d.disabled}\" (click)=\"$event.stopPropagation(); !d.disabled && cellClicked(d)\"><div style=\"background-color:inherit\" [ngClass]=\"{'prevmonth':d.cmo===PREV_MONTH, 'selectedday':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year, 'currmonth':d.cmo===CURR_MONTH, 'nextmonth':d.cmo===NEXT_MONTH, 'selecteddaygreen':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year&&isBeginDate&&isRangeSelected()||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year&&!isBeginDate&&isRangeSelected(), 'sunday':d.dayNbr===0&&opts.sunHighlight}\"><span [ngClass]=\"{'sundayDim': opts.sunHighlight && d.dayNbr === 0 && (d.cmo===PREV_MONTH || d.cmo===NEXT_MONTH || d.disabled)}\">{{d.dateObj.day}}</span></div></td></tr></tbody></table><div class=\"footerarea\"><button type=\"button\" class=\"footerbtn\" *ngIf=\"isBeginDate\" [disabled]=\"beginDate.year===0\" [ngClass]=\"{'btndisable':beginDate.year===0,'footerbtnenabled': beginDate.year!==0}\" (click)=\"$event.stopPropagation();toEndDate($event)\">{{opts.endDateBtnTxt}}</button> <button type=\"button\" class=\"footerbtn footerbtnenabled\" *ngIf=\"!isBeginDate\" (click)=\"$event.stopPropagation();toBeginDate($event)\">{{opts.beginDateBtnTxt}}</button> <button type=\"button\" class=\"footerbtn\" *ngIf=\"!isBeginDate||endDate.year!==0\" [disabled]=\"endDate.year===0\" [ngClass]=\"{'btndisable':endDate.year===0, 'footerbtnenabled': endDate.year!==0}\" (click)=\"$event.stopPropagation();rangeSelected()\">{{opts.acceptBtnTxt}}</button></div></div></div>",
             providers: [my_date_range_picker_date_range_validator_service_1.DateRangeValidatorService],
             encapsulation: core_1.ViewEncapsulation.None
         }), 

@@ -11,6 +11,7 @@ export declare class MyDateRangePicker implements OnChanges {
     selDateRange: string;
     dateRangeChanged: EventEmitter<Object>;
     inputFieldChanged: EventEmitter<Object>;
+    calendarViewChanged: EventEmitter<Object>;
     showSelector: boolean;
     visibleMonth: IMyMonth;
     selectedMonth: IMyMonth;
@@ -20,7 +21,6 @@ export declare class MyDateRangePicker implements OnChanges {
     invalidDateRange: boolean;
     dateRangeFormat: string;
     dayIdx: number;
-    today: Date;
     weekDayOpts: Array<string>;
     editMonth: boolean;
     invalidMonth: boolean;
@@ -46,6 +46,8 @@ export declare class MyDateRangePicker implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void;
     removeBtnClicked(): void;
     openBtnClicked(): void;
+    setVisibleMonth(): void;
+    clearDateRange(): void;
     prevMonth(): void;
     nextMonth(): void;
     prevYear(): void;
@@ -63,13 +65,15 @@ export declare class MyDateRangePicker implements OnChanges {
     monthStartIdx(y: number, m: number): number;
     daysInMonth(m: number, y: number): number;
     daysInPrevMonth(m: number, y: number): number;
-    isCurrDay(d: number, m: number, y: number, cmo: any): boolean;
+    isCurrDay(d: number, m: number, y: number, cmo: number, today: IMyDate): boolean;
     isDisabledDay(date: IMyDate): boolean;
     getPreviousDate(date: IMyDate): IMyDate;
     getNextDate(date: IMyDate): IMyDate;
     getTimeInMilliseconds(date: IMyDate): number;
     getDayNumber(date: IMyDate): number;
+    getWeekday(date: IMyDate): string;
     getDate(year: number, month: number, day: number): Date;
+    getToday(): IMyDate;
     sundayIdx(): number;
     generateCalendar(m: number, y: number): void;
     parseSelectedDate(ds: string): IMyDate;

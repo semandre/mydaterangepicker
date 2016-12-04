@@ -779,6 +779,46 @@ describe('MyDateRangePicker', () => {
         expect(comp.invalidDateRange).toBe(false);
     });
 
+    it('options - show clear button', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        let headerclearbtn = getElement('.headerclearbtn');
+        expect(headerclearbtn).not.toBe(null);
+
+        btnpicker.nativeElement.click();
+
+        comp.options = {showClearBtn: false};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        headerclearbtn = getElement('.headerclearbtn');
+        expect(headerclearbtn).toBe(null);
+
+        btnpicker.nativeElement.click();
+
+        comp.options = {showClearBtn: true};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        headerclearbtn = getElement('.headerclearbtn');
+        expect(headerclearbtn).not.toBe(null);
+    });
+
     it('options - clear button text', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
         comp.options = {
@@ -995,6 +1035,35 @@ describe('MyDateRangePicker', () => {
         fixture.detectChanges();
         sunday = getElements('.sunday');
         expect(sunday.length).toBe(0);
+    });
+
+    it('options - current day marked', () => {
+        comp.options = {markCurrentDay: true};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        let currday = getElement('.currday');
+        expect(currday).not.toBe(null);
+
+        btnpicker.nativeElement.click();
+
+        comp.options = {markCurrentDay: false};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        btnpicker.nativeElement.click();
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        currday = getElement('.currday');
+        expect(currday).toBe(null);
     });
 
     it('options - editable month and year', () => {
@@ -1308,6 +1377,31 @@ describe('MyDateRangePicker', () => {
         fixture.detectChanges();
         let selection = getElement('.selection');
         expect(selector).toBe(null);
+    });
+
+    it('options - editable date range field', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
+        comp.options = {editableDateRangeField: false};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let selection = getElement('.selection');
+
+        selection.nativeElement.value = '2016-11-14 - 2016-12-16';
+
+        fixture.detectChanges();
+        expect(selection.nativeElement.value).toContain('');
+
+        comp.options = {editableDateRangeField: true};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        selection = getElement('.selection');
+
+        selection.nativeElement.value = '2016-11-14 - 2016-12-18';
+
+        fixture.detectChanges();
+        expect(selection.nativeElement.value).toContain('2016-11-14 - 2016-12-18');
     });
 
     // attributes

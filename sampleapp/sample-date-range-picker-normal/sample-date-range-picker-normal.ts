@@ -27,7 +27,8 @@ export class SampleDateRangePickerNormal implements OnInit {
         showDateRangeFormatPlaceholder: true,
         minYear: 2000,
         maxYear: 2099,
-        componentDisabled: false
+        componentDisabled: false,
+        showClearButton: true
     };
 
     selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
@@ -39,13 +40,25 @@ export class SampleDateRangePickerNormal implements OnInit {
         console.log('constructor(): SampleDateRangePickerNormal');
     }
 
-    clearDate() {
+    clearDateRange() {
         this.selectedDateRangeNormal = '';
     }
 
-    enableDisable() {
-        let copy = JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
-        copy.componentDisabled = !this.myDateRangePickerOptionsNormal.componentDisabled;
+    onDisableComponent(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.componentDisabled = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onEditableDateField(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.editableDateRangeField = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowClearButton(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showClearBtn = checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 
@@ -69,5 +82,13 @@ export class SampleDateRangePickerNormal implements OnInit {
 
     onInputFieldChanged(event:any) {
         console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
+    }
+
+    onCalendarViewChanged(event:any) {
+        console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
+    }
+
+    getCopyOfOptions() {
+        return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
     }
 }

@@ -4,6 +4,7 @@ export interface IMyOptions {
     dayLabels?: IMyDayLabels;
     monthLabels?: IMyMonthLabels;
     dateFormat?: string;
+    showClearBtn?: boolean;
     clearBtnTxt?: string;
     beginDateBtnTxt?: string;
     endDateBtnTxt?: string;
@@ -12,6 +13,7 @@ export interface IMyOptions {
     selectEndDateTxt?: string;
     firstDayOfWeek?: string;
     sunHighlight?: boolean;
+    markCurrentDay?: boolean;
     height?: string;
     width?: string;
     inline: boolean;
@@ -19,6 +21,7 @@ export interface IMyOptions {
     alignSelectorRight?: boolean;
     indicateInvalidDateRange?: boolean;
     showDateRangeFormatPlaceholder?: boolean;
+    editableDateRangeField?: boolean;
     editableMonthAndYear?: boolean;
     minYear?: number;
     maxYear?: number;
