@@ -10,6 +10,7 @@ export interface IMyOptions {
     beginDateBtnTxt?: string;
     endDateBtnTxt?: string;
     acceptBtnTxt?: string;
+    showSelectDateText?: boolean;
     selectBeginDateTxt?: string;
     selectEndDateTxt?: string;
     firstDayOfWeek?: string;

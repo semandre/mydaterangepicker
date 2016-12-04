@@ -76,7 +76,7 @@
     height: 100%;
     width: 30px;
     border: none;
-    border-left: 1px solid #AAA;
+    border-left: 1px solid #CCC;
     padding: 0px;
     cursor: pointer;
     outline: 0;
@@ -103,7 +103,7 @@
 
 .mydrp .header {
     width: 100%;
-    height: 34px;
+    height: 30px;
     margin-bottom: 1px;
     background-color: #FAFAFA;
 }
@@ -130,7 +130,7 @@
 .mydrp .titlearea {
     text-align: center;
     background-color: #FFF;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .mydrp .titleareatxt {
@@ -236,15 +236,7 @@
 .mydrp .yearinput,
 .mydrp .headerclearbtn,
 .mydrp .footerbtn {
-    border: 1px solid #AAA;
-}
-
-.mydrp .selector,
-.mydrp .header,
-.mydrp .titlearea,
-.mydrp .footerarea,
-.mydrp .caltable tbody {
-    border: 1px solid #DDD;
+    border: 1px solid #CCC;
 }
 
 .mydrp .btnpicker,
@@ -283,7 +275,7 @@
 }
 
 .mydrp .footerarea {
-    margin-top: 4px;
+    margin-top: 3px;
     padding: 3px;
     text-align: center;
     background-color: #FAFAFA;

@@ -929,6 +929,37 @@ describe('MyDateRangePicker', () => {
         expect(acceptbtn.nativeElement.textContent.trim()).toBe('test text');
     });
 
+    it('options - show select date text', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
+        comp.options = {
+            showSelectDateText: false
+        };
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        let titlearea = getElement('.titlearea');
+        expect(titlearea).toBe(null);
+
+        btnpicker.nativeElement.click();
+
+        comp.options = {
+            showSelectDateText: true
+        };
+
+        comp.parseOptions();
+
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        titlearea = getElement('.titlearea');
+        expect(titlearea).not.toBe(null);
+    });
+
     it('options - select begin date text', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
         comp.options = {

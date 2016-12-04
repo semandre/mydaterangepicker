@@ -1,4 +1,4 @@
-<div class="mydrp" [ngStyle]="{'width': opts.width, 'border': opts.inline ? 'none' : '1px solid #AAA'}">
+<div class="mydrp" [ngStyle]="{'width': opts.width, 'border': opts.inline ? 'none' : null}">
     <div class="selectiongroup" *ngIf="!opts.inline">
         <input type="text" class="selection" [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{opts.showDateRangeFormatPlaceholder?dateRangeFormat:''}}"
                [ngStyle]="{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0 ? '60px' : '30px'}"
@@ -13,7 +13,7 @@
         </span>
     </div>
     <div class="selector" *ngIf="showSelector||opts.inline" [ngClass]="{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight}">
-        <div class="titlearea">
+        <div class="titlearea" *ngIf="opts.showSelectDateText">
             <div class="titleareatxt">{{isBeginDate?opts.selectBeginDateTxt:opts.selectEndDateTxt}}</div>
         </div>
         <table class="header">

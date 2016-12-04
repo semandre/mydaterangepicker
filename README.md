@@ -86,8 +86,9 @@ To install this component to an external project, follow the procedure:
 | __beginDateBtnTxt__   | Begin Date      | To begin date button text. |
 | __endDateBtnTxt__   | End Date      | To end date button text. |
 | __acceptBtnTxt__   | OK      | Accept date range button text. |
-| __selectBeginDateTxt__   | Select Begin Date      | Select begin date text. |
-| __selectEndDateTxt__   | Select End Date      | Select end date text. |
+| __showSelectDateText__   | true      | Show select date text. |
+| __selectBeginDateTxt__   | Select Begin Date      | Select begin date text. Can be used if __showSelectDateText = true__.|
+| __selectEndDateTxt__   | Select End Date      | Select end date text. Can be used if __showSelectDateText = true__.  |
 | __firstDayOfWeek__   | mo | First day of week on calendar. One of the following: mo, tu, we, th, fr, sa, su |
 | __sunHighlight__   | true | Sunday red colored on calendar. |
 | __markCurrentDay__   | true | Is current day (today) marked on calendar. |

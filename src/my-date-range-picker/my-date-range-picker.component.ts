@@ -60,6 +60,7 @@ export class MyDateRangePicker implements OnChanges {
         beginDateBtnTxt: <string> "Begin Date",
         endDateBtnTxt: <string> "End Date",
         acceptBtnTxt: <string> "Accept",
+        showSelectDateText: <boolean> true,
         selectBeginDateTxt: <string> "Select Begin Date",
         selectEndDateTxt: <string> "Select End Date",
         firstDayOfWeek: <string> "mo",
