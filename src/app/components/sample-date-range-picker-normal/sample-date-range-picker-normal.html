@@ -1,4 +1,18 @@
 <div>
+    <ul>
+        <li>
+            <label>
+                <span>Disable component:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onDisableComponent($event.currentTarget.checked)" [checked]="false">
+            </label>
+        </li>
+        <li>
+            <label>
+                <span>Editable date range field:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onEditableDateRangeField($event.currentTarget.checked)" [checked]="true">
+            </label>
+        </li>
+    </ul>
     <div style="padding:4px;border-radius:4px;margin-top:8px;float:right" [ngStyle]="{border: border}">
         {{selectedTextNormal}}
     </div>

@@ -38,6 +38,18 @@ export class SampleDateRangePickerNormal implements OnInit {
         console.log('onInit(): SampleDateRangePickerNormal');
     }
 
+    onDisableComponent(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.componentDisabled = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onEditableDateRangeField(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.editableDateRangeField = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
     onDateRangeChanged(event:any) {
         console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate, ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
         if(event.formatted !== '') {
@@ -52,5 +64,9 @@ export class SampleDateRangePickerNormal implements OnInit {
 
     onInputFieldChanged(event:any) {
         console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
+    }
+
+    getCopyOfOptions() {
+        return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
     }
 }

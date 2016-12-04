@@ -38,6 +38,12 @@ export class SampleDateRangePickerInline implements OnInit {
         this.myDateRangePickerOptionsInline = copy;
     }
 
+    onShowSelectDateText(checked:boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showSelectDateText = checked;
+        this.myDateRangePickerOptionsInline = copy;
+    }
+
     ngOnInit() {
         console.log('onInit(): SampleDateRangePickerInline');
     }
