@@ -18,7 +18,8 @@ export class SampleDateRangePickerInline implements OnInit {
         dateFormat: 'yyyy-mm-dd',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
-        inline: true
+        inline: true,
+        showSelectDateText: false
     };
 
     selectedDateRangeInline:string = '';
@@ -32,16 +33,9 @@ export class SampleDateRangePickerInline implements OnInit {
     }
 
     onChangeDateFormat(format:string) {
-        this.myDateRangePickerOptionsInline = {
-            clearBtnTxt: 'Clear',
-            beginDateBtnTxt: 'Begin Date',
-            endDateBtnTxt: 'End Date',
-            acceptBtnTxt: 'OK',
-            dateFormat: format,
-            firstDayOfWeek: 'mo',
-            sunHighlight: true,
-            inline: true
-        };
+        let copy = this.getCopyOfOptions();
+        copy.dateFormat = format;
+        this.myDateRangePickerOptionsInline = copy;
     }
 
     ngOnInit() {
@@ -58,5 +52,9 @@ export class SampleDateRangePickerInline implements OnInit {
             this.selectedTextInline = '';
             this.border = 'none';
         }
+    }
+
+    getCopyOfOptions() {
+        return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsInline));
     }
 }

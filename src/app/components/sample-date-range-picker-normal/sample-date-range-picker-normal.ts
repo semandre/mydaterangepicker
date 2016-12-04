@@ -22,7 +22,7 @@ export class SampleDateRangePickerNormal implements OnInit {
         width: '260px',
         inline: false,
         selectionTxtFontSize: '14px',
-        alignSelectorRight: false,
+        alignSelectorRight: false
     };
 
     selectedDateRangeNormal:string = '04 Nov 2016 - 18 Nov 2016';
