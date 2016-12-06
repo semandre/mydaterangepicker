@@ -35,7 +35,7 @@ export class SampleDateRangePickerInline implements OnInit {
 
     onChangeDateFormat(format:string) {
         let copy = this.getCopyOfOptions();
-        copy.dateFormat = format,
+        copy.dateFormat = format;
         this.myDateRangePickerOptionsInline = copy;
     }
 
