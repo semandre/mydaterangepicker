@@ -120,5 +120,3 @@ var DateRangeValidatorService = (function () {
     return DateRangeValidatorService;
 }());
 exports.DateRangeValidatorService = DateRangeValidatorService;
-
-//# sourceMappingURL=my-date-range-picker.date.range.validator.service.js.map

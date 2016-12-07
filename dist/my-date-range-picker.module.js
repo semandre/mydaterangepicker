@@ -26,5 +26,3 @@ var MyDateRangePickerModule = (function () {
     return MyDateRangePickerModule;
 }());
 exports.MyDateRangePickerModule = MyDateRangePickerModule;
-
-//# sourceMappingURL=my-date-range-picker.module.js.map

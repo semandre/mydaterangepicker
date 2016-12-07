@@ -124,8 +124,9 @@ var MyDateRangePicker = (function () {
         var m = this.dateValidatorRangeService.isMonthLabelValid(event.target.value, this.opts.monthLabels);
         if (m !== -1) {
             this.editMonth = false;
+            var viewChange = m !== this.visibleMonth.monthNbr;
             this.visibleMonth = { monthTxt: this.monthText(m), monthNbr: m, year: this.visibleMonth.year };
-            this.generateCalendar(m, this.visibleMonth.year);
+            this.generateCalendar(m, this.visibleMonth.year, viewChange);
         }
         else {
             this.invalidMonth = true;
@@ -139,8 +140,9 @@ var MyDateRangePicker = (function () {
         var y = this.dateValidatorRangeService.isYearLabelValid(Number(event.target.value), this.opts.minYear, this.opts.maxYear);
         if (y !== -1) {
             this.editYear = false;
+            var viewChange = y !== this.visibleMonth.year;
             this.visibleMonth = { monthTxt: this.visibleMonth.monthTxt, monthNbr: this.visibleMonth.monthNbr, year: y };
-            this.generateCalendar(this.visibleMonth.monthNbr, y);
+            this.generateCalendar(this.visibleMonth.monthNbr, y, viewChange);
         }
         else {
             this.invalidYear = true;
@@ -180,7 +182,7 @@ var MyDateRangePicker = (function () {
         }
         if (changes.hasOwnProperty("selDateRange")) {
             this.selectionDayTxt = changes["selDateRange"].currentValue;
-            if (this.selectionDayTxt !== "") {
+            if (this.selectionDayTxt !== null && this.selectionDayTxt !== undefined && this.selectionDayTxt !== "") {
                 var split = this.selectionDayTxt.split(" - ");
                 if (split.length === 2) {
                     this.beginDate = this.parseSelectedDate(split[0]);
@@ -222,7 +224,7 @@ var MyDateRangePicker = (function () {
                 m = this.selectedMonth.monthNbr;
             }
             this.visibleMonth = { monthTxt: this.opts.monthLabels[m], monthNbr: m, year: y };
-            this.generateCalendar(m, y);
+            this.generateCalendar(m, y, true);
         }
     };
     MyDateRangePicker.prototype.clearDateRange = function () {
@@ -237,7 +239,7 @@ var MyDateRangePicker = (function () {
         var y = d.getFullYear();
         var m = d.getMonth() + 1;
         this.visibleMonth = { monthTxt: this.monthText(m), monthNbr: m, year: y };
-        this.generateCalendar(m, y);
+        this.generateCalendar(m, y, true);
     };
     MyDateRangePicker.prototype.nextMonth = function () {
         var d = this.getDate(this.visibleMonth.year, this.visibleMonth.monthNbr, 1);
@@ -245,21 +247,21 @@ var MyDateRangePicker = (function () {
         var y = d.getFullYear();
         var m = d.getMonth() + 1;
         this.visibleMonth = { monthTxt: this.monthText(m), monthNbr: m, year: y };
-        this.generateCalendar(m, y);
+        this.generateCalendar(m, y, true);
     };
     MyDateRangePicker.prototype.prevYear = function () {
         if (this.visibleMonth.year - 1 < this.opts.minYear) {
             return;
         }
         this.visibleMonth.year--;
-        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year);
+        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, true);
     };
     MyDateRangePicker.prototype.nextYear = function () {
         if (this.visibleMonth.year + 1 > this.opts.maxYear) {
             return;
         }
         this.visibleMonth.year++;
-        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year);
+        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, true);
     };
     MyDateRangePicker.prototype.clearBtnClicked = function () {
         this.isBeginDate = true;
@@ -268,7 +270,7 @@ var MyDateRangePicker = (function () {
         this.endDate = { year: 0, month: 0, day: 0 };
         this.disableSince = { year: 0, month: 0, day: 0 };
         this.disableUntil = { year: 0, month: 0, day: 0 };
-        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year);
+        this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, false);
     };
     MyDateRangePicker.prototype.cellClicked = function (cell) {
         if (this.isBeginDate) {
@@ -284,15 +286,12 @@ var MyDateRangePicker = (function () {
         this.disableUntil = this.getPreviousDate(this.beginDate);
         if (this.endDate.year === 0 && this.endDate.month === 0 && this.endDate.day === 0) {
             this.visibleMonth = { monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year };
-            this.generateCalendar(this.beginDate.month, this.beginDate.year);
+            this.generateCalendar(this.beginDate.month, this.beginDate.year, false);
         }
         else {
-            this.visibleMonth = {
-                monthTxt: this.monthText(this.endDate.month),
-                monthNbr: this.endDate.month,
-                year: this.endDate.year
-            };
-            this.generateCalendar(this.endDate.month, this.endDate.year);
+            var viewChange = this.endDate.year !== this.visibleMonth.year || this.endDate.month !== this.visibleMonth.monthNbr;
+            this.visibleMonth = { monthTxt: this.monthText(this.endDate.month), monthNbr: this.endDate.month, year: this.endDate.year };
+            this.generateCalendar(this.endDate.month, this.endDate.year, viewChange);
         }
     };
     MyDateRangePicker.prototype.toBeginDate = function () {
@@ -301,8 +300,9 @@ var MyDateRangePicker = (function () {
         if (this.endDate.year !== 0 && this.endDate.month !== 0 && this.endDate.day !== 0) {
             this.disableSince = this.getNextDate(this.endDate);
         }
+        var viewChange = this.beginDate.year !== this.visibleMonth.year || this.beginDate.month !== this.visibleMonth.monthNbr;
         this.visibleMonth = { monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year };
-        this.generateCalendar(this.beginDate.month, this.beginDate.year);
+        this.generateCalendar(this.beginDate.month, this.beginDate.year, viewChange);
     };
     MyDateRangePicker.prototype.rangeSelected = function () {
         var begin = this.formatDate(this.beginDate);
@@ -402,7 +402,7 @@ var MyDateRangePicker = (function () {
     MyDateRangePicker.prototype.sundayIdx = function () {
         return this.dayIdx > 0 ? 7 - this.dayIdx : 0;
     };
-    MyDateRangePicker.prototype.generateCalendar = function (m, y) {
+    MyDateRangePicker.prototype.generateCalendar = function (m, y, viewChange) {
         this.dates.length = 0;
         var today = this.getToday();
         var monthStart = this.monthStartIdx(y, m);
@@ -439,7 +439,9 @@ var MyDateRangePicker = (function () {
             }
             this.dates.push(week);
         }
-        this.calendarViewChanged.emit({ year: y, month: m, first: { number: 1, weekday: this.getWeekday({ year: y, month: m, day: 1 }) }, last: { number: dInThisM, weekday: this.getWeekday({ year: y, month: m, day: dInThisM }) } });
+        if (viewChange) {
+            this.calendarViewChanged.emit({ year: y, month: m, first: { number: 1, weekday: this.getWeekday({ year: y, month: m, day: 1 }) }, last: { number: dInThisM, weekday: this.getWeekday({ year: y, month: m, day: dInThisM }) } });
+        }
     };
     MyDateRangePicker.prototype.parseSelectedDate = function (ds) {
         var date = { day: 0, month: 0, year: 0 };
@@ -492,5 +494,3 @@ var MyDateRangePicker = (function () {
     return MyDateRangePicker;
 }());
 exports.MyDateRangePicker = MyDateRangePicker;
-
-//# sourceMappingURL=my-date-range-picker.component.js.map
