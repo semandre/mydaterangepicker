@@ -609,7 +609,7 @@ describe('MyDateRangePicker', () => {
         expect(yearlabel).not.toBe(null);
         expect(yearlabel.nativeElement.textContent.trim()).toBe('2016');
 
-        comp.generateCalendar(1, 2016);
+        comp.generateCalendar(1, 2016, false);
 
         let beginDate: Array<string> = ['28', '1', '29', '28', '25', '30', '27', '1', '29', '26', '31', '28'];
         let endDate: Array<string> = ['7', '13', '10', '8', '5', '10', '7', '11', '9', '6', '11', '8'];
@@ -654,7 +654,7 @@ describe('MyDateRangePicker', () => {
         expect(yearlabel).not.toBe(null);
         expect(yearlabel.nativeElement.textContent.trim()).toBe('2016');
 
-        comp.generateCalendar(12, 2016);
+        comp.generateCalendar(12, 2016, false);
 
         let beginDate: Array<string> = ['28', '1', '29', '28', '25', '30', '27', '1', '29', '26', '31', '28'];
         let endDate: Array<string> = ['7', '13', '10', '8', '5', '10', '7', '11', '9', '6', '11', '8'];
