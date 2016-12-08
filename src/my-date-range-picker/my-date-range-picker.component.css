@@ -77,8 +77,7 @@
     width: 30px;
     border: none;
     border-left: 1px solid #CCC;
-    padding: 0px;
-    cursor: pointer;
+    padding: 0;
     outline: 0;
     font: inherit;
     -moz-user-select: none;
@@ -111,6 +110,7 @@
 .mydrp .header td {
     vertical-align: middle;
     border: none;
+    line-height: 0;
 }
 
 .mydrp .header td:nth-child(1) {
@@ -224,11 +224,26 @@
     width: 60px
 }
 
-.mydrp .headerbtn {
+.mydrp .headerbtncell {
     background-color: #FAFAFA;
     cursor: pointer;
     display: table-cell;
     vertical-align: middle;
+}
+
+.mydrp .headerbtn,
+.mydrp .headerlabelbtn {
+    background: #FAFAFA;
+    border: none;
+    height: 18px;
+}
+
+.mydrp .headerbtn {
+    width: 16px;
+}
+
+.mydrp .headerlabelbtn {
+    font-size: 14px;
 }
 
 .mydrp,
@@ -294,14 +309,22 @@
     font-size: 14px;
 }
 
-.mydrp .headermonthtxt span,
-.mydrp .headeryeartxt span {
-    vertical-align: middle;
+.mydrp .btnclear:focus,
+.mydrp .btnpicker:focus,
+.mydrp .headerclearbtn:focus,
+.mydrp .footerbtn:focus {
+    background: #ADD8E6;
 }
 
-.mydrp .btnclear:focus,
-.mydrp .btnpicker:focus {
-    background: #ADD8E6;
+.mydrp .headerbtn:focus,
+.mydrp .monthlabel:focus,
+.mydrp .yearlabel:focus {
+    color: #ADD8E6;
+    outline: none;
+}
+
+.mydrp .daycell:focus {
+    outline: 1px solid #CCC;
 }
 
 .mydrp .icon-calendar,
@@ -334,10 +357,11 @@
 .mydrp .btnclearenabled:hover,
 .mydrp .headerclearbtnenabled:hover,
 .mydrp .footerbtnenabled:hover,
-.mydrp .caltable tbody tr td:hover {
+.mydrp .daycell:hover {
     background-color: #8BDAF4;
 }
 
+.mydrp .headerbtn,
 .mydrp .monthlabel,
 .mydrp .yearlabel {
     cursor: pointer;
@@ -353,14 +377,10 @@
     border-radius: 2px;
 }
 
-.mydrp .headerbtn span:hover {
-    color: #8BDAF4;
-}
-
+.mydrp .headerbtn:hover,
 .mydrp .monthlabel:hover,
 .mydrp .yearlabel:hover {
     color: #8BDAF4;
-    font-weight: bold;
 }
 
 @font-face {

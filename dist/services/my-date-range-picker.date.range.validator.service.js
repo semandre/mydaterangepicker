@@ -113,10 +113,10 @@ var DateRangeValidatorService = (function () {
     DateRangeValidatorService.prototype.getTimeInMilliseconds = function (date) {
         return new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0).getTime();
     };
-    DateRangeValidatorService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], DateRangeValidatorService);
     return DateRangeValidatorService;
 }());
+DateRangeValidatorService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], DateRangeValidatorService);
 exports.DateRangeValidatorService = DateRangeValidatorService;

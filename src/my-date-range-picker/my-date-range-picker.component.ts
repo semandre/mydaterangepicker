@@ -134,7 +134,7 @@ export class MyDateRangePicker implements OnChanges {
     }
 
     userMonthInput(event: any): void {
-        if (event.keyCode === 37 || event.keyCode === 39) {
+        if (event.keyCode === 13 || event.keyCode === 37 || event.keyCode === 39) {
             return;
         }
 
@@ -153,7 +153,7 @@ export class MyDateRangePicker implements OnChanges {
     }
 
     userYearInput(event: any): void {
-        if (event.keyCode === 37 || event.keyCode === 39) {
+        if (event.keyCode === 13 || event.keyCode === 37 || event.keyCode === 39) {
             return;
         }
 
@@ -205,13 +205,20 @@ export class MyDateRangePicker implements OnChanges {
         }
 
         if (changes.hasOwnProperty("defaultMonth")) {
-            this.selectedMonth = this.parseSelectedMonth((changes["defaultMonth"].currentValue).toString());
+            let dm: string = changes["defaultMonth"].currentValue;
+            if (dm !== null && dm !== undefined && dm !== "") {
+                this.selectedMonth = this.parseSelectedMonth(dm);
+            }
+            else {
+                this.selectedMonth = {monthTxt: "", monthNbr: 0, year: 0};
+            }
         }
 
         if (changes.hasOwnProperty("selDateRange")) {
-            this.selectionDayTxt = changes["selDateRange"].currentValue;
-            if (this.selectionDayTxt !== null && this.selectionDayTxt !== undefined && this.selectionDayTxt !== "") {
-                let split: Array<string> = this.selectionDayTxt.split(" - ");
+            let sdr: any = changes["selDateRange"];
+            this.selectionDayTxt = sdr.currentValue;
+            if (sdr.currentValue !== null && sdr.currentValue !== undefined && sdr.currentValue !== "") {
+                let split: Array<string> = sdr.currentValue.split(" - ");
                 if (split.length === 2) {
                     this.beginDate = this.parseSelectedDate(split[0]);
                     this.endDate = this.parseSelectedDate(split[1]);
@@ -219,10 +226,12 @@ export class MyDateRangePicker implements OnChanges {
                 }
             }
             else {
-                this.clearDateRange();
+                // Do not clear on init
+                if (!sdr.isFirstChange()) {
+                    this.clearDateRange();
+                }
             }
         }
-
         if (this.opts.inline) {
             this.setVisibleMonth();
         }
@@ -322,6 +331,13 @@ export class MyDateRangePicker implements OnChanges {
         }
         else {
             this.endDate = cell.dateObj;
+        }
+    }
+
+    cellKeyDown(event: any, cell: any) {
+        if ((event.keyCode === 13 || event.keyCode === 32) && !cell.disabled) {
+            event.preventDefault();
+            this.cellClicked(cell);
         }
     }
 
