@@ -430,7 +430,7 @@ var MyDateRangePicker = (function () {
             if (i === 1) {
                 var pm = dInPrevM - monthStart + 1;
                 for (var j = pm; j <= dInPrevM; j++) {
-                    var date = { year: y, month: m - 1, day: j };
+                    var date = { year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: j };
                     week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
                 }
                 cmo = this.CURR_MONTH;
@@ -446,8 +446,15 @@ var MyDateRangePicker = (function () {
                     if (dayNbr > dInThisM) {
                         dayNbr = 1;
                         cmo = this.NEXT_MONTH;
+                        if (m === 12) {
+                            y++;
+                            m = 1;
+                        }
+                        else {
+                            m++;
+                        }
                     }
-                    var date = { year: y, month: cmo === this.CURR_MONTH ? m : m + 1, day: dayNbr };
+                    var date = { year: y, month: m, day: dayNbr };
                     week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
                     dayNbr++;
                 }

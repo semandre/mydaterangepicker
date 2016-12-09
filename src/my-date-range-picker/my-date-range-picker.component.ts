@@ -528,10 +528,9 @@ export class MyDateRangePicker implements OnChanges {
                 let pm: number = dInPrevM - monthStart + 1;
                 // Previous month
                 for (let j = pm; j <= dInPrevM; j++) {
-                    let date: IMyDate = {year: y, month: m - 1, day: j};
+                    let date: IMyDate = {year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: j};
                     week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date)});
                 }
-
                 cmo = this.CURR_MONTH;
                 // Current month
                 let daysLeft: number = 7 - week.length;
@@ -548,15 +547,21 @@ export class MyDateRangePicker implements OnChanges {
                         // Next month
                         dayNbr = 1;
                         cmo = this.NEXT_MONTH;
+                        if (m === 12) {
+                            y++;
+                            m = 1;
+                        }
+                        else {
+                            m++;
+                        }
                     }
-                    let date: IMyDate = {year: y, month: cmo === this.CURR_MONTH ? m : m + 1, day: dayNbr};
+                    let date: IMyDate = {year: y, month: m, day: dayNbr};
                     week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date)});
                     dayNbr++;
                 }
             }
             this.dates.push(week);
         }
-
         if (viewChange) {
             // Notify parent
             this.calendarViewChanged.emit({year: y, month: m, first: {number: 1, weekday: this.getWeekday({year: y, month: m, day: 1})}, last: {number: dInThisM, weekday: this.getWeekday({year: y, month: m, day: dInThisM})}});
