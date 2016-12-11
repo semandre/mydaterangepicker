@@ -130,14 +130,52 @@
 .mydrp .titlearea {
     text-align: center;
     background-color: #FFF;
-    margin-bottom: 3px;
 }
 
 .mydrp .titleareatxt {
+    display: table;
+    width: 100%;
     height: 26px;
     line-height: 26px;
     font-size: 12px;
-    font-weight: bold;
+}
+
+.mydrp .titleareafull {
+    border-bottom: 3px solid #DDD;
+}
+
+.mydrp .titlearealeft,
+.mydrp .titlearearight {
+    display: table-cell;
+    width: 50%;
+}
+
+.mydrp .titlearealeftenabled {
+    background-color: #FAFAFA;
+    border-right: 3px solid transparent;
+}
+
+.mydrp .titlearearightenabled {
+    background-color: #FAFAFA;
+    border-left: 3px solid transparent;
+}
+
+.mydrp .titlearealeftdisabled {
+    border-bottom: 3px solid #DDD;
+    border-right: 3px solid #DDD;
+    border-bottom-right-radius: 4px;
+}
+
+.mydrp .titlearearightdisabled {
+    border-bottom: 3px solid #DDD;
+    border-left: 3px solid #DDD;
+    border-bottom-left-radius: 4px;
+}
+
+.mydrp .titleareatxtlink:hover {
+    text-decoration: underline;
+    color: #8BDAF4;
+    cursor: pointer;
 }
 
 .mydrp .inline {
@@ -319,6 +357,11 @@
 .mydrp .monthlabel:focus,
 .mydrp .yearlabel:focus {
     color: #ADD8E6;
+    outline: none;
+}
+.mydrp .titlearealeft:focus,
+.mydrp .titlearearight:focus {
+    text-decoration: underline;
     outline: none;
 }
 

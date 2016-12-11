@@ -49,6 +49,8 @@ export class MyDateRangePicker implements OnChanges {
     endDate: IMyDate = {year: 0, month: 0, day: 0};
     disableUntil: IMyDate = {year: 0, month: 0, day: 0};
     disableSince: IMyDate = {year: 0, month: 0, day: 0};
+    titleAreaTextBegin: string = "";
+    titleAreaTextEnd: string = "";
 
     // Default options
     opts: IMyOptions = {
@@ -222,6 +224,8 @@ export class MyDateRangePicker implements OnChanges {
                 if (split.length === 2) {
                     this.beginDate = this.parseSelectedDate(split[0]);
                     this.endDate = this.parseSelectedDate(split[1]);
+                    this.titleAreaTextBegin = this.formatDate(this.beginDate);
+                    this.titleAreaTextEnd = this.formatDate(this.endDate);
                     this.toBeginDate();
                 }
             }
@@ -319,6 +323,8 @@ export class MyDateRangePicker implements OnChanges {
         this.selectionDayTxt = "";
         this.beginDate = {year: 0, month: 0, day: 0};
         this.endDate = {year: 0, month: 0, day: 0};
+        this.titleAreaTextBegin = "";
+        this.titleAreaTextEnd = "";
         this.disableSince = {year: 0, month: 0, day: 0};
         this.disableUntil = {year: 0, month: 0, day: 0};
         this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, false);
@@ -328,9 +334,12 @@ export class MyDateRangePicker implements OnChanges {
         // Cell clicked in the selector
         if (this.isBeginDate) {
             this.beginDate = cell.dateObj;
+            this.titleAreaTextBegin = this.formatDate(this.beginDate);
+            this.titleAreaTextEnd = this.endDate.year === 0 ? this.opts.selectEndDateTxt : this.formatDate(this.endDate);
         }
         else {
             this.endDate = cell.dateObj;
+            this.titleAreaTextEnd = this.formatDate(this.endDate);
         }
     }
 
@@ -372,6 +381,13 @@ export class MyDateRangePicker implements OnChanges {
         let viewChange: boolean = this.beginDate.year !== this.visibleMonth.year || this.beginDate.month !== this.visibleMonth.monthNbr;
         this.visibleMonth = {monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year};
         this.generateCalendar(this.beginDate.month, this.beginDate.year, viewChange);
+    }
+
+    titleAreaKeyDown(event: any, title: number) {
+        if (event.keyCode === 13 || event.keyCode === 32) {
+            event.preventDefault();
+            title === 1 ? this.toBeginDate() : this.toEndDate();
+        }
     }
 
     rangeSelected(): void {
