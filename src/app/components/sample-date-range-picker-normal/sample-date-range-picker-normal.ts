@@ -14,7 +14,7 @@ export class SampleDateRangePickerNormal implements OnInit {
         clearBtnTxt: 'Clear',
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',
-        acceptBtnTxt: 'OK',
+        acceptBtnTxt: 'Apply',
         dateFormat: 'dd mmm yyyy',
         firstDayOfWeek: 'mo',
         sunHighlight: true,

@@ -14,7 +14,7 @@ export class SampleDateRangePickerInline implements OnInit {
         clearBtnTxt: 'Clear',
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',
-        acceptBtnTxt: 'OK',
+        acceptBtnTxt: 'Apply',
         dateFormat: 'yyyy-mm-dd',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
