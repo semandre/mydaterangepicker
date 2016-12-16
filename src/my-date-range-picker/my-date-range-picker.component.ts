@@ -75,11 +75,13 @@ export class MyDateRangePicker implements OnChanges {
         alignSelectorRight: <boolean> false,
         indicateInvalidDateRange: <boolean> true,
         showDateRangeFormatPlaceholder: <boolean> false,
+        customPlaceholderTxt: <string> "",
         editableDateRangeField: <boolean> true,
         editableMonthAndYear: <boolean> true,
         minYear: <number> 1000,
         maxYear: <number> 9999,
-        componentDisabled: <boolean> false
+        componentDisabled: <boolean> false,
+        inputValueRequired: <boolean> false
     };
 
     constructor(public elem: ElementRef, private renderer: Renderer, private dateValidatorRangeService: DateRangeValidatorService) {

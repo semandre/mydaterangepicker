@@ -1,8 +1,8 @@
 <div class="mydrp" [ngStyle]="{'width': opts.width, 'border': opts.inline ? 'none' : null}">
     <div class="selectiongroup" *ngIf="!opts.inline">
-        <input type="text" class="selection" aria-label="Date range input field" [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{opts.showDateRangeFormatPlaceholder?dateRangeFormat:''}}"
+        <input type="text" class="selection" aria-label="Date range input field" [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{opts.showDateRangeFormatPlaceholder?dateRangeFormat:opts.customPlaceholderTxt}}"
                [ngStyle]="{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0 ? '60px' : '30px'}"
-               (keyup)="userDateRangeInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField">
+               (keyup)="userDateRangeInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField" [required]="opts.inputValueRequired">
         <span class="selbtngroup" [style.height]="opts.height">
             <button type="button" class="btnclear" aria-label="Clear date range" *ngIf="selectionDayTxt.length>0" (click)="removeBtnClicked()" [ngClass]="{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
                 <span class="icon icon-cross" [ngStyle]="{'line-height': opts.height}"></span>
@@ -60,8 +60,7 @@
             </tbody>
         </table>
         <div class="footerarea">
-            <button type="button" class="footerbtn" *ngIf="isBeginDate" [disabled]="beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0,'footerbtnenabled': beginDate.year!==0}" (click)="$event.stopPropagation();toEndDate()">{{opts.endDateBtnTxt}}</button>
-            <button type="button" class="footerbtn footerbtnenabled" *ngIf="!isBeginDate" (click)="$event.stopPropagation();toBeginDate()">{{opts.beginDateBtnTxt}}</button>
+            <button type="button" class="footerbtn" [disabled]="beginDate&&beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0,'footerbtnenabled': beginDate.year!==0||!isBeginDate}" (click)="$event.stopPropagation();isBeginDate?toEndDate():toBeginDate()">{{isBeginDate?opts.endDateBtnTxt:opts.beginDateBtnTxt}}</button>
             <button type="button" class="footerbtn" *ngIf="!isBeginDate||endDate.year!==0" [disabled]="endDate.year===0" [ngClass]="{'btndisable':endDate.year===0, 'footerbtnenabled': endDate.year!==0}" (click)="$event.stopPropagation();rangeSelected()">{{opts.acceptBtnTxt}}</button>
         </div>
     </div>

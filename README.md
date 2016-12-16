@@ -102,8 +102,10 @@ To install this component to an external project, follow the procedure:
 | __alignSelectorRight__   | false | Align selector right. Can be used if __inline = false__. |
 | __indicateInvalidDateRange__   | true | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
 | __showDateRangeFormatPlaceholder__   | false | Show value of __dateFormat__ - __dateFormat__ as placeholder in the selection area if it is empty. Can be used if __inline = false__. |
-| __componentDisabled__   | false | Is selection area and buttons disabled or not. Can be used if __inline = false__. |
-| __editableDateRangeField__   | true | Is selected date range field editable or not. Can be used if __inline = false__. |
+| __customPlaceholderTxt__   | empty string | Show custom string in the selection area if a date range is not selected. Can be used if __showDateRangeFormatPlaceholder = false__ and __inline = false__. |
+| __componentDisabled__   | false | Is selection area input field and buttons disabled or not (input disabled flag). Can be used if __inline = false__. |
+| __editableDateRangeField__   | true | Is selection area input field editable or not (input readonly flag). Can be used if __inline = false__. |
+| __inputValueRequired__   | false | Is selection area input field value required or not (input required flag). Can be used if __inline = false__. |
 
 * Example of the options data (not all properties listed):
 ```js
@@ -161,7 +163,7 @@ __08-2016__, __08/2016__.
   ```
 
 ### inputFieldChanged callback:
-  * called when the value change in the input field
+  * called when the value change in the input field, date range is selected or date range is cleared (can be used in validation, returns true or false indicating is date range valid or not in the input field)
   * event parameter:
     * event.value: Value of the input field. For example: '2016-11-22 - 2016-11-23'
     * event.dateRangeFormat: Date range format string. For example: 'yyyy-mm-dd - yyyy-mm-dd'
@@ -204,30 +206,39 @@ The [sampleapp](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp
 
 ## Development of this component
 
-At first fork and clone this repo.
+* At first fork and clone this repo.
 
-Install all dependencies:
- 1. __npm install__
- 2. __npm install --global gulp-cli__
+* Install all dependencies:
+  1. __npm install__
+  2. __npm install --global gulp-cli__
 
-Build dist and npmdist folders and execute tslint:
- 1. __gulp all__
+* Build __dist__ and __npmdist__ folders and execute __tslint__:
+  1. __gulp all__
 
-Execute unit tests and coverage (output is generated to the __test-output__ folder):
- 1. __npm test__
+* Execute unit tests and coverage (output is generated to the __test-output__ folder):
+  1. __npm test__
 
-Run sample application:
- 1. Open a terminal and type __npm start__
- 2. Open __http://localhost:5000__ to browser
+* Run sample application:
+  1. Open a terminal and type __npm start__
+  2. Open __http://localhost:5000__ to browser
+
+* Build a local npm installation package:
+  1. __gulp all__
+  2. __cd npmdist__
+  3. __npm pack__
+    * local installation package is created. For example: __mydaterangepicker-1.0.10.tgz__
+  4. install local npm package. For example: __npm install path_to_npmdist/mydaterangepicker-1.0.10.tgz__
 
 ## Demo
 Online demo is [here](http://kekeh.github.io/mydaterangepicker)
 
 ## Compatibility (tested with)
 * Firefox (latest)
+* Chrome (latest)
 * Chromium (latest)
 * Edge
 * IE11
+* Safari
 
 ## License
 * License: MIT

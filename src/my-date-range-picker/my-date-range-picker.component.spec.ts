@@ -1426,6 +1426,36 @@ describe('MyDateRangePicker', () => {
         expect(selection.properties['placeholder']).toBe('');
     });
 
+    it('options - show custom text in placeholder', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
+        comp.options = {showDateRangeFormatPlaceholder: true, dateFormat: 'dd.mm.yyyy', customPlaceholderTxt: 'test placeholder'};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let selection = getElement('.selection');
+        expect(selection).not.toBe(null);
+        expect(selection.properties['placeholder']).toBe(comp.opts.dateFormat + ' - ' + comp.opts.dateFormat);
+
+        comp.options = {showDateRangeFormatPlaceholder: false, dateFormat: 'dd.mm.yyyy', customPlaceholderTxt: 'test placeholder'};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        selection = getElement('.selection');
+        expect(selection).not.toBe(null);
+        expect(selection.properties['placeholder']).toBe('test placeholder');
+
+        comp.options = {customPlaceholderTxt: 'test placeholder'};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        selection = getElement('.selection');
+        expect(selection).not.toBe(null);
+        expect(selection.properties['placeholder']).toBe('test placeholder');
+    });
+
     it('options - disable component', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
         comp.options = {componentDisabled: true};
@@ -1468,6 +1498,33 @@ describe('MyDateRangePicker', () => {
 
         fixture.detectChanges();
         expect(selection.nativeElement.value).toContain('2016-11-14 - 2016-12-18');
+    });
+
+    it('options - input field value required', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
+        comp.options = {};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let selection = getElement('.selection');
+        expect(selection).not.toBe(null);
+        expect(selection.properties['required']).toBe(false);
+
+        comp.options = {inputValueRequired: true};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        selection = getElement('.selection');
+        expect(selection).not.toBe(null);
+        expect(selection.properties['required']).toBe(true);
+
+        comp.options = {inputValueRequired: false};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        selection = getElement('.selection');
+        expect(selection).not.toBe(null);
+        expect(selection.properties['required']).toBe(false);
     });
 
     // attributes

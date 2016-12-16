@@ -23,9 +23,11 @@ export interface IMyOptions {
     alignSelectorRight?: boolean;
     indicateInvalidDateRange?: boolean;
     showDateRangeFormatPlaceholder?: boolean;
+    customPlaceholderTxt?: string;
     editableDateRangeField?: boolean;
     editableMonthAndYear?: boolean;
     minYear?: number;
     maxYear?: number;
     componentDisabled?: boolean;
+    inputValueRequired?: boolean;
 }
