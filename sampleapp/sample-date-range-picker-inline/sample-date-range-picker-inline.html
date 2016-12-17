@@ -8,9 +8,16 @@
         </span>
     </div>
 
-    <div style="padding:4px;border-radius:4px;margin-bottom:8px;float:right" [ngStyle]="{border: border}">
-        {{selectedTextInline}}
-    </div>
-    <my-date-range-picker [options]="myDateRangePickerOptionsInline" (dateRangeChanged)="onDateRangeChanged($event)"
-                          [selDateRange]="selectedDateRangeInline"></my-date-range-picker>
+    <table style="width: 100%">
+        <tr>
+            <td style="vertical-align: top">
+                <my-date-range-picker [options]="myDateRangePickerOptionsInline" (dateRangeChanged)="onDateRangeChanged($event)" [selDateRange]="selectedDateRangeInline"></my-date-range-picker>
+            </td>
+            <td style="vertical-align: top">
+                <div style="padding:4px;border-radius:4px;float:right" [ngStyle]="{border: border}">
+                    {{selectedTextInline}}
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>

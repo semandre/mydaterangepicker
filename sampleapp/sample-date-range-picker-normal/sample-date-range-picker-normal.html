@@ -19,11 +19,20 @@
             </label>
         </li>
     </ul>
-    <div style="padding:4px;border-radius:4px;margin-top:8px;float:right" [ngStyle]="{border: border}">
-        {{selectedTextNormal}}
-    </div>
-    <my-date-range-picker [options]="myDateRangePickerOptionsNormal" (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)"
-                          (calendarViewChanged)="onCalendarViewChanged($event)" [selDateRange]="selectedDateRangeNormal"></my-date-range-picker>
+
+    <table style="width: 100%">
+        <tr>
+            <td style="vertical-align: top">
+                <my-date-range-picker [options]="myDateRangePickerOptionsNormal" (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)"
+                                (calendarViewChanged)="onCalendarViewChanged($event)" [selDateRange]="selectedDateRangeNormal"></my-date-range-picker>
+            </td>
+            <td style="vertical-align: top">
+                <div style="padding:4px;border-radius:4px;float:right" [ngStyle]="{border: border}">
+                    {{selectedTextNormal}}
+                </div>
+            </td>
+        </tr>
+    </table>
 
     <div style="margin-top: 20px">
         <button style="cursor: pointer" type="button" (click)="clearDateRange()" [disabled]="selectedDateRangeNormal===''">Clear Date Range</button>
