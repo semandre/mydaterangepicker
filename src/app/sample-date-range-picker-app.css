@@ -30,6 +30,11 @@
     margin-bottom: 340px;
 }
 
+hr {
+    border: none;
+    height: 1px;
+    background-image: linear-gradient(to right, #DDD, #555, #DDD);
+}
 
 @media screen and (max-width: 1200px) {
     .pagecontent {
