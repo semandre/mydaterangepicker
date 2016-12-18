@@ -226,8 +226,10 @@ The [sampleapp](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp
   1. __gulp all__
   2. __cd npmdist__
   3. __npm pack__
-    * local installation package is created. For example: __mydaterangepicker-1.0.10.tgz__
-  4. install local npm package. For example: __npm install path_to_npmdist/mydaterangepicker-1.0.10.tgz__
+    * local installation package is created to the __npmdist__ folder. For example: __mydaterangepicker-1.0.10.tgz__
+
+* Install the local npm package to your project:
+  1. __npm install path_to_npmdist/mydaterangepicker-1.0.10.tgz__
 
 ## Demo
 Online demo is [here](http://kekeh.github.io/mydaterangepicker)
