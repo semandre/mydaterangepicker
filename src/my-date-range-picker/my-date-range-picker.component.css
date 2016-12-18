@@ -24,7 +24,7 @@
     border-radius: 2px;
     background-color: #DDD;
     z-index: 100;
-    animation: selectorfadein 0.15s;
+    animation: selectorfadein 0.1s;
 }
 
 @keyframes selectorfadein {
@@ -255,14 +255,14 @@
     background: #D9F2E6;
 }
 
-.mydrp .currday div {
-    border: 1px solid #004198;
+.mydrp .currday {
+    text-decoration: underline;
 }
 
 .mydrp .selectedday {
     border: 1px solid #004198;
     background-color: #8EBFFF !important;
-    border-radius: 0;
+    border-radius: 2px;
 }
 
 .mydrp .selecteddaygreen {
