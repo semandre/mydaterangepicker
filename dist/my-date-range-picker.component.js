@@ -39,8 +39,8 @@ var MyDateRangePicker = (function () {
         this.isBeginDate = true;
         this.beginDate = { year: 0, month: 0, day: 0 };
         this.endDate = { year: 0, month: 0, day: 0 };
-        this.disableUntil = { year: 0, month: 0, day: 0 };
-        this.disableSince = { year: 0, month: 0, day: 0 };
+        this.preventBefore = { year: 0, month: 0, day: 0 };
+        this.preventAfter = { year: 0, month: 0, day: 0 };
         this.titleAreaTextBegin = "";
         this.titleAreaTextEnd = "";
         this.opts = {
@@ -70,6 +70,8 @@ var MyDateRangePicker = (function () {
             editableMonthAndYear: true,
             minYear: 1000,
             maxYear: 9999,
+            disableUntil: { year: 0, month: 0, day: 0 },
+            disableSince: { year: 0, month: 0, day: 0 },
             componentDisabled: false,
             inputValueRequired: false
         };
@@ -106,7 +108,7 @@ var MyDateRangePicker = (function () {
             this.clearDateRange();
         }
         else {
-            var daterange = this.dateValidatorRangeService.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.monthLabels);
+            var daterange = this.dateValidatorRangeService.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.monthLabels);
             if (daterange.beginDate.day !== 0 && daterange.beginDate.month !== 0 && daterange.beginDate.year !== 0 && daterange.endDate.day !== 0 && daterange.endDate.month !== 0 && daterange.endDate.year !== 0) {
                 this.beginDate = daterange.beginDate;
                 this.endDate = daterange.endDate;
@@ -285,8 +287,8 @@ var MyDateRangePicker = (function () {
         this.endDate = { year: 0, month: 0, day: 0 };
         this.titleAreaTextBegin = "";
         this.titleAreaTextEnd = "";
-        this.disableSince = { year: 0, month: 0, day: 0 };
-        this.disableUntil = { year: 0, month: 0, day: 0 };
+        this.preventAfter = { year: 0, month: 0, day: 0 };
+        this.preventBefore = { year: 0, month: 0, day: 0 };
         this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, false);
     };
     MyDateRangePicker.prototype.cellClicked = function (cell) {
@@ -308,8 +310,8 @@ var MyDateRangePicker = (function () {
     };
     MyDateRangePicker.prototype.toEndDate = function () {
         this.isBeginDate = false;
-        this.disableSince = { year: 0, month: 0, day: 0 };
-        this.disableUntil = this.getPreviousDate(this.beginDate);
+        this.preventAfter = { year: 0, month: 0, day: 0 };
+        this.preventBefore = this.getPreviousDate(this.beginDate);
         if (this.endDate.year === 0 && this.endDate.month === 0 && this.endDate.day === 0) {
             this.visibleMonth = { monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year };
             this.generateCalendar(this.beginDate.month, this.beginDate.year, false);
@@ -322,9 +324,9 @@ var MyDateRangePicker = (function () {
     };
     MyDateRangePicker.prototype.toBeginDate = function () {
         this.isBeginDate = true;
-        this.disableUntil = { year: 0, month: 0, day: 0 };
+        this.preventBefore = { year: 0, month: 0, day: 0 };
         if (this.endDate.year !== 0 && this.endDate.month !== 0 && this.endDate.day !== 0) {
-            this.disableSince = this.getNextDate(this.endDate);
+            this.preventAfter = this.getNextDate(this.endDate);
         }
         var viewChange = this.beginDate.year !== this.visibleMonth.year || this.beginDate.month !== this.visibleMonth.monthNbr;
         this.visibleMonth = { monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year };
@@ -394,16 +396,6 @@ var MyDateRangePicker = (function () {
     MyDateRangePicker.prototype.isCurrDay = function (d, m, y, cmo, today) {
         return d === today.day && m === today.month && y === today.year && cmo === this.CURR_MONTH;
     };
-    MyDateRangePicker.prototype.isDisabledDay = function (date) {
-        var givenDate = this.getTimeInMilliseconds(date);
-        if (this.disableUntil.year !== 0 && this.disableUntil.month !== 0 && this.disableUntil.day !== 0 && givenDate <= this.getTimeInMilliseconds(this.disableUntil)) {
-            return true;
-        }
-        if (this.disableSince.year !== 0 && this.disableSince.month !== 0 && this.disableSince.day !== 0 && givenDate >= this.getTimeInMilliseconds(this.disableSince)) {
-            return true;
-        }
-        return false;
-    };
     MyDateRangePicker.prototype.getPreviousDate = function (date) {
         var d = this.getDate(date.year, date.month, date.day);
         d.setDate(d.getDate() - 1);
@@ -448,13 +440,13 @@ var MyDateRangePicker = (function () {
                 var pm = dInPrevM - monthStart + 1;
                 for (var j = pm; j <= dInPrevM; j++) {
                     var date = { year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: j };
-                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
+                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateValidatorRangeService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter) });
                 }
                 cmo = this.CURR_MONTH;
                 var daysLeft = 7 - week.length;
                 for (var j = 0; j < daysLeft; j++) {
                     var date = { year: y, month: m, day: dayNbr };
-                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
+                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateValidatorRangeService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter) });
                     dayNbr++;
                 }
             }
@@ -472,7 +464,7 @@ var MyDateRangePicker = (function () {
                         }
                     }
                     var date = { year: y, month: m, day: dayNbr };
-                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date) });
+                    week.push({ dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateValidatorRangeService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter) });
                     dayNbr++;
                 }
             }

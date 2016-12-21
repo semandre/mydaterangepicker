@@ -12,7 +12,7 @@ var core_1 = require("@angular/core");
 var DateRangeValidatorService = (function () {
     function DateRangeValidatorService() {
     }
-    DateRangeValidatorService.prototype.isDateRangeValid = function (daterange, dateFormat, minYear, maxYear, monthLabels) {
+    DateRangeValidatorService.prototype.isDateRangeValid = function (daterange, dateFormat, minYear, maxYear, disableUntil, disableSince, monthLabels) {
         var invalidDateRange = {
             beginDate: { day: 0, month: 0, year: 0 },
             endDate: { day: 0, month: 0, year: 0 }
@@ -26,9 +26,13 @@ var DateRangeValidatorService = (function () {
             return invalidDateRange;
         }
         var validDates = [];
+        var notSetDate = { day: 0, month: 0, year: 0 };
         for (var i in dates) {
             var date = this.isDateValid(dates[i], dateFormat, minYear, maxYear, monthLabels, isMonthStr);
             if (date.day === 0 && date.month === 0 && date.year === 0) {
+                return invalidDateRange;
+            }
+            if (this.isDisabledDay(date, disableUntil, disableSince, notSetDate, notSetDate)) {
                 return invalidDateRange;
             }
             validDates.push(date);
@@ -81,6 +85,22 @@ var DateRangeValidatorService = (function () {
             month.year = split[0].length === 2 ? parseInt(split[1]) : parseInt(split[0]);
         }
         return month;
+    };
+    DateRangeValidatorService.prototype.isDisabledDay = function (date, disableUntil, disableSince, preventBefore, preventAfter) {
+        var givenDate = this.getTimeInMilliseconds(date);
+        if (disableUntil.year !== 0 && disableUntil.month !== 0 && disableUntil.day !== 0 && givenDate <= this.getTimeInMilliseconds(disableUntil)) {
+            return true;
+        }
+        if (disableSince.year !== 0 && disableSince.month !== 0 && disableSince.day !== 0 && givenDate >= this.getTimeInMilliseconds(disableSince)) {
+            return true;
+        }
+        if (preventBefore.year !== 0 && preventBefore.month !== 0 && preventBefore.day !== 0 && givenDate <= this.getTimeInMilliseconds(preventBefore)) {
+            return true;
+        }
+        if (preventAfter.year !== 0 && preventAfter.month !== 0 && preventAfter.day !== 0 && givenDate >= this.getTimeInMilliseconds(preventAfter)) {
+            return true;
+        }
+        return false;
     };
     DateRangeValidatorService.prototype.isDateValid = function (date, dateFormat, minYear, maxYear, monthLabels, isMonthStr) {
         var daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];

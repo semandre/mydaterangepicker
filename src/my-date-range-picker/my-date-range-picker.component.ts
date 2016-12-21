@@ -47,8 +47,8 @@ export class MyDateRangePicker implements OnChanges {
     isBeginDate: boolean = true;
     beginDate: IMyDate = {year: 0, month: 0, day: 0};
     endDate: IMyDate = {year: 0, month: 0, day: 0};
-    disableUntil: IMyDate = {year: 0, month: 0, day: 0};
-    disableSince: IMyDate = {year: 0, month: 0, day: 0};
+    preventBefore: IMyDate = {year: 0, month: 0, day: 0};
+    preventAfter: IMyDate = {year: 0, month: 0, day: 0};
     titleAreaTextBegin: string = "";
     titleAreaTextEnd: string = "";
 
@@ -80,6 +80,8 @@ export class MyDateRangePicker implements OnChanges {
         editableMonthAndYear: <boolean> true,
         minYear: <number> 1000,
         maxYear: <number> 9999,
+        disableUntil: <IMyDate> {year: 0, month: 0, day: 0},
+        disableSince: <IMyDate> {year: 0, month: 0, day: 0},
         componentDisabled: <boolean> false,
         inputValueRequired: <boolean> false
     };
@@ -122,7 +124,7 @@ export class MyDateRangePicker implements OnChanges {
             this.clearDateRange();
         }
         else {
-            let daterange: IMyDateRange = this.dateValidatorRangeService.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.monthLabels);
+            let daterange: IMyDateRange = this.dateValidatorRangeService.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.monthLabels);
             if (daterange.beginDate.day !== 0 && daterange.beginDate.month !== 0 && daterange.beginDate.year !== 0 && daterange.endDate.day !== 0 && daterange.endDate.month !== 0 && daterange.endDate.year !== 0) {
                 this.beginDate = daterange.beginDate;
                 this.endDate = daterange.endDate;
@@ -327,8 +329,8 @@ export class MyDateRangePicker implements OnChanges {
         this.endDate = {year: 0, month: 0, day: 0};
         this.titleAreaTextBegin = "";
         this.titleAreaTextEnd = "";
-        this.disableSince = {year: 0, month: 0, day: 0};
-        this.disableUntil = {year: 0, month: 0, day: 0};
+        this.preventAfter = {year: 0, month: 0, day: 0};
+        this.preventBefore = {year: 0, month: 0, day: 0};
         this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, false);
     }
 
@@ -356,8 +358,8 @@ export class MyDateRangePicker implements OnChanges {
         // To end date clicked
         this.isBeginDate = false;
 
-        this.disableSince = {year: 0, month: 0, day: 0};
-        this.disableUntil = this.getPreviousDate(this.beginDate);
+        this.preventAfter = {year: 0, month: 0, day: 0};
+        this.preventBefore = this.getPreviousDate(this.beginDate);
 
         if (this.endDate.year === 0 && this.endDate.month === 0 && this.endDate.day === 0) {
             this.visibleMonth = {monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year};
@@ -374,10 +376,10 @@ export class MyDateRangePicker implements OnChanges {
         // To begin date clicked
         this.isBeginDate = true;
 
-        this.disableUntil = {year: 0, month: 0, day: 0};
+        this.preventBefore = {year: 0, month: 0, day: 0};
 
         if (this.endDate.year !== 0 && this.endDate.month !== 0 && this.endDate.day !== 0) {
-            this.disableSince = this.getNextDate(this.endDate);
+            this.preventAfter = this.getNextDate(this.endDate);
         }
 
         let viewChange: boolean = this.beginDate.year !== this.visibleMonth.year || this.beginDate.month !== this.visibleMonth.monthNbr;
@@ -474,18 +476,6 @@ export class MyDateRangePicker implements OnChanges {
         return d === today.day && m === today.month && y === today.year && cmo === this.CURR_MONTH;
     }
 
-    isDisabledDay(date: IMyDate): boolean {
-        // Check is a given date <= disabledUntil or given date >= disabledSince or disabled weekend
-        let givenDate: number = this.getTimeInMilliseconds(date);
-        if (this.disableUntil.year !== 0 && this.disableUntil.month !== 0 && this.disableUntil.day !== 0 && givenDate <= this.getTimeInMilliseconds(this.disableUntil)) {
-            return true;
-        }
-        if (this.disableSince.year !== 0 && this.disableSince.month !== 0 && this.disableSince.day !== 0 && givenDate >= this.getTimeInMilliseconds(this.disableSince)) {
-            return true;
-        }
-        return false;
-    }
-
     getPreviousDate(date: IMyDate): IMyDate {
         // Get previous date from the given date
         let d: Date = this.getDate(date.year, date.month, date.day);
@@ -547,14 +537,14 @@ export class MyDateRangePicker implements OnChanges {
                 // Previous month
                 for (let j = pm; j <= dInPrevM; j++) {
                     let date: IMyDate = {year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: j};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date)});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateValidatorRangeService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter)});
                 }
                 cmo = this.CURR_MONTH;
                 // Current month
                 let daysLeft: number = 7 - week.length;
                 for (let j = 0; j < daysLeft; j++) {
                     let date: IMyDate = {year: y, month: m, day: dayNbr};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date)});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateValidatorRangeService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter)});
                     dayNbr++;
                 }
             }
@@ -574,7 +564,7 @@ export class MyDateRangePicker implements OnChanges {
                         }
                     }
                     let date: IMyDate = {year: y, month: m, day: dayNbr};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.isDisabledDay(date)});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateValidatorRangeService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter)});
                     dayNbr++;
                 }
             }

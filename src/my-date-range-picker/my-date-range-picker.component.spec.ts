@@ -1276,6 +1276,54 @@ describe('MyDateRangePicker', () => {
         expect(yearlabel.nativeElement.textContent).toBe('2020');
     });
 
+    it('options - disable until', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
+        comp.options = {disableUntil: {year: 2016, month: 10, day: 5}};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        comp.generateCalendar(10, 2016, true);
+
+        fixture.detectChanges();
+        let disabled = getElements('tr .disabled');
+        expect(disabled).not.toBe(null);
+        expect(disabled.length).toBe(10);
+
+        disabled[0].nativeElement.click();
+
+        fixture.detectChanges();
+        let selectedday = getElement('.selectedday');
+        expect(selectedday).toBe(null);
+    });
+
+    it('options - disable since', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
+        comp.options = {disableSince: {year: 2016, month: 10, day: 30}};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        comp.generateCalendar(10, 2016, true);
+
+        fixture.detectChanges();
+        let disabled = getElements('tr .disabled');
+        expect(disabled).not.toBe(null);
+        expect(disabled.length).toBe(8);
+
+        disabled[0].nativeElement.click();
+
+        fixture.detectChanges();
+        let selectedday = getElement('.selectedday');
+        expect(selectedday).toBe(null);
+    });
+
     it('options - inline', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
         comp.options = {

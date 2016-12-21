@@ -95,6 +95,8 @@ To install this component to an external project, follow the procedure:
 | __editableMonthAndYear__   | true | Is month and year labels editable or not. |
 | __minYear__   | 1000 | Minimum allowed year in calendar. Cannot be less than 1000. |
 | __maxYear__   | 9999 | Maximum allowed year in calendar. Cannot be more than 9999. |
+| __disableUntil__   | no default value | Disable dates backward starting from the given date. For example: {year: 2016, month: 6, day: 26} |
+| __disableSince__   | no default value | Disable dates forward starting from the given date. For example: {year: 2016, month: 7, day: 22} |
 | __inline__   | false | Show mydaterangepicker in inline mode. |
 | __height__   | 34px | mydatepicker height without selector. Can be used if __inline = false__. |
 | __width__   | 100% | mydatepicker width. Can be used if __inline = false__. |

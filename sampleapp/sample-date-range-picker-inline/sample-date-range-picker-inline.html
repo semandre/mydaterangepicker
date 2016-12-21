@@ -1,12 +1,26 @@
 <div>
-    <div style="margin-bottom: 10px">
-        <span style="margin-right: 10px">Date format:</span>
-        <span>
+    <ul>
+        <li>
+            <span style="margin-right: 10px">Date format:</span>
+            <span>
             <select style="padding: 2px;cursor: pointer;font-size: 11px;min-width: 60px;" (change)="onChangeDateFormat($event.target.value)">
                 <option *ngFor="let f of dateFormats">{{f}}</option>
             </select>
         </span>
-    </div>
+        </li>
+        <li>
+            <label>
+                <span>Disable past dates starting from the previous month:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onDisablePast($event.currentTarget.checked)" [checked]="false">
+            </label>
+        </li>
+        <li>
+            <label>
+                <span>Disable future dates starting from the next month:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onDisableFuture($event.currentTarget.checked)" [checked]="false">
+            </label>
+        </li>
+    </ul>
 
     <table style="width: 100%">
         <tr>

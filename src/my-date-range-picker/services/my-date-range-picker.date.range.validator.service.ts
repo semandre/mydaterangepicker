@@ -6,7 +6,7 @@ import { IMyMonth } from "../interfaces/my-month.interface";
 
 @Injectable()
 export class DateRangeValidatorService {
-    public isDateRangeValid(daterange: string, dateFormat: string, minYear: number, maxYear: number, monthLabels: IMyMonthLabels): IMyDateRange {
+    public isDateRangeValid(daterange: string, dateFormat: string, minYear: number, maxYear: number, disableUntil: IMyDate, disableSince: IMyDate, monthLabels: IMyMonthLabels): IMyDateRange {
         let invalidDateRange: IMyDateRange = {
             beginDate: {day: 0, month: 0, year: 0},
             endDate: {day: 0, month: 0, year: 0}
@@ -23,10 +23,14 @@ export class DateRangeValidatorService {
         }
 
         let validDates: Array<IMyDate> = [];
+        let notSetDate: IMyDate = {day: 0, month: 0, year: 0};
 
         for (let i in dates) {
             let date: IMyDate = this.isDateValid(dates[i], dateFormat, minYear, maxYear, monthLabels, isMonthStr);
             if (date.day === 0 && date.month === 0 && date.year === 0) {
+                return invalidDateRange;
+            }
+            if (this.isDisabledDay(date, disableUntil, disableSince, notSetDate, notSetDate)) {
                 return invalidDateRange;
             }
             validDates.push(date);
@@ -87,6 +91,23 @@ export class DateRangeValidatorService {
             month.year = split[0].length === 2 ? parseInt(split[1]) : parseInt(split[0]);
         }
         return month;
+    }
+
+    public isDisabledDay(date: IMyDate, disableUntil: IMyDate, disableSince: IMyDate, preventBefore: IMyDate, preventAfter: IMyDate): boolean {
+        let givenDate: number = this.getTimeInMilliseconds(date);
+        if (disableUntil.year !== 0 && disableUntil.month !== 0 && disableUntil.day !== 0 && givenDate <= this.getTimeInMilliseconds(disableUntil)) {
+            return true;
+        }
+        if (disableSince.year !== 0 && disableSince.month !== 0 && disableSince.day !== 0 && givenDate >= this.getTimeInMilliseconds(disableSince)) {
+            return true;
+        }
+        if (preventBefore.year !== 0 && preventBefore.month !== 0 && preventBefore.day !== 0 && givenDate <= this.getTimeInMilliseconds(preventBefore)) {
+            return true;
+        }
+        if (preventAfter.year !== 0 && preventAfter.month !== 0 && preventAfter.day !== 0 && givenDate >= this.getTimeInMilliseconds(preventAfter)) {
+            return true;
+        }
+        return false;
     }
 
     private isDateValid(date: string, dateFormat: string, minYear: number, maxYear: number, monthLabels: IMyMonthLabels, isMonthStr: boolean): IMyDate {
