@@ -44,6 +44,29 @@ export class SampleDateRangePickerInline implements OnInit {
         this.myDateRangePickerOptionsInline = copy;
     }
 
+    onDisablePast(checked:boolean) {
+        let date = new Date();
+
+        // Disable/enable dates from 5th backward
+        date.setMonth(date.getMonth() - 1);
+        let lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+        let copy = this.getCopyOfOptions();
+        copy.disableUntil = checked ? {year: date.getFullYear(), month: date.getMonth() + 1, day: lastDayOfMonth} : {};
+        this.myDateRangePickerOptionsInline = copy;
+    }
+
+    onDisableFuture(checked:boolean) {
+        let date = new Date();
+
+        // Disable/enable dates from 5th forward
+        date.setMonth(date.getMonth() + 1);
+
+        let copy = this.getCopyOfOptions();
+        copy.disableSince = checked ? {year: date.getFullYear(), month: date.getMonth() + 1, day: 1} : {};
+        this.myDateRangePickerOptionsInline = copy;
+    }
+
     ngOnInit() {
         console.log('onInit(): SampleDateRangePickerInline');
     }

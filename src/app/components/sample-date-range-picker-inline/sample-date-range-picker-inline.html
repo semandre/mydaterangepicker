@@ -14,6 +14,18 @@
                 <input style="cursor: pointer" type="checkbox" (change)="onShowSelectDateText($event.currentTarget.checked)" [checked]="false">
             </label>
         </li>
+        <li>
+            <label>
+                <span>Disable past dates starting from the previous month:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onDisablePast($event.currentTarget.checked)" [checked]="false">
+            </label>
+        </li>
+        <li>
+            <label>
+                <span>Disable future dates starting from the next month:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onDisableFuture($event.currentTarget.checked)" [checked]="false">
+            </label>
+        </li>
     </ul>
 
     <table style="width: 100%">
