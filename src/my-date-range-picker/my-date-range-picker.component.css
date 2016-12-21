@@ -220,6 +220,9 @@
     font-size: 12px;
     font-weight: bold;
     vertical-align: middle;
+    max-width: 36px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .mydrp .daycell {
@@ -327,6 +330,10 @@
 
 .mydrp .headerclearbtn {
     min-width: 60px;
+    max-width: 70px;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0 4px;
 }
 
 .mydrp .footerbtn {
@@ -351,11 +358,15 @@
 
 .mydrp .headermonthtxt,
 .mydrp .headeryeartxt {
-    min-width: 40px;
     text-align: center;
     display: table-cell;
     vertical-align: middle;
     font-size: 14px;
+    height: 26px;
+    width: 40px;
+    max-width: 40px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .mydrp .btnclear:focus,
