@@ -44,6 +44,9 @@ export class MyDateRangePicker implements OnChanges {
     CURR_MONTH: number = 2;
     NEXT_MONTH: number = 3;
 
+    MIN_YEAR: number = 1000;
+    MAX_YEAR: number = 9999;
+
     isBeginDate: boolean = true;
     beginDate: IMyDate = {year: 0, month: 0, day: 0};
     endDate: IMyDate = {year: 0, month: 0, day: 0};
@@ -78,8 +81,8 @@ export class MyDateRangePicker implements OnChanges {
         customPlaceholderTxt: <string> "",
         editableDateRangeField: <boolean> true,
         editableMonthAndYear: <boolean> true,
-        minYear: <number> 1000,
-        maxYear: <number> 9999,
+        minYear: <number> this.MIN_YEAR,
+        maxYear: <number> this.MAX_YEAR,
         disableUntil: <IMyDate> {year: 0, month: 0, day: 0},
         disableSince: <IMyDate> {year: 0, month: 0, day: 0},
         componentDisabled: <boolean> false,
@@ -184,11 +187,11 @@ export class MyDateRangePicker implements OnChanges {
             });
         }
 
-        if (this.opts.minYear < 1000) {
-            this.opts.minYear = 1000;
+        if (this.opts.minYear < this.MIN_YEAR) {
+            this.opts.minYear = this.MIN_YEAR;
         }
-        if (this.opts.maxYear > 9999) {
-            this.opts.minYear = 9999;
+        if (this.opts.maxYear > this.MAX_YEAR) {
+            this.opts.maxYear = this.MAX_YEAR;
         }
 
         this.dateRangeFormat = this.opts.dateFormat + " - " + this.opts.dateFormat;
