@@ -74,6 +74,7 @@ export class MyDateRangePicker implements OnChanges {
         height: <string> "34px",
         width: <string> "262px",
         inline: <boolean> false,
+        showClearDateRangeBtn: <boolean> true,
         selectionTxtFontSize: <string> "16px",
         alignSelectorRight: <boolean> false,
         indicateInvalidDateRange: <boolean> true,

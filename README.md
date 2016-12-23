@@ -98,6 +98,7 @@ To install this component to an external project, follow the procedure:
 | __disableUntil__   | no default value | Disable dates backward starting from the given date. For example: {year: 2016, month: 6, day: 26} |
 | __disableSince__   | no default value | Disable dates forward starting from the given date. For example: {year: 2016, month: 7, day: 22} |
 | __inline__   | false | Show mydaterangepicker in inline mode. |
+| __showClearDateRangeBtn__   | true | Is clear date range button shown or not. Can be used if __inline = false__. |
 | __height__   | 34px | mydatepicker height without selector. Can be used if __inline = false__. |
 | __width__   | 100% | mydatepicker width. Can be used if __inline = false__. |
 | __selectionTxtFontSize__   | 18px | Selection area font size. Can be used if __inline = false__. |

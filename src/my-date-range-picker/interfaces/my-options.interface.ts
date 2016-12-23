@@ -20,6 +20,7 @@ export interface IMyOptions {
     height?: string;
     width?: string;
     inline: boolean;
+    showClearDateRangeBtn?: boolean;
     selectionTxtFontSize?: string;
     alignSelectorRight?: boolean;
     indicateInvalidDateRange?: boolean;

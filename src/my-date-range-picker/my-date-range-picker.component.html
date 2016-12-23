@@ -1,10 +1,10 @@
 <div class="mydrp" [ngStyle]="{'width': opts.width, 'border': opts.inline ? 'none' : null}">
     <div class="selectiongroup" *ngIf="!opts.inline">
         <input type="text" class="selection" aria-label="Date range input field" [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{opts.showDateRangeFormatPlaceholder?dateRangeFormat:opts.customPlaceholderTxt}}"
-               [ngStyle]="{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0 ? '60px' : '30px'}"
+               [ngStyle]="{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0&&opts.showClearDateRangeBtn ? '60px' : '30px'}"
                (keyup)="userDateRangeInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField" [required]="opts.inputValueRequired">
         <span class="selbtngroup" [style.height]="opts.height">
-            <button type="button" class="btnclear" aria-label="Clear date range" *ngIf="selectionDayTxt.length>0" (click)="removeBtnClicked()" [ngClass]="{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
+            <button type="button" class="btnclear" aria-label="Clear date range" *ngIf="selectionDayTxt.length>0&&opts.showClearDateRangeBtn" (click)="removeBtnClicked()" [ngClass]="{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
                 <span class="icon icon-cross" [ngStyle]="{'line-height': opts.height}"></span>
             </button>
             <button type="button" class="btnpicker" aria-label="Open calendar" (click)="openBtnClicked()" [ngClass]="{'btnpickerenabled': !opts.componentDisabled, 'btnpickerdisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">

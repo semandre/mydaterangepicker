@@ -1341,6 +1341,76 @@ describe('MyDateRangePicker', () => {
         expect(selectiongroup).toBe(null);
     });
 
+    it('options - show clear date button', () => {
+        let date = new Date();
+        comp.selectedMonth = {monthTxt: '', monthNbr: date.getMonth() + 1, year: date.getFullYear()};
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        let currday = getElement('.currday');
+        expect(currday).not.toBe(null);
+        currday.nativeElement.click();
+
+        fixture.detectChanges();
+        let enddatebtn = getElement('.footerarea button:first-child');
+        expect(enddatebtn).not.toBe(null);
+
+        fixture.detectChanges();
+        enddatebtn.nativeElement.click();
+
+        fixture.detectChanges();
+        currday = getElement('.currday');
+        expect(currday).not.toBe(null);
+        currday.nativeElement.click();
+
+        fixture.detectChanges();
+        let acceptbtn = getElement('.footerarea button:last-child');
+        expect(acceptbtn).not.toBe(null);
+        acceptbtn.nativeElement.click();
+
+        fixture.detectChanges();
+        let btnclear = getElement('.btnclear');
+        expect(btnclear).not.toBe(null);
+        btnclear.nativeElement.click();
+
+
+        comp.options = {showClearDateRangeBtn: false};
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        currday = getElement('.currday');
+        expect(currday).not.toBe(null);
+        currday.nativeElement.click();
+
+        fixture.detectChanges();
+        enddatebtn = getElement('.footerarea button:first-child');
+        expect(enddatebtn).not.toBe(null);
+
+        fixture.detectChanges();
+        enddatebtn.nativeElement.click();
+
+        fixture.detectChanges();
+        currday = getElement('.currday');
+        expect(currday).not.toBe(null);
+        currday.nativeElement.click();
+
+        fixture.detectChanges();
+        acceptbtn = getElement('.footerarea button:last-child');
+        expect(acceptbtn).not.toBe(null);
+        acceptbtn.nativeElement.click();
+
+        fixture.detectChanges();
+        btnclear = getElement('.btnclear');
+        expect(btnclear).toBe(null);
+    });
+
     it('options - height', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
         comp.options = {
