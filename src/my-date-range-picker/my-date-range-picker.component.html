@@ -2,7 +2,7 @@
     <div class="selectiongroup" *ngIf="!opts.inline">
         <input type="text" class="selection" aria-label="Date range input field" [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{opts.showDateRangeFormatPlaceholder?dateRangeFormat:opts.customPlaceholderTxt}}"
                [ngStyle]="{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0&&opts.showClearDateRangeBtn ? '60px' : '30px'}"
-               (keyup)="userDateRangeInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField" [required]="opts.inputValueRequired">
+               (keyup)="userDateRangeInput($event)" (blur)="lostFocusInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField" [required]="opts.inputValueRequired">
         <span class="selbtngroup" [style.height]="opts.height">
             <button type="button" class="btnclear" aria-label="Clear date range" *ngIf="selectionDayTxt.length>0&&opts.showClearDateRangeBtn" (click)="removeBtnClicked()" [ngClass]="{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
                 <span class="icon icon-cross" [ngStyle]="{'line-height': opts.height}"></span>
@@ -12,7 +12,7 @@
             </button>
         </span>
     </div>
-    <div class="selector" *ngIf="showSelector||opts.inline" [ngClass]="{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight}">
+    <div class="selector" *ngIf="showSelector||opts.inline" [ngClass]="{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight, 'selectorarrow': opts.showSelectorArrow&&!opts.inline, 'selectorarrowleft': opts.showSelectorArrow&&!opts.alignSelectorRight&&!opts.inline, 'selectorarrowright': opts.showSelectorArrow&&opts.alignSelectorRight&&!opts.inline}">
         <div class="titlearea" *ngIf="opts.showSelectDateText">
             <div class="titleareatxt">
                 <div class="titleareafull" *ngIf="titleAreaTextBegin.length===0&&titleAreaTextEnd.length===0">{{opts.selectBeginDateTxt}}</div>

@@ -109,6 +109,7 @@ To install this component to an external project, follow the procedure:
 | __componentDisabled__   | false | Is selection area input field and buttons disabled or not (input disabled flag). Can be used if __inline = false__. |
 | __editableDateRangeField__   | true | Is selection area input field editable or not (input readonly flag). Can be used if __inline = false__. |
 | __inputValueRequired__   | false | Is selection area input field value required or not (input required flag). Can be used if __inline = false__. |
+| __showSelectorArrow__   | true | Is selector (calendar) arrow shown or not. Can be used if __inline = false__. |
 
 * Example of the options data (not all properties listed):
 ```js

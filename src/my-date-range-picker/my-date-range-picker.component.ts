@@ -87,7 +87,8 @@ export class MyDateRangePicker implements OnChanges {
         disableUntil: <IMyDate> {year: 0, month: 0, day: 0},
         disableSince: <IMyDate> {year: 0, month: 0, day: 0},
         componentDisabled: <boolean> false,
-        inputValueRequired: <boolean> false
+        inputValueRequired: <boolean> false,
+        showSelectorArrow: <boolean> true
     };
 
     constructor(public elem: ElementRef, private renderer: Renderer, private dateValidatorRangeService: DateRangeValidatorService) {
@@ -141,6 +142,10 @@ export class MyDateRangePicker implements OnChanges {
         if (this.invalidDateRange) {
             this.inputFieldChanged.emit({value: event.target.value, dateRangeFormat: this.dateRangeFormat, valid: !(event.target.value.length === 0 || this.invalidDateRange)});
         }
+    }
+
+    lostFocusInput(event: any): void {
+        this.selectionDayTxt = event.target.value;
     }
 
     userMonthInput(event: any): void {

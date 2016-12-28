@@ -19,10 +19,10 @@
     margin-top: 2px;
     margin-left: -1px;
     position: absolute;
-    width: 262px;
-    padding: 3px;
+    width: 252px;
+    padding: 1px;
     border-radius: 2px;
-    background-color: #DDD;
+    background-color: #CCC;
     z-index: 100;
     animation: selectorfadein 0.1s;
 }
@@ -34,6 +34,47 @@
     to {
         opacity: 1;
     }
+}
+
+.mydrp .selectorarrow {
+    background: #FFF;
+    border: 1px solid #CCC;
+    margin-top: 12px;
+    padding: 0;
+}
+
+.mydrp .selectorarrow:after,
+.mydrp .selectorarrow:before {
+    bottom: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+}
+
+.mydrp .selectorarrow:after {
+    border-color: rgba(250, 250, 250, 0);
+    border-bottom-color: #FFF;
+    border-width: 10px;
+    margin-left: -10px;
+}
+
+.mydrp .selectorarrow:before {
+    border-color: rgba(204, 204, 204, 0);
+    border-bottom-color: #CCC;
+    border-width: 11px;
+    margin-left: -11px;
+}
+
+.mydrp .selectorarrowleft:after,
+.mydrp .selectorarrowleft:before {
+    left: 24px;
+}
+
+.mydrp .selectorarrowright:after,
+.mydrp .selectorarrowright:before {
+    left: 224px;
 }
 
 .mydrp .alignselectorright {
@@ -113,8 +154,7 @@
 .mydrp .header {
     width: 100%;
     height: 30px;
-    margin-bottom: 1px;
-    background-color: #FAFAFA;
+    background-color: #FFF;
 }
 
 .mydrp .header td {
@@ -124,7 +164,6 @@
 }
 
 .mydrp .header td:nth-child(1) {
-    font-size: 16px;
     padding-left: 4px;
 }
 
@@ -133,7 +172,6 @@
 }
 
 .mydrp .header td:nth-child(3) {
-    font-size: 16px;
     padding-right: 4px;
 }
 
@@ -152,7 +190,7 @@
 }
 
 .mydrp .titleareafull {
-    border-bottom: 3px solid #DDD;
+    border-bottom: 1px solid #CCC;
 }
 
 .mydrp .titlearealeft,
@@ -162,24 +200,24 @@
 }
 
 .mydrp .titlearealeftenabled {
-    background-color: #FAFAFA;
-    border-right: 3px solid transparent;
+    background-color: #FFF;
+    border-right: 1px solid transparent;
 }
 
 .mydrp .titlearearightenabled {
-    background-color: #FAFAFA;
-    border-left: 3px solid transparent;
+    background-color: #FFF;
+    border-left: 1px solid transparent;
 }
 
 .mydrp .titlearealeftdisabled {
-    border-bottom: 3px solid #DDD;
-    border-right: 3px solid #DDD;
+    border-bottom: 1px solid #CCC;
+    border-right: 1px solid #CCC;
     border-bottom-right-radius: 4px;
 }
 
 .mydrp .titlearearightdisabled {
-    border-bottom: 3px solid #DDD;
-    border-left: 3px solid #DDD;
+    border-bottom: 1px solid #CCC;
+    border-left: 1px solid #CCC;
     border-bottom-left-radius: 4px;
 }
 
@@ -278,7 +316,7 @@
 }
 
 .mydrp .headerbtncell {
-    background-color: #FAFAFA;
+    background-color: #FFF;
     cursor: pointer;
     display: table-cell;
     vertical-align: middle;
@@ -286,7 +324,7 @@
 
 .mydrp .headerbtn,
 .mydrp .headerlabelbtn {
-    background: #FAFAFA;
+    background: #FFF;
     border: none;
     height: 18px;
 }
@@ -346,10 +384,10 @@
 }
 
 .mydrp .footerarea {
-    margin-top: 3px;
+    border-top: 1px solid #CCC;
     padding: 3px;
     text-align: center;
-    background-color: #FAFAFA;
+    background-color: #FFF;
 }
 
 .mydrp button::-moz-focus-inner {
@@ -400,7 +438,7 @@
 .mydrp .icon-left,
 .mydrp .icon-right {
     color: #222;
-    font-size: 16px;
+    font-size: 98%;
     vertical-align: middle;
 }
 

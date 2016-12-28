@@ -34,4 +34,5 @@ export interface IMyOptions {
     disableSince?: IMyDate;
     componentDisabled?: boolean;
     inputValueRequired?: boolean;
+    showSelectorArrow?: boolean;
 }

@@ -19,16 +19,17 @@ export class SampleDateRangePickerNormal implements OnInit {
         firstDayOfWeek: 'mo',
         sunHighlight: true,
         height: '34px',
-        width: '260px',
+        width: '250px',
         inline: false,
-        selectionTxtFontSize: '14px',
+        selectionTxtFontSize: '13px',
         alignSelectorRight: false,
         indicateInvalidDateRange: true,
         showDateRangeFormatPlaceholder: true,
         minYear: 2000,
         maxYear: 2099,
         componentDisabled: false,
-        showClearButton: true
+        showClearDateRangeBtn: true,
+        showSelectorArrow: true
     };
 
     selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
@@ -56,9 +57,15 @@ export class SampleDateRangePickerNormal implements OnInit {
         this.myDateRangePickerOptionsNormal = copy;
     }
 
+    onAlignSelectorRight(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.alignSelectorRight = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
     onShowClearButton(checked: boolean) {
         let copy = this.getCopyOfOptions();
-        copy.showClearBtn = checked;
+        copy.showClearDateRangeBtn = checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 
