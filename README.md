@@ -55,6 +55,7 @@ To install this component to an external project, follow the procedure:
             }
         });
     })(this);
+    ```
 
 ## Usage
 
@@ -81,7 +82,8 @@ export class MyTestApp {
     // mandatory callback in this option. There are also optional inputFieldChanged and
     // calendarViewChanged callbacks.
     onDateRangeChanged(event: any) {
-        // event properties are: event.beginDate, event.endDate, event.formatted, event.beginEpoc and event.endEpoc
+        // event properties are: event.beginDate, event.endDate, event.formatted,
+        // event.beginEpoc and event.endEpoc
     }
 }
 ```
@@ -114,10 +116,10 @@ export class MyTestApp implements OnInit {
 
     ngOnInit() {
         this.myForm = this.formBuilder.group({
-            // Empty string means no initial value. Can be also specific date range for
-            // example: {beginDate: {year: 2018, month: 10, day: 9}, endDate: {year: 2018, month: 10, day: 19}}
-            // which sets this date range to initial value. It is also possible to set initial value using the
-            // selDateRange attribute.
+            // Empty string means no initial value. Can be also specific date range for example:
+            // {beginDate: {year: 2018, month: 10, day: 9}, endDate: {year: 2018, month: 10, day: 19}}
+            // which sets this date range to initial value. It is also possible to set initial
+            // value using the selDateRange attribute.
 
             myDateRange: ['', Validators.required]
             // other controls are here...
