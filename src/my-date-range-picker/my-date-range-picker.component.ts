@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation } from "@angular/core";
-import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions } from "./interfaces/index";
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation, forwardRef } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel } from "./interfaces/index";
 import { DateRangeValidatorService } from "./services/my-date-range-picker.date.range.validator.service";
 
 // webpack1_
@@ -8,21 +9,30 @@ const myDrpStyles: string = require("./my-date-range-picker.component.css");
 const myDrpTemplate: string = require("./my-date-range-picker.component.html");
 // webpack2_
 
+export const MYDRP_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => MyDateRangePicker),
+    multi: true
+};
+
 @Component({
     selector: "my-date-range-picker",
     styles: [myDrpStyles],
     template: myDrpTemplate,
-    providers: [DateRangeValidatorService],
+    providers: [DateRangeValidatorService, MYDRP_VALUE_ACCESSOR],
     encapsulation: ViewEncapsulation.None
 })
 
-export class MyDateRangePicker implements OnChanges {
+export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     @Input() options: any;
     @Input() defaultMonth: string;
     @Input() selDateRange: string;
     @Output() dateRangeChanged: EventEmitter<Object> = new EventEmitter();
     @Output() inputFieldChanged: EventEmitter<Object> = new EventEmitter();
     @Output() calendarViewChanged: EventEmitter<Object> = new EventEmitter();
+
+    onChangeCb: (_: any) => void = () => { };
+    onTouchedCb: () => void = () => { };
 
     showSelector: boolean = false;
     visibleMonth: IMyMonth = {monthTxt: "", monthNbr: 0, year: 0};
@@ -137,6 +147,7 @@ export class MyDateRangePicker implements OnChanges {
             }
             else {
                 this.invalidDateRange = true;
+                this.onChangeCb("");
             }
         }
         if (this.invalidDateRange) {
@@ -212,6 +223,27 @@ export class MyDateRangePicker implements OnChanges {
         }
     }
 
+    writeValue(value: Object): void {
+        if (value && value["beginDate"] && value["endDate"]) {
+            this.beginDate = this.parseSelectedDate(value["beginDate"]);
+            this.endDate = this.parseSelectedDate(value["endDate"]);
+            this.titleAreaTextBegin = this.formatDate(this.beginDate);
+            this.titleAreaTextEnd = this.formatDate(this.endDate);
+            this.rangeSelected();
+        }
+        else if (value === "") {
+            this.clearDateRange();
+        }
+    }
+
+    registerOnChange(fn: any): void {
+        this.onChangeCb = fn;
+    }
+
+    registerOnTouched(fn: any): void {
+        this.onTouchedCb = fn;
+    }
+
     ngOnChanges(changes: SimpleChanges) {
         if (changes.hasOwnProperty("options")) {
             this.options = changes["options"].currentValue;
@@ -231,16 +263,24 @@ export class MyDateRangePicker implements OnChanges {
 
         if (changes.hasOwnProperty("selDateRange")) {
             let sdr: any = changes["selDateRange"];
-            this.selectionDayTxt = sdr.currentValue;
             if (sdr.currentValue !== null && sdr.currentValue !== undefined && sdr.currentValue !== "") {
-                let split: Array<string> = sdr.currentValue.split(" - ");
-                if (split.length === 2) {
+                if (typeof sdr.currentValue === "string") {
+                    let split: Array<string> = sdr.currentValue.split(" - ");
                     this.beginDate = this.parseSelectedDate(split[0]);
                     this.endDate = this.parseSelectedDate(split[1]);
-                    this.titleAreaTextBegin = this.formatDate(this.beginDate);
-                    this.titleAreaTextEnd = this.formatDate(this.endDate);
-                    this.toBeginDate();
+                    this.selectionDayTxt = sdr.currentValue;
                 }
+                else if (typeof sdr.currentValue === "object") {
+                    this.beginDate = this.parseSelectedDate(sdr.currentValue["beginDate"]);
+                    this.endDate = this.parseSelectedDate(sdr.currentValue["endDate"]);
+                    this.selectionDayTxt = this.formatDate(this.beginDate) + " - " + this.formatDate(this.endDate);
+                }
+                this.titleAreaTextBegin = this.formatDate(this.beginDate);
+                this.titleAreaTextEnd = this.formatDate(this.endDate);
+                setTimeout(function() {
+                    this.onChangeCb(this.getDateRangeModel(this.beginDate, this.endDate));
+                }.bind(this));
+                this.toBeginDate();
             }
             else {
                 // Do not clear on init
@@ -289,6 +329,7 @@ export class MyDateRangePicker implements OnChanges {
         this.clearBtnClicked();
         this.dateRangeChanged.emit({beginDate: {}, endDate: {}, formatted: "", beginEpoc: 0, endEpoc: 0});
         this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
+        this.onChangeCb("");
         this.invalidDateRange = false;
     }
 
@@ -405,18 +446,22 @@ export class MyDateRangePicker implements OnChanges {
 
     rangeSelected(): void {
         // Accept button clicked
+        let dateRangeModel: IMyDateRangeModel = this.getDateRangeModel(this.beginDate, this.endDate);
         let begin: string = this.formatDate(this.beginDate);
         let end: string = this.formatDate(this.endDate);
-
         this.selectionDayTxt = begin + " - " + end;
-
         this.showSelector = false;
-        let bEpoc: number = this.getTimeInMilliseconds(this.beginDate) / 1000.0;
-        let eEpoc: number = this.getTimeInMilliseconds(this.endDate) / 1000.0;
-
-        this.dateRangeChanged.emit({beginDate: this.beginDate, endDate: this.endDate, formatted: this.selectionDayTxt, beginEpoc: bEpoc, endEpoc: eEpoc});
+        this.dateRangeChanged.emit(dateRangeModel);
         this.inputFieldChanged.emit({value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true});
+        this.onChangeCb(dateRangeModel);
         this.invalidDateRange = false;
+    }
+
+    getDateRangeModel(beginDate: IMyDate, endDate: IMyDate): IMyDateRangeModel {
+        // Creates a date range model object from the given parameters
+        let bEpoc: number = this.getTimeInMilliseconds(beginDate) / 1000.0;
+        let eEpoc: number = this.getTimeInMilliseconds(endDate) / 1000.0;
+        return {beginDate: beginDate, endDate: endDate, formatted: this.formatDate(beginDate) + " - " + this.formatDate(endDate), beginEpoc: bEpoc, endEpoc: eEpoc};
     }
 
     isInRange(val: any): boolean {
@@ -585,16 +630,21 @@ export class MyDateRangePicker implements OnChanges {
         }
     }
 
-    parseSelectedDate(ds: string): IMyDate {
+    parseSelectedDate(selDate: any): IMyDate {
+        // Parse selDate value - it can be string or IMyDate object
         let date: IMyDate = {day: 0, month: 0, year: 0};
-        if (ds !== "") {
-            date.day = this.dateValidatorRangeService.parseDatePartNumber(this.opts.dateFormat, ds, "dd");
+        if (typeof selDate === "string") {
+            let sd: string = <string>selDate;
+            date.day = this.dateValidatorRangeService.parseDatePartNumber(this.opts.dateFormat, sd, "dd");
 
             date.month = this.opts.dateFormat.indexOf("mmm") !== -1
-                ? this.dateValidatorRangeService.parseDatePartMonthName(this.opts.dateFormat, ds, "mmm", this.opts.monthLabels)
-                : this.dateValidatorRangeService.parseDatePartNumber(this.opts.dateFormat, ds, "mm");
+                ? this.dateValidatorRangeService.parseDatePartMonthName(this.opts.dateFormat, sd, "mmm", this.opts.monthLabels)
+                : this.dateValidatorRangeService.parseDatePartNumber(this.opts.dateFormat, sd, "mm");
 
-            date.year = this.dateValidatorRangeService.parseDatePartNumber(this.opts.dateFormat, ds, "yyyy");
+            date.year = this.dateValidatorRangeService.parseDatePartNumber(this.opts.dateFormat, sd, "yyyy");
+        }
+        else if (typeof selDate === "object") {
+            date = selDate;
         }
         return date;
     }

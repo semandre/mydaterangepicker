@@ -33,23 +33,8 @@ To install this component to an external project, follow the procedure:
     })
     export class MyTestAppModule {}
     ```
-3. Use the following snippet inside your template:
 
-   ```html
-   <my-date-range-picker [options]="myDateRangePickerOptions"
-                   (dateRangeChanged)="onDateRangeChanged($event)"></my-date-range-picker>
-   ```
-
-    * Mandatory attributes:
-      * [options]="myDateRangePickerOptions"
-      * (dateRangeChanged)="onDateRangeChanged($event)"
-
-    * Optional attributes:
-      * [selDateRange]="selectedDateRange"
-      * (inputFieldChanged)="onInputFieldChanged($event)"
-      * (calendarViewChanged)="onCalendarViewChanged($event)"
-
-4. If you are using __systemjs__ package loader add the following mydaterangepicker properties to the __System.config__:
+3. If you are using __systemjs__ package loader add the following mydaterangepicker properties to the __System.config__:
     ```js
     (function (global) {
         System.config({
@@ -70,9 +55,143 @@ To install this component to an external project, follow the procedure:
             }
         });
     })(this);
-    ```
 
 ## Usage
+
+Use one of the following three options.
+
+### 1. Callbacks
+
+In this option the mydaterangepicker sends data back to host application using callbacks. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-range-picker-normal)
+is an example application. It shows how to use callbacks.
+
+To use callbacks define the application class as follows:
+
+```js
+export class MyTestApp {
+
+    private myDateRangePickerOptions = {
+        // other options...
+        dateFormat: 'dd.mm.yyyy',
+    };
+
+    constructor() { }
+
+    // dateRangeChanged callback function called when the user apply the date range. This is
+    // mandatory callback in this option. There are also optional inputFieldChanged and
+    // calendarViewChanged callbacks.
+    onDateRangeChanged(event: any) {
+        // event properties are: event.beginDate, event.endDate, event.formatted, event.beginEpoc and event.endEpoc
+    }
+}
+```
+
+Add the following snippet inside your template:
+
+```html
+<my-date-range-picker [options]="myDateRangePickerOptions"
+                   (dateRangeChanged)="onDateRangeChanged($event)"></my-date-range-picker>
+```
+
+### 2. Reactive forms
+
+In this option the value accessor of reactive forms is used. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-picker-access-modifier)
+is an example application. It shows how to use the __formControlName__.
+
+To use reactive forms define the application class as follows:
+
+```ts
+export class MyTestApp implements OnInit {
+
+    private myDateRangePickerOptions = {
+        // other options...
+        dateFormat: 'dd.mm.yyyy',
+    };
+
+    private myForm: FormGroup;
+
+    constructor(private formBuilder: FormBuilder) { }
+
+    ngOnInit() {
+        this.myForm = this.formBuilder.group({
+            // Empty string means no initial value. Can be also specific date range for
+            // example: {beginDate: {year: 2018, month: 10, day: 9}, endDate: {year: 2018, month: 10, day: 19}}
+            // which sets this date range to initial value. It is also possible to set initial value using the
+            // selDateRange attribute.
+
+            myDateRange: ['', Validators.required]
+            // other controls are here...
+        });
+    }
+
+    setDateRange(): void {
+        // Set date range (today) using the setValue function
+        let date = new Date();
+        this.myForm.setValue({myDateRange: {
+            beginDate: {
+                year: date.getFullYear(),
+                month: date.getMonth() + 1,
+                day: date.getDate()
+            },
+            endDate: {
+                year: date.getFullYear(),
+                month: date.getMonth() + 1,
+                day: date.getDate()
+            }
+        }});
+    }
+
+    clearDateRange(): void {
+        // Clear the date range using the setValue function
+        this.myForm.setValue({myDateRange: ''});
+    }
+}
+```
+
+Add the following snippet inside your template:
+
+```html
+<form [formGroup]="myForm" novalidate>
+    <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    formControlName="myDateRange"></my-date-range-picker>
+  <!-- other controls are here... -->
+</form>
+```
+
+### 3. ngModel binding
+
+In this option the ngModel binding is used. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-picker-access-modifier)
+is an example application. It shows how to use the __ngModel__.
+
+To use ngModel define the application class as follows:
+
+```ts
+export class MyTestApp {
+
+    private myDateRangePickerOptions = {
+        // other options...
+        dateFormat: 'dd.mm.yyyy',
+    };
+
+    // For example initialize to specific date (09.10.2018 - 19.10.2018). It is also possible
+    // to set initial date range value using the selDateRange attribute.
+    private model: Object = {beginDate: {year: 2018, month: 10, day: 9},
+                             endDate: {year: 2018, month: 10, day: 19}};
+
+    constructor() { }
+}
+```
+
+Add the following snippet inside your template:
+
+```html
+<form #myForm="ngForm" novalidate>
+    <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    [(ngModel)]="model" required></my-date-range-picker>
+</form>
+```
+
+## Attributes
 
 ### options attribute
 
@@ -136,6 +255,10 @@ To install this component to an external project, follow the procedure:
 Provide the initially chosen date range that will display both in the text input field
 and provide the default for the popped-up selector.
 
+Type of the __selDateRange__ attribute can be a string or an [IMyDateRange](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date-range.interface.ts) object.
+  * the string must be in the following format __dateFormat - dateFormat__ option is. For example '2018-10-09 - 2018-10-19'
+  * the object must be in the IMyDateRange format. For example: {beginDate: {year: 2018, month: 10, day: 9}, endDate: {year: 2018, month: 10, day: 19}}
+
 ### defaultMonth attribute
 
 If __selDateRange__ is not specified, when the daterangepicker is opened, it will
@@ -147,6 +270,8 @@ Value of the __[defaultMonth]__ attribute is a string which contain year number 
 month number separated by delimiter. The delimiter can be any special character.
 For example the value of the __[defaultMonth]__ attribute can be: __2016.08__,
 __08-2016__, __08/2016__.
+
+## Callbacks
 
 ### dateRangeChanged callback:
   * called when the date range is selected, removed or input field typing is valid
@@ -196,7 +321,7 @@ __08-2016__, __08/2016__.
   }
   ```
 
-### Change styles of the component
+## Change styles of the component
 
 The styles of the component can be changed by overriding the existing styles.
 

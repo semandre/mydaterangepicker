@@ -1,0 +1,61 @@
+<style>
+    .table {
+        width: 100%;
+    }
+
+    .table .td {
+        width: 50%;
+        vertical-align: top;
+    }
+
+    .title {
+        margin-bottom: 10px;
+    }
+
+    .button {
+        cursor: pointer;
+    }
+
+    .error {
+        width: 244px;
+        padding: 4px;
+        border: 1px solid #ebccd2;
+        color: #a94444;
+        background-color: #f2dede;
+        border-radius: 2px;
+    }
+</style>
+
+<table class="table">
+    <tr>
+        <!-- ngModel example-->
+        <td class="td">
+            <div class="title">ngModel</div>
+            <div>
+                <form #f="ngForm" (ngSubmit)="onSubmitNgModel()" novalidate>
+                    <my-date-range-picker name="ngModelDateRange" [options]="myDateRangePickerOptions" [(ngModel)]="model" required></my-date-range-picker>
+                    <div>
+                        <button class="button" type="submit" [disabled]="!f.valid">Submit</button>
+                        <p class="error" *ngIf="!f.valid">Date range is required!</p>
+                    </div>
+                </form>
+            </div>
+        </td>
+
+        <!-- Reactive forms example-->
+        <td class="td">
+            <div class="title">Reactive forms</div>
+            <div>
+                <form [formGroup]="myForm" (ngSubmit)="onSubmitReactiveForms()" novalidate>
+                    <my-date-range-picker name="reactiveFormsDateRange" [options]="myDateRangePickerOptions" formControlName="myDateRange"></my-date-range-picker>
+                    <div>
+                        <button class="button" type="submit" [disabled]="myForm.controls.myDateRange.errors">Submit</button>
+                        <button class="button" type="button" (click)="setDateRange()">Set Range (today)</button>
+                        <button class="button" type="button" (click)="clearDateRange()">Set Empty</button>
+                        <p class="error" *ngIf="myForm.controls.myDateRange.errors">Date range is required!</p>
+                    </div>
+                </form>
+            </div>
+        </td>
+    </tr>
+</table>

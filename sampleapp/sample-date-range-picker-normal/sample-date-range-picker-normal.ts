@@ -32,7 +32,8 @@ export class SampleDateRangePickerNormal implements OnInit {
         showSelectorArrow: true
     };
 
-    selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
+    //selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
+    selectedDateRangeNormal:Object = {beginDate: {year: 2018, month: 10, day: 9}, endDate: {year: 2018, month: 10, day: 19}};
 
     selectedTextNormal: string = '';
     border: string = 'none';

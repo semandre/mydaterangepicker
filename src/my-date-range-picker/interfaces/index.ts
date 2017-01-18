@@ -5,3 +5,4 @@ export * from "./my-month-labels.interface";
 export * from "./my-month.interface";
 export * from "./my-week.interface";
 export * from "./my-options.interface";
+export * from "./my-date-range-model.interface";
