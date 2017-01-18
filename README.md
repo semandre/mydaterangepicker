@@ -97,7 +97,7 @@ Add the following snippet inside your template:
 
 ### 2. Reactive forms
 
-In this option the value accessor of reactive forms is used. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-picker-access-modifier)
+In this option the value accessor of reactive forms is used. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-range-picker-access-modifier)
 is an example application. It shows how to use the __formControlName__.
 
 To use reactive forms define the application class as follows:
@@ -162,7 +162,7 @@ Add the following snippet inside your template:
 
 ### 3. ngModel binding
 
-In this option the ngModel binding is used. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-picker-access-modifier)
+In this option the ngModel binding is used. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-range-picker-access-modifier)
 is an example application. It shows how to use the __ngModel__.
 
 To use ngModel define the application class as follows:
