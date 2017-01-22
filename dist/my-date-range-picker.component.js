@@ -288,7 +288,7 @@ var MyDateRangePicker = (function () {
     };
     MyDateRangePicker.prototype.clearDateRange = function () {
         this.clearBtnClicked();
-        this.dateRangeChanged.emit({ beginDate: {}, endDate: {}, formatted: "", beginEpoc: 0, endEpoc: 0 });
+        this.dateRangeChanged.emit({ beginDate: { year: 0, month: 0, day: 0 }, endDate: { year: 0, month: 0, day: 0 }, formatted: "", beginEpoc: 0, endEpoc: 0 });
         this.inputFieldChanged.emit({ value: "", dateRangeFormat: this.dateRangeFormat, valid: false });
         this.onChangeCb("");
         this.invalidDateRange = false;

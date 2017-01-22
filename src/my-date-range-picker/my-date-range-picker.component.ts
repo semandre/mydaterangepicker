@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel } from "./interfaces/index";
+import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged } from "./interfaces/index";
 import { DateRangeValidatorService } from "./services/my-date-range-picker.date.range.validator.service";
 
 // webpack1_
@@ -27,9 +27,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     @Input() options: any;
     @Input() defaultMonth: string;
     @Input() selDateRange: string;
-    @Output() dateRangeChanged: EventEmitter<Object> = new EventEmitter();
-    @Output() inputFieldChanged: EventEmitter<Object> = new EventEmitter();
-    @Output() calendarViewChanged: EventEmitter<Object> = new EventEmitter();
+    @Output() dateRangeChanged: EventEmitter<IMyDateRangeModel> = new EventEmitter<IMyDateRangeModel>();
+    @Output() inputFieldChanged: EventEmitter<IMyInputFieldChanged> = new EventEmitter<IMyInputFieldChanged>();
+    @Output() calendarViewChanged: EventEmitter<IMyCalendarViewChanged> = new EventEmitter<IMyCalendarViewChanged>();
 
     onChangeCb: (_: any) => void = () => { };
     onTouchedCb: () => void = () => { };
@@ -327,7 +327,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     clearDateRange(): void {
         this.clearBtnClicked();
-        this.dateRangeChanged.emit({beginDate: {}, endDate: {}, formatted: "", beginEpoc: 0, endEpoc: 0});
+        this.dateRangeChanged.emit({beginDate: {year: 0, month: 0, day: 0}, endDate: {year: 0, month: 0, day: 0}, formatted: "", beginEpoc: 0, endEpoc: 0});
         this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
         this.onChangeCb("");
         this.invalidDateRange = false;

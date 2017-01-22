@@ -69,9 +69,12 @@ is an example application. It shows how to use callbacks.
 To use callbacks define the application class as follows:
 
 ```js
+import {IMyOptions, IMyDateRangeModel} from 'mydaterangepicker';
+// other imports here...
+
 export class MyTestApp {
 
-    private myDateRangePickerOptions = {
+    private myDateRangePickerOptions: IMyOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
@@ -81,7 +84,7 @@ export class MyTestApp {
     // dateRangeChanged callback function called when the user apply the date range. This is
     // mandatory callback in this option. There are also optional inputFieldChanged and
     // calendarViewChanged callbacks.
-    onDateRangeChanged(event: any) {
+    onDateRangeChanged(event: IMyDateRangeModel) {
         // event properties are: event.beginDate, event.endDate, event.formatted,
         // event.beginEpoc and event.endEpoc
     }
@@ -103,9 +106,12 @@ is an example application. It shows how to use the __formControlName__.
 To use reactive forms define the application class as follows:
 
 ```ts
+import {IMyOptions} from 'mydaterangepicker';
+// other imports here...
+
 export class MyTestApp implements OnInit {
 
-    private myDateRangePickerOptions = {
+    private myDateRangePickerOptions: IMyOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
@@ -168,9 +174,12 @@ is an example application. It shows how to use the __ngModel__.
 To use ngModel define the application class as follows:
 
 ```ts
+import {IMyOptions} from 'mydaterangepicker';
+// other imports here...
+
 export class MyTestApp {
 
-    private myDateRangePickerOptions = {
+    private myDateRangePickerOptions: IMyOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
@@ -196,6 +205,8 @@ Add the following snippet inside your template:
 ## Attributes
 
 ### options attribute
+
+Value of the __options__ attribute is a type of [IMyOptions](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-options.interface.ts). It can contain the following properties.
 
 | Option        | Default       | Description  |
 | ------------- | ------------- | ----- |
@@ -234,7 +245,7 @@ Add the following snippet inside your template:
 
 * Example of the options data (not all properties listed):
 ```js
-    myDateRangePickerOptions = {
+    myDateRangePickerOptions: IMyOptions = {
         clearBtnTxt: 'Clear',
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',
@@ -275,7 +286,7 @@ __08-2016__, __08/2016__.
 
 ## Callbacks
 
-### dateRangeChanged callback:
+### dateRangeChanged callback
   * called when the date range is selected, removed or input field typing is valid
   * event parameter:
     * event.beginDate: Date object in the following format: { day: 22, month: 11, year: 2016 }
@@ -283,42 +294,45 @@ __08-2016__, __08/2016__.
     * event.formatted: Date range string: '2016-11-22 - 2016-11-23'
     * event.beginEpoc: Epoc time stamp number: 1479765600
     * event.endEpoc: Epoc time stamp number: 1479852000
+  * event parameter type is [IMyDateRangeModel](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date-range-model.interface.ts)
 
   * Example of the dateChanged callback:
   ```js
-      onDateRangeChanged(event:any) {
+      onDateRangeChanged(event: IMyDateRangeModel) {
           console.log('onDateRangeChanged(): Begin date: ', event.beginDate, ' End date: ', event.endDate);
           console.log('onDateRangeChanged(): Formatted: ', event.formatted);
           console.log('onDateRangeChanged(): BeginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
       }
   ```
 
-### inputFieldChanged callback:
+### inputFieldChanged callback
   * called when the value change in the input field, date range is selected or date range is cleared (can be used in validation, returns true or false indicating is date range valid or not in the input field)
   * event parameter:
     * event.value: Value of the input field. For example: '2016-11-22 - 2016-11-23'
     * event.dateRangeFormat: Date range format string. For example: 'yyyy-mm-dd - yyyy-mm-dd'
     * event.valid: Boolean value indicating is the typed value valid. For example: true
+  * event parameter type is [IMyInputFieldChanged](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-input-field-changed.interface.ts)
 
   * Example of the input field changed callback:
   ```js
-  onInputFieldChanged(event:any) {
+  onInputFieldChanged(event: IMyCalendarViewChanged) {
     console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
   }
   ```
 
-### calendarViewChanged callback:
+### calendarViewChanged callback
   * called when the calendar view change (year or month change)
   * event parameter:
     * event.year: Year number in calendar. For example: 2016
     * event.month: Month number in calendar. For example: 11
     * event.first: First day of selected month and year. Object which contain day number and weekday string. For example: {number: 1, weekday: "tu"}
     * event.last: Last day of selected month and year. Object which contain day number and weekday string. For example: {number: 30, weekday: "we"}
+  * event parameter type is [IMyCalendarViewChanged](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-calendar-view-changed.interface.ts)
   * values of the weekday property are same as values of the __firstDayOfWeek__ option
 
   * Example of the calendar view changed callback:
   ```js
-  onCalendarViewChanged(event:any) {
+  onCalendarViewChanged(event: IMyCalendarViewChanged) {
     console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
   }
   ```
