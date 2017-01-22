@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {IMyOptions, IMyDateRangeModel} from 'mydaterangepicker';
 
 declare var require:any;
 const sampleDrpInlineTemplate: string = require('./sample-date-range-picker-inline.html');
@@ -10,7 +11,7 @@ const sampleDrpInlineTemplate: string = require('./sample-date-range-picker-inli
 
 export class SampleDateRangePickerInline implements OnInit {
 
-    private myDateRangePickerOptionsInline = {
+    private myDateRangePickerOptionsInline: IMyOptions = {
         clearBtnTxt: 'Clear',
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',
@@ -52,7 +53,7 @@ export class SampleDateRangePickerInline implements OnInit {
         let lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
         let copy = this.getCopyOfOptions();
-        copy.disableUntil = checked ? {year: date.getFullYear(), month: date.getMonth() + 1, day: lastDayOfMonth} : {};
+        copy.disableUntil = checked ? {year: date.getFullYear(), month: date.getMonth() + 1, day: lastDayOfMonth} : {year: 0, month: 0, day: 0};
         this.myDateRangePickerOptionsInline = copy;
     }
 
@@ -63,7 +64,7 @@ export class SampleDateRangePickerInline implements OnInit {
         date.setMonth(date.getMonth() + 1);
 
         let copy = this.getCopyOfOptions();
-        copy.disableSince = checked ? {year: date.getFullYear(), month: date.getMonth() + 1, day: 1} : {};
+        copy.disableSince = checked ? {year: date.getFullYear(), month: date.getMonth() + 1, day: 1} : {year: 0, month: 0, day: 0};
         this.myDateRangePickerOptionsInline = copy;
     }
 
@@ -71,7 +72,7 @@ export class SampleDateRangePickerInline implements OnInit {
         console.log('onInit(): SampleDateRangePickerInline');
     }
 
-    onDateRangeChanged(event:any) {
+    onDateRangeChanged(event: IMyDateRangeModel) {
         console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate, ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
         if(event.formatted !== '') {
             this.selectedTextInline = 'Formatted: ' + event.formatted;
@@ -83,7 +84,7 @@ export class SampleDateRangePickerInline implements OnInit {
         }
     }
 
-    getCopyOfOptions() {
+    getCopyOfOptions(): IMyOptions {
         return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsInline));
     }
 }

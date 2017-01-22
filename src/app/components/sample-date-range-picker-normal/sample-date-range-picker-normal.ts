@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {IMyOptions, IMyDateRangeModel, IMyInputFieldChanged} from 'mydaterangepicker';
 
 declare var require:any;
 const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-normal.html');
@@ -10,7 +11,7 @@ const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-norm
 
 export class SampleDateRangePickerNormal implements OnInit {
 
-    private myDateRangePickerOptionsNormal = {
+    private myDateRangePickerOptionsNormal: IMyOptions = {
         clearBtnTxt: 'Clear',
         beginDateBtnTxt: 'Begin Date',
         endDateBtnTxt: 'End Date',
@@ -62,7 +63,7 @@ export class SampleDateRangePickerNormal implements OnInit {
         this.myDateRangePickerOptionsNormal = copy;
     }
 
-    onDateRangeChanged(event:any) {
+    onDateRangeChanged(event: IMyDateRangeModel) {
         console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate, ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
         if(event.formatted !== '') {
             this.selectedTextNormal = 'Formatted: ' + event.formatted;
@@ -74,11 +75,11 @@ export class SampleDateRangePickerNormal implements OnInit {
         }
     }
 
-    onInputFieldChanged(event:any) {
+    onInputFieldChanged(event: IMyInputFieldChanged) {
         console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
     }
 
-    getCopyOfOptions() {
+    getCopyOfOptions(): IMyOptions {
         return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
     }
 }
