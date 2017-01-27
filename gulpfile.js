@@ -5,16 +5,14 @@ var sequence = require('run-sequence');
 var cleancss = require('gulp-clean-css');
 var htmlmin = require('gulp-htmlmin');
 var fs = require('fs');
-var ts = require('gulp-typescript');
-var merge = require('merge2');
 var tslint = require('gulp-tslint');
+var shell = require('gulp-shell');
+var jeditor = require("gulp-json-editor");
 
 var str1 = '// webpack1_';
 var str2 = '// webpack2_';
 var str3 = '/*';
 var str4 = '*/';
-
-var tsDistProject = ts.createProject('tsconfig.dist.json');
 
 /*
  *
@@ -22,52 +20,16 @@ var tsDistProject = ts.createProject('tsconfig.dist.json');
  *  - Minifies the css file.
  *  - Minifies the html template file.
  *  - Add html template and styles as inline templates to the my-date-range-picker.component.
- *  - Creates dist folder - contain javascript files of the component.
- *  - Creates npmdist folder - contain files needed to publish component to npm.
+ *  - Creates npmdist folder - contain files needed to publish to npm.
  *
  */
 
-gulp.task('tsc.compile.dist', function () {
-    var tsResult = tsDistProject.src().pipe(tsDistProject());
-    return merge([
-        tsResult.js.pipe(gulp.dest('tmp/dist')),
-        tsResult.dts.pipe(gulp.dest('tmp/dist'))
-    ]);
+gulp.task('clean', function () {
+    return gulp.src(['./build-sampleapp', './tmp', './test-output', './.tmpbuild', './npmdist'], {read: false}).pipe(clean());
 });
 
 gulp.task('backup.component.tmp', function() {
     return gulp.src('./src/my-date-range-picker/my-date-range-picker.component.ts').pipe(gulp.dest('./tmp'));
-});
-
-gulp.task('copy.src.to.npmdist.dir', function() {
-    return gulp.src(['./src/**/*.ts', '!./src/**/*spec.ts']).pipe(gulp.dest('./npmdist/src'));
-});
-
-gulp.task('copy.dist.to.npmdist.dir', function() {
-    return gulp.src('./dist/**/*.*').pipe(gulp.dest('./npmdist/dist'));
-});
-
-gulp.task('copy.root.files.to.npmdist.dir', function() {
-    return gulp.src(
-        [
-            './index.ts',
-            './LICENSE',
-            './package.json',
-            './README.md'
-        ]).pipe(gulp.dest('./npmdist'));
-});
-
-gulp.task('copy.build.files.to.dist.dir', function() {
-    return gulp.src(
-        [
-            './tmp/dist/**/*.*',
-            '!./tmp/dist/interfaces/*.*',
-            '!./tmp/dist/directives/my-date-range-picker.input.directive.d.ts',
-            '!./tmp/dist/services/my-date-range-picker.date.range.validator.service.d.ts',
-            '!./tmp/dist/my-date-range-picker.component.d.ts',
-            '!./tmp/dist/index.d.ts',
-            '!./tmp/dist/index.js'
-        ]).pipe(gulp.dest('./dist'));
 });
 
 gulp.task('minify.css', function() {
@@ -98,6 +60,48 @@ gulp.task('inline.template.and.styles.to.component', function() {
         }));
 });
 
+gulp.task('ngc.compile.publish', shell.task([
+    'npm run ngc'
+]));
+
+gulp.task('copy.build.to.npmdist.directory', function() {
+    return gulp.src(
+        [
+            './.tmpbuild/dist/**/*.*'
+        ]).pipe(gulp.dest('./npmdist/dist/'));
+});
+
+gulp.task('delete.tmpbuild.folder', function () {
+    return gulp.src(['./.tmpbuild'], {read: false}).pipe(clean());
+});
+
+gulp.task('build.bundle', shell.task([
+    'npm run rollup'
+]));
+
+gulp.task('copy.files.to.npmdist.root.dir', function() {
+    return gulp.src(
+        [
+            './LICENSE',
+            './package/README.md',
+            './package/index.d.ts',
+            './package/index.js'
+        ]).pipe(gulp.dest('./npmdist'));
+});
+
+gulp.task('edit.package.json.and.copy.to.npmdist.root.dir', function () {
+    gulp.src("./package.json")
+        .pipe(jeditor(function(json) {
+            json.scripts = {};
+            json.devDependencies = {};
+            json.files = [
+                'index.d.ts', 'index.js', 'LICENSE', 'package.json', 'README.md', 'dist', 'bundles'
+            ];
+            return json;
+        }))
+        .pipe(gulp.dest("./npmdist"));
+});
+
 gulp.task('delete.modified.component', function () {
     return gulp.src(['./src/my-date-range-picker/my-date-range-picker.component.ts'], {read: false}).pipe(clean());
 });
@@ -108,10 +112,6 @@ gulp.task('restore.original.component', function() {
 
 gulp.task('delete.tmp', function () {
     return gulp.src(['./tmp'], {read: false}).pipe(clean());
-});
-
-gulp.task('clean', function () {
-    return gulp.src(['./build', './tmp', './test-output', './npmdist'], {read: false}).pipe(clean());
 });
 
 gulp.task('tslint', function () {
@@ -137,15 +137,15 @@ gulp.task('all', function(cb) {
         'minify.css',
         'minify.html',
         'inline.template.and.styles.to.component',
-        'tsc.compile.dist',
-        'copy.build.files.to.dist.dir',
-        'copy.src.to.npmdist.dir',
-        'copy.dist.to.npmdist.dir',
-        'copy.root.files.to.npmdist.dir',
+        'ngc.compile.publish',
+        'copy.build.to.npmdist.directory',
+        'delete.tmpbuild.folder',
+        'build.bundle',
+        'copy.files.to.npmdist.root.dir',
+        'edit.package.json.and.copy.to.npmdist.root.dir',
         'delete.modified.component',
         'restore.original.component',
         'delete.tmp',
         'tslint',
         cb);
 });
-

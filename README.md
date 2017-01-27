@@ -7,7 +7,7 @@
 [![npm](https://img.shields.io/npm/v/mydaterangepicker.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/mydaterangepicker)
 
 ## Description
-Simple Angular2 date range picker. Online demo is [here](http://kekeh.github.io/mydaterangepicker)
+Highly configurable Angular2 date range picker. Online demo is [here](http://kekeh.github.io/mydaterangepicker)
 
 ## Installation
 
@@ -19,12 +19,7 @@ To install this component to an external project, follow the procedure:
     import { NgModule } from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
     import { MyTestApp } from './my-test-app';
-
-    // If you are using webpack package loader import the MyDateRangePickerModule from here:
     import { MyDateRangePickerModule } from 'mydaterangepicker';
-
-    // If you are using systemjs package loader import the MyDateRangePickerModule from here:
-    import { MyDateRangePickerModule } from 'mydatepicker/dist/my-date-range-picker.module';
 
     @NgModule({
         imports:      [ BrowserModule, MyDateRangePickerModule ],
@@ -44,14 +39,9 @@ To install this component to an external project, follow the procedure:
             map: {
                 // Other components are here...
 
-                'mydaterangepicker': 'npm:mydaterangepicker',
+                'mydaterangepicker': 'npm:mydaterangepicker/bundles/mydaterangepicker.umd.js'
             },
             packages: {
-                // Other components are here...
-
-                mydaterangepicker: {
-                    defaultExtension: 'js'
-                }
             }
         });
     })(this);
@@ -357,7 +347,7 @@ The [sampleapp](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp
   1. __npm install__
   2. __npm install --global gulp-cli__
 
-* Build __dist__ and __npmdist__ folders and execute __tslint__:
+* Build the __npmdist__ folders and execute __tslint__:
   1. __gulp all__
 
 * Execute unit tests and coverage (output is generated to the __test-output__ folder):
