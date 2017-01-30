@@ -277,9 +277,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                 }
                 this.titleAreaTextBegin = this.formatDate(this.beginDate);
                 this.titleAreaTextEnd = this.formatDate(this.endDate);
-                setTimeout(function() {
+                setTimeout(() => {
                     this.onChangeCb(this.getDateRangeModel(this.beginDate, this.endDate));
-                }.bind(this));
+                });
                 this.toBeginDate();
             }
             else {

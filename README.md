@@ -347,7 +347,7 @@ The [sampleapp](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp
   1. __npm install__
   2. __npm install --global gulp-cli__
 
-* Build the __npmdist__ folders and execute __tslint__:
+* Build the __npmdist__ folder and execute __tslint__:
   1. __gulp all__
 
 * Execute unit tests and coverage (output is generated to the __test-output__ folder):
