@@ -1517,63 +1517,6 @@ describe('MyDateRangePicker', () => {
         expect(invaliddate).toBe(null);
     });
 
-    it('options - show date format in placeholder', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
-        comp.options = {
-            showDateRangeFormatPlaceholder: true,
-            dateFormat: 'dd.mm.yyyy'
-        };
-
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        let selection = getElement('.selection');
-        expect(selection).not.toBe(null);
-        expect(selection.properties['placeholder']).toBe(comp.opts.dateFormat + ' - ' + comp.opts.dateFormat);
-
-        comp.options = {
-            showDateRangeFormatPlaceholder: false,
-            dateFormat: 'dd.mm.yyyy'
-        };
-
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        selection = getElement('.selection');
-        expect(selection).not.toBe(null);
-        expect(selection.properties['placeholder']).toBe('');
-    });
-
-    it('options - show custom text in placeholder', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
-        comp.options = {showDateRangeFormatPlaceholder: true, dateFormat: 'dd.mm.yyyy', customPlaceholderTxt: 'test placeholder'};
-
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        let selection = getElement('.selection');
-        expect(selection).not.toBe(null);
-        expect(selection.properties['placeholder']).toBe(comp.opts.dateFormat + ' - ' + comp.opts.dateFormat);
-
-        comp.options = {showDateRangeFormatPlaceholder: false, dateFormat: 'dd.mm.yyyy', customPlaceholderTxt: 'test placeholder'};
-
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        selection = getElement('.selection');
-        expect(selection).not.toBe(null);
-        expect(selection.properties['placeholder']).toBe('test placeholder');
-
-        comp.options = {customPlaceholderTxt: 'test placeholder'};
-
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        selection = getElement('.selection');
-        expect(selection).not.toBe(null);
-        expect(selection.properties['placeholder']).toBe('test placeholder');
-    });
-
     it('options - disable component', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
         comp.options = {componentDisabled: true};
@@ -1818,6 +1761,22 @@ describe('MyDateRangePicker', () => {
         let yearLabel = getElement('.headeryeartxt .headerlabelbtn');
         expect(yearLabel).not.toBe(null);
         expect(yearLabel.nativeElement.textContent).toBe('2019');
+    });
+
+    it('placeholder - placeholder text', () => {
+        comp.placeholder = '';
+
+        fixture.detectChanges();
+        let selection = getElement('.selection');
+        expect(selection).not.toBe(null);
+        expect(selection.properties['placeholder']).toBe('');
+
+        comp.placeholder = 'Select date range';
+
+        fixture.detectChanges();
+        selection = getElement('.selection');
+        expect(selection).not.toBe(null);
+        expect(selection.properties['placeholder']).toBe(comp.placeholder);
     });
 
 });

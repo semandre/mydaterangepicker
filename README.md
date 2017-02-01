@@ -226,8 +226,6 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 | __selectionTxtFontSize__   | 18px | Selection area font size. Can be used if __inline = false__. |
 | __alignSelectorRight__   | false | Align selector right. Can be used if __inline = false__. |
 | __indicateInvalidDateRange__   | true | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
-| __showDateRangeFormatPlaceholder__   | false | Show value of __dateFormat__ - __dateFormat__ as placeholder in the selection area if it is empty. Can be used if __inline = false__. |
-| __customPlaceholderTxt__   | empty string | Show custom string in the selection area if a date range is not selected. Can be used if __showDateRangeFormatPlaceholder = false__ and __inline = false__. |
 | __componentDisabled__   | false | Is selection area input field and buttons disabled or not (input disabled flag). Can be used if __inline = false__. |
 | __editableDateRangeField__   | true | Is selection area input field editable or not (input readonly flag). Can be used if __inline = false__. |
 | __inputValueRequired__   | false | Is selection area input field value required or not (input required flag). Can be used if __inline = false__. |
@@ -273,6 +271,10 @@ Value of the __[defaultMonth]__ attribute is a string which contain year number 
 month number separated by delimiter. The delimiter can be any special character.
 For example the value of the __[defaultMonth]__ attribute can be: __2016.08__,
 __08-2016__, __08/2016__.
+
+### placeholder attribute
+
+Placeholder text in the input field.
 
 ## Callbacks
 

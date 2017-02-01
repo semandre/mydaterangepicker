@@ -25,7 +25,6 @@ export class SampleDateRangePickerNormal implements OnInit {
         selectionTxtFontSize: '13px',
         alignSelectorRight: false,
         indicateInvalidDateRange: true,
-        showDateRangeFormatPlaceholder: true,
         minYear: 2000,
         maxYear: 2099,
         componentDisabled: false,
@@ -38,6 +37,8 @@ export class SampleDateRangePickerNormal implements OnInit {
 
     selectedTextNormal: string = '';
     border: string = 'none';
+
+    placeholderTxt: string = '';
 
     constructor() {
         console.log('constructor(): SampleDateRangePickerNormal');
@@ -69,6 +70,10 @@ export class SampleDateRangePickerNormal implements OnInit {
         let copy = this.getCopyOfOptions();
         copy.showClearDateRangeBtn = checked;
         this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowPlaceholderText(checked: boolean) {
+        this.placeholderTxt = checked ? 'Select a date range' : '';
     }
 
     ngOnInit() {

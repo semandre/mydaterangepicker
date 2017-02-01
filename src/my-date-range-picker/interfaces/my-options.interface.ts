@@ -24,8 +24,6 @@ export interface IMyOptions {
     selectionTxtFontSize?: string;
     alignSelectorRight?: boolean;
     indicateInvalidDateRange?: boolean;
-    showDateRangeFormatPlaceholder?: boolean;
-    customPlaceholderTxt?: string;
     editableDateRangeField?: boolean;
     editableMonthAndYear?: boolean;
     minYear?: number;

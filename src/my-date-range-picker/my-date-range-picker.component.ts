@@ -27,6 +27,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     @Input() options: any;
     @Input() defaultMonth: string;
     @Input() selDateRange: string;
+    @Input() placeholder: string;
     @Output() dateRangeChanged: EventEmitter<IMyDateRangeModel> = new EventEmitter<IMyDateRangeModel>();
     @Output() inputFieldChanged: EventEmitter<IMyInputFieldChanged> = new EventEmitter<IMyInputFieldChanged>();
     @Output() calendarViewChanged: EventEmitter<IMyCalendarViewChanged> = new EventEmitter<IMyCalendarViewChanged>();
@@ -88,8 +89,6 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         selectionTxtFontSize: <string> "16px",
         alignSelectorRight: <boolean> false,
         indicateInvalidDateRange: <boolean> true,
-        showDateRangeFormatPlaceholder: <boolean> false,
-        customPlaceholderTxt: <string> "",
         editableDateRangeField: <boolean> true,
         editableMonthAndYear: <boolean> true,
         minYear: <number> this.MIN_YEAR,
@@ -245,6 +244,10 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        if (changes.hasOwnProperty("placeholder")) {
+            this.placeholder = changes["placeholder"].currentValue;
+        }
+
         if (changes.hasOwnProperty("options")) {
             this.options = changes["options"].currentValue;
             this.weekDays.length = 0;

@@ -1,6 +1,6 @@
 <div class="mydrp" [ngStyle]="{'width': opts.width, 'border': opts.inline ? 'none' : null}">
     <div class="selectiongroup" *ngIf="!opts.inline">
-        <input type="text" class="selection" aria-label="Date range input field" [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{opts.showDateRangeFormatPlaceholder?dateRangeFormat:opts.customPlaceholderTxt}}"
+        <input type="text" class="selection" aria-label="Date range input field" [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{placeholder}}"
                [ngStyle]="{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0&&opts.showClearDateRangeBtn ? '60px' : '30px'}"
                (keyup)="userDateRangeInput($event)" (blur)="lostFocusInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField" [required]="opts.inputValueRequired">
         <span class="selbtngroup" [style.height]="opts.height">

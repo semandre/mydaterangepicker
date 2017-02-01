@@ -24,13 +24,19 @@
                 <input style="cursor: pointer" type="checkbox" (change)="onAlignSelectorRight($event.currentTarget.checked)" [checked]="false">
             </label>
         </li>
+        <li>
+            <label>
+                <span>Show placeholder text:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onShowPlaceholderText($event.currentTarget.checked)" [checked]="false">
+            </label>
+        </li>
     </ul>
 
     <table style="width: 100%">
         <tr>
             <td style="vertical-align: top">
                 <my-date-range-picker [options]="myDateRangePickerOptionsNormal" (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)"
-                                (calendarViewChanged)="onCalendarViewChanged($event)" [selDateRange]="selectedDateRangeNormal"></my-date-range-picker>
+                                (calendarViewChanged)="onCalendarViewChanged($event)" [selDateRange]="selectedDateRangeNormal" [placeholder]="placeholderTxt"></my-date-range-picker>
             </td>
             <td style="vertical-align: top">
                 <div style="padding:4px;border-radius:4px;float:right" [ngStyle]="{border: border}">
