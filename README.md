@@ -246,8 +246,7 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
         inline: false,
         selectionTxtFontSize: '15px',
         alignSelectorRight: false,
-        indicateInvalidDateRange: true,
-        showDateRangeFormatPlaceholder: false
+        indicateInvalidDateRange: true
     };
 ```
 
