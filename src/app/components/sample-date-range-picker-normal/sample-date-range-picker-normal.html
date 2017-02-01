@@ -30,7 +30,7 @@
         <tr>
             <td style="vertical-align: top">
                 <my-date-range-picker [options]="myDateRangePickerOptionsNormal" (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)"
-                                      [selDateRange]="selectedDateRangeNormal"></my-date-range-picker>
+                                      [selDateRange]="selectedDateRangeNormal" [placeholder]="placeholderTxt"></my-date-range-picker>
             </td>
             <td style="vertical-align: top">
                 <div style="padding:4px;border-radius:4px;float:right" [ngStyle]="{border: border}">

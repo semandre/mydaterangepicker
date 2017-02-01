@@ -31,6 +31,8 @@ export class SampleDateRangePickerNormal implements OnInit {
     selectedTextNormal: string = '';
     border: string = 'none';
 
+    placeholderTxt: string = 'Select a date range';
+
     constructor() {
         console.log('constructor(): SampleDateRangePickerNormal');
     }
