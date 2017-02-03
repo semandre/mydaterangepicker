@@ -81,7 +81,7 @@ export class SampleDateRangePickerNormal implements OnInit {
     }
 
     onDateRangeChanged(event: IMyDateRangeModel) {
-        console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' End: ', event.endDate, ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
+        console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' - beginJsDate: ', new Date(event.beginJsDate).toLocaleDateString(), ' - End: ', event.endDate, ' - endJsDate: ', new Date(event.endJsDate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
         if(event.formatted !== '') {
             this.selectedTextNormal = 'Formatted: ' + event.formatted;
             this.border = '1px solid #CCC';

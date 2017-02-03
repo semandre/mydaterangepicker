@@ -281,7 +281,9 @@ Placeholder text in the input field.
   * called when the date range is selected, removed or input field typing is valid
   * event parameter:
     * event.beginDate: Date object in the following format: { day: 22, month: 11, year: 2016 }
+    * event.beginJsDate: Javascript Date object of begin date
     * event.endDate: Date object in the following format: { day: 23, month: 11, year: 2016 }
+    * event.endJsDate: Javascript Date object of end date
     * event.formatted: Date range string: '2016-11-22 - 2016-11-23'
     * event.beginEpoc: Epoc time stamp number: 1479765600
     * event.endEpoc: Epoc time stamp number: 1479852000

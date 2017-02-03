@@ -330,7 +330,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     clearDateRange(): void {
         this.clearBtnClicked();
-        this.dateRangeChanged.emit({beginDate: {year: 0, month: 0, day: 0}, endDate: {year: 0, month: 0, day: 0}, formatted: "", beginEpoc: 0, endEpoc: 0});
+        this.dateRangeChanged.emit({beginDate: {year: 0, month: 0, day: 0}, beginJsDate: null, endDate: {year: 0, month: 0, day: 0}, endJsDate: null, formatted: "", beginEpoc: 0, endEpoc: 0});
         this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
         this.onChangeCb("");
         this.invalidDateRange = false;
@@ -464,7 +464,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         // Creates a date range model object from the given parameters
         let bEpoc: number = this.getTimeInMilliseconds(beginDate) / 1000.0;
         let eEpoc: number = this.getTimeInMilliseconds(endDate) / 1000.0;
-        return {beginDate: beginDate, endDate: endDate, formatted: this.formatDate(beginDate) + " - " + this.formatDate(endDate), beginEpoc: bEpoc, endEpoc: eEpoc};
+        return {beginDate: beginDate, beginJsDate: this.getDate(beginDate.year, beginDate.month, beginDate.day), endDate: endDate, endJsDate: this.getDate(endDate.year, endDate.month, endDate.day), formatted: this.formatDate(beginDate) + " - " + this.formatDate(endDate), beginEpoc: bEpoc, endEpoc: eEpoc};
     }
 
     isInRange(val: any): boolean {
