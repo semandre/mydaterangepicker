@@ -226,13 +226,18 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         if (value && value["beginDate"] && value["endDate"]) {
             this.beginDate = this.parseSelectedDate(value["beginDate"]);
             this.endDate = this.parseSelectedDate(value["endDate"]);
-            this.titleAreaTextBegin = this.formatDate(this.beginDate);
-            this.titleAreaTextEnd = this.formatDate(this.endDate);
-            this.rangeSelected();
+            let begin: string = this.formatDate(this.beginDate);
+            let end: string = this.formatDate(this.endDate);
+            this.titleAreaTextBegin = begin;
+            this.titleAreaTextEnd = end;
+            this.selectionDayTxt = begin + " - " + end;
+            this.inputFieldChanged.emit({value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true});
         }
         else if (value === "") {
-            this.clearDateRange();
+            this.clearBtnClicked();
+            this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
         }
+        this.invalidDateRange = false;
     }
 
     registerOnChange(fn: any): void {
@@ -326,14 +331,6 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             this.visibleMonth = {monthTxt: this.opts.monthLabels[m], monthNbr: m, year: y};
             this.generateCalendar(m, y, true);
         }
-    }
-
-    clearDateRange(): void {
-        this.clearBtnClicked();
-        this.dateRangeChanged.emit({beginDate: {year: 0, month: 0, day: 0}, beginJsDate: null, endDate: {year: 0, month: 0, day: 0}, endJsDate: null, formatted: "", beginEpoc: 0, endEpoc: 0});
-        this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
-        this.onChangeCb("");
-        this.invalidDateRange = false;
     }
 
     prevMonth(): void {
@@ -447,12 +444,17 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
     }
 
+    clearDateRange(): void {
+        this.clearBtnClicked();
+        this.dateRangeChanged.emit({beginDate: {year: 0, month: 0, day: 0}, beginJsDate: null, endDate: {year: 0, month: 0, day: 0}, endJsDate: null, formatted: "", beginEpoc: 0, endEpoc: 0});
+        this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
+        this.onChangeCb("");
+    }
+
     rangeSelected(): void {
         // Accept button clicked
         let dateRangeModel: IMyDateRangeModel = this.getDateRangeModel(this.beginDate, this.endDate);
-        let begin: string = this.formatDate(this.beginDate);
-        let end: string = this.formatDate(this.endDate);
-        this.selectionDayTxt = begin + " - " + end;
+        this.selectionDayTxt = this.formatDate(this.beginDate) + " - " + this.formatDate(this.endDate);
         this.showSelector = false;
         this.dateRangeChanged.emit(dateRangeModel);
         this.inputFieldChanged.emit({value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true});

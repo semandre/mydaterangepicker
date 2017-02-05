@@ -90,6 +90,7 @@
 }
 
 .mydrp .selection {
+    outline: none;
     background-color: #FFF;
     display: table-cell;
     position: absolute;

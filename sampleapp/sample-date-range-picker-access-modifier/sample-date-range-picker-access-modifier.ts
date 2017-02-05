@@ -39,7 +39,7 @@ export class SampleDateRangePickerAccessModifier implements OnInit {
     }
 
     onSubmitReactiveForms(): void {
-        console.log('Value: ', this.myForm.controls['myDateRange'].value);
+        console.log('Value: ', this.myForm.controls['myDateRange'].value, ' - Valid: ', this.myForm.controls['myDateRange'].valid, ' - Dirty: ', this.myForm.controls['myDateRange'].dirty);
     }
 
     setDateRange(): void {
@@ -49,6 +49,15 @@ export class SampleDateRangePickerAccessModifier implements OnInit {
         let month: number = date.getMonth() + 1;
         let day: number = date.getDate();
         this.myForm.setValue({myDateRange: {beginDate: {year: year, month: month, day: day}, endDate: {year: year, month: month, day: day}}});
+    }
+
+    resetDateRange(): void {
+        // Reset date picker to specific date range (today)
+        let date: Date = new Date();
+        let year: number = date.getFullYear();
+        let month: number = date.getMonth() + 1;
+        let day: number = date.getDate();
+        this.myForm.reset({myDateRange: {beginDate: {year: year, month: month, day: day}, endDate: {year: year, month: month, day: day}}});
     }
 
     clearDateRange(): void {

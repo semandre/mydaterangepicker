@@ -51,6 +51,7 @@
                     <div>
                         <button class="button" type="submit" [disabled]="myForm.controls.myDateRange.errors">Submit</button>
                         <button class="button" type="button" (click)="setDateRange()">Set Range (today)</button>
+                        <button class="button" type="button" (click)="resetDateRange()">Reset Range (today)</button>
                         <button class="button" type="button" (click)="clearDateRange()">Set Empty</button>
                         <p class="error" *ngIf="myForm.controls.myDateRange.errors">Date range is required!</p>
                     </div>
