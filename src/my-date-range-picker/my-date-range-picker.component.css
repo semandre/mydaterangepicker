@@ -20,11 +20,16 @@
     margin-left: -1px;
     position: absolute;
     width: 252px;
-    padding: 1px;
+    padding: 0;
+    border: 1px solid #CCC;
     border-radius: 2px;
-    background-color: #CCC;
     z-index: 100;
-    animation: selectorfadein 0.1s;
+    animation: selectorfadein 0.06s;
+}
+
+.mydrp .selector:focus {
+    border: 1px solid #ADD8E6;
+    outline: none;
 }
 
 @keyframes selectorfadein {
@@ -65,6 +70,10 @@
     border-bottom-color: #CCC;
     border-width: 11px;
     margin-left: -11px;
+}
+
+.mydrp .selectorarrow:focus:before {
+    border-bottom-color: #ADD8E6;
 }
 
 .mydrp .selectorarrowleft:after,
