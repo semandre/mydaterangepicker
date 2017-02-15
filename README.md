@@ -219,6 +219,7 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 | __maxYear__   | 9999 | Maximum allowed year in calendar. Cannot be more than 9999. |
 | __disableUntil__   | no default value | Disable dates backward starting from the given date. For example: {year: 2016, month: 6, day: 26} |
 | __disableSince__   | no default value | Disable dates forward starting from the given date. For example: {year: 2016, month: 7, day: 22} |
+| __disableHeaderButtons__   | true | Prevent to change the calendar view with header buttons if previous or next month are fully disabled by disableUntil or disableSince. |
 | __inline__   | false | Show mydaterangepicker in inline mode. |
 | __showClearDateRangeBtn__   | true | Is clear date range button shown or not. Can be used if __inline = false__. |
 | __height__   | 34px | mydatepicker height without selector. Can be used if __inline = false__. |

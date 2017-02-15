@@ -136,13 +136,19 @@
 }
 
 .mydrp .btnpickerenabled,
-.mydrp .btnclearenabled {
+.mydrp .btnclearenabled,
+.mydrp .headerbtnenabled {
     cursor: pointer;
 }
 
 .mydrp .btnpickerdisabled,
-.mydrp .btncleardisabled {
+.mydrp .btncleardisabled,
+.mydrp .headerbtndisabled {
     cursor: not-allowed;
+}
+
+.mydrp .headerbtndisabled {
+    opacity: 0.4;
 }
 
 .mydrp .btnpicker,
@@ -311,11 +317,6 @@
     background-color: #28A828 !important;
 }
 
-.mydrp .selectmenu {
-    height: 24px;
-    width: 60px
-}
-
 .mydrp .headerbtncell {
     background-color: #FFF;
     cursor: pointer;
@@ -466,7 +467,6 @@
     background-color: #8BDAF4;
 }
 
-.mydrp .headerbtn,
 .mydrp .monthlabel,
 .mydrp .yearlabel {
     cursor: pointer;
@@ -482,7 +482,7 @@
     border-radius: 2px;
 }
 
-.mydrp .headerbtn:hover,
+.mydrp .headerbtnenabled:hover,
 .mydrp .monthlabel:hover,
 .mydrp .yearlabel:hover {
     color: #8BDAF4;

@@ -25,11 +25,14 @@ export class SampleDateRangePickerNormal implements OnInit {
         selectionTxtFontSize: '13px',
         alignSelectorRight: false,
         indicateInvalidDateRange: true,
-        minYear: 2000,
-        maxYear: 2099,
+        minYear: 1900,
+        maxYear: 2200,
         componentDisabled: false,
         showClearDateRangeBtn: true,
-        showSelectorArrow: true
+        showSelectorArrow: true,
+        disableHeaderButtons: true,
+        disableUntil: {year: 2001, month: 11, day: 10},
+        disableSince: {year: 2030, month: 3, day: 10}
     };
 
     //selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
@@ -74,6 +77,12 @@ export class SampleDateRangePickerNormal implements OnInit {
 
     onShowPlaceholderText(checked: boolean) {
         this.placeholderTxt = checked ? 'Select a date range' : '';
+    }
+
+    onDisableHeaderButtons(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.disableHeaderButtons = checked;
+        this.myDateRangePickerOptionsNormal = copy;
     }
 
     ngOnInit() {

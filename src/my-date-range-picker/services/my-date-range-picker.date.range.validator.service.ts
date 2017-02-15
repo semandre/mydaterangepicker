@@ -95,19 +95,31 @@ export class DateRangeValidatorService {
 
     public isDisabledDay(date: IMyDate, disableUntil: IMyDate, disableSince: IMyDate, preventBefore: IMyDate, preventAfter: IMyDate): boolean {
         let givenDate: number = this.getTimeInMilliseconds(date);
-        if (disableUntil.year !== 0 && disableUntil.month !== 0 && disableUntil.day !== 0 && givenDate <= this.getTimeInMilliseconds(disableUntil)) {
+        if (this.isInitializedDate(disableUntil) && givenDate <= this.getTimeInMilliseconds(disableUntil)) {
             return true;
         }
-        if (disableSince.year !== 0 && disableSince.month !== 0 && disableSince.day !== 0 && givenDate >= this.getTimeInMilliseconds(disableSince)) {
+        if (this.isInitializedDate(disableSince) && givenDate >= this.getTimeInMilliseconds(disableSince)) {
             return true;
         }
-        if (preventBefore.year !== 0 && preventBefore.month !== 0 && preventBefore.day !== 0 && givenDate <= this.getTimeInMilliseconds(preventBefore)) {
+        if (this.isInitializedDate(preventBefore) && givenDate <= this.getTimeInMilliseconds(preventBefore)) {
             return true;
         }
-        if (preventAfter.year !== 0 && preventAfter.month !== 0 && preventAfter.day !== 0 && givenDate >= this.getTimeInMilliseconds(preventAfter)) {
+        if (this.isInitializedDate(preventAfter) && givenDate >= this.getTimeInMilliseconds(preventAfter)) {
             return true;
         }
         return false;
+    }
+
+    public isMonthDisabledByDisableUntil(date: IMyDate, disableUntil: IMyDate): boolean {
+        return this.isInitializedDate(disableUntil) && this.getTimeInMilliseconds(date) <= this.getTimeInMilliseconds(disableUntil);
+    }
+
+    public isMonthDisabledByDisableSince(date: IMyDate, disableSince: IMyDate): boolean {
+        return this.isInitializedDate(disableSince) && this.getTimeInMilliseconds(date) >= this.getTimeInMilliseconds(disableSince);
+    }
+
+    private isInitializedDate(date: IMyDate): boolean {
+        return date.year !== 0 && date.month !== 0 && date.day !== 0;
     }
 
     private isDateValid(date: string, dateFormat: string, minYear: number, maxYear: number, monthLabels: IMyMonthLabels, isMonthStr: boolean): IMyDate {

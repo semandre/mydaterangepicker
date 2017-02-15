@@ -30,6 +30,12 @@
                 <input style="cursor: pointer" type="checkbox" (change)="onShowPlaceholderText($event.currentTarget.checked)" [checked]="false">
             </label>
         </li>
+        <li>
+            <label>
+                <span>Disable header buttons:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onDisableHeaderButtons($event.currentTarget.checked)" [checked]="true">
+            </label>
+        </li>
     </ul>
 
     <table style="width: 100%">
