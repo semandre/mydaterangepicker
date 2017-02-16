@@ -29,8 +29,8 @@
     <table style="width: 100%">
         <tr>
             <td style="vertical-align: top">
-                <my-date-range-picker [options]="myDateRangePickerOptionsNormal" (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)"
-                                      [selDateRange]="selectedDateRangeNormal" [placeholder]="placeholderTxt"></my-date-range-picker>
+                <my-date-range-picker [options]="myDateRangePickerOptionsNormal" [selDateRange]="selectedDateRangeNormal" [placeholder]="placeholderTxt"
+                                      (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)" (dateSelected)="onDateSelected($event)"></my-date-range-picker>
             </td>
             <td style="vertical-align: top">
                 <div style="padding:4px;border-radius:4px;float:right" [ngStyle]="{border: border}">
