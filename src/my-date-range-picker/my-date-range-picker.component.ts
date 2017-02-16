@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged } from "./interfaces/index";
+import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected } from "./interfaces/index";
 import { DateRangeValidatorService } from "./services/my-date-range-picker.date.range.validator.service";
 
 // webpack1_
@@ -31,6 +31,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     @Output() dateRangeChanged: EventEmitter<IMyDateRangeModel> = new EventEmitter<IMyDateRangeModel>();
     @Output() inputFieldChanged: EventEmitter<IMyInputFieldChanged> = new EventEmitter<IMyInputFieldChanged>();
     @Output() calendarViewChanged: EventEmitter<IMyCalendarViewChanged> = new EventEmitter<IMyCalendarViewChanged>();
+    @Output() dateSelected: EventEmitter<IMyDateSelected> = new EventEmitter<IMyDateSelected>();
 
     onChangeCb: (_: any) => void = () => { };
     onTouchedCb: () => void = () => { };
@@ -340,7 +341,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     prevMonth(): void {
-        let d: Date = this.getDate(this.visibleMonth.year, this.visibleMonth.monthNbr, 1);
+        let d: Date = this.getDate({year: this.visibleMonth.year, month: this.visibleMonth.monthNbr, day: 1});
         d.setMonth(d.getMonth() - 1);
 
         let y: number = d.getFullYear();
@@ -351,7 +352,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     nextMonth(): void {
-        let d: Date = this.getDate(this.visibleMonth.year, this.visibleMonth.monthNbr, 1);
+        let d: Date = this.getDate({year: this.visibleMonth.year, month: this.visibleMonth.monthNbr, day: 1});
         d.setMonth(d.getMonth() + 1);
 
         let y: number = d.getFullYear();
@@ -396,10 +397,12 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             this.beginDate = cell.dateObj;
             this.titleAreaTextBegin = this.formatDate(this.beginDate);
             this.titleAreaTextEnd = this.endDate.year === 0 ? this.opts.selectEndDateTxt : this.formatDate(this.endDate);
+            this.dateSelected.emit({type: 1, date: this.beginDate, formatted: this.titleAreaTextBegin, jsdate: this.getDate(this.beginDate)});
         }
         else {
             this.endDate = cell.dateObj;
             this.titleAreaTextEnd = this.formatDate(this.endDate);
+            this.dateSelected.emit({type: 2, date: this.endDate, formatted: this.titleAreaTextEnd, jsdate: this.getDate(this.endDate)});
         }
     }
 
@@ -472,7 +475,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         // Creates a date range model object from the given parameters
         let bEpoc: number = this.getTimeInMilliseconds(beginDate) / 1000.0;
         let eEpoc: number = this.getTimeInMilliseconds(endDate) / 1000.0;
-        return {beginDate: beginDate, beginJsDate: this.getDate(beginDate.year, beginDate.month, beginDate.day), endDate: endDate, endJsDate: this.getDate(endDate.year, endDate.month, endDate.day), formatted: this.formatDate(beginDate) + " - " + this.formatDate(endDate), beginEpoc: bEpoc, endEpoc: eEpoc};
+        return {beginDate: beginDate, beginJsDate: this.getDate(beginDate), endDate: endDate, endJsDate: this.getDate(endDate), formatted: this.formatDate(beginDate) + " - " + this.formatDate(endDate), beginEpoc: bEpoc, endEpoc: eEpoc};
     }
 
     isInRange(val: any): boolean {
@@ -531,7 +534,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     daysInPrevMonth(m: number, y: number): number {
-        let d: Date = this.getDate(y, m, 1);
+        let d: Date = this.getDate({year: y, month: m, day: 1});
         d.setMonth(d.getMonth() - 1);
         return this.daysInMonth(d.getMonth() + 1, d.getFullYear());
     }
@@ -543,26 +546,26 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     getPreviousDate(date: IMyDate): IMyDate {
         // Get previous date from the given date
-        let d: Date = this.getDate(date.year, date.month, date.day);
+        let d: Date = this.getDate(date);
         d.setDate(d.getDate() - 1);
         return {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
     }
 
     getNextDate(date: IMyDate): IMyDate {
         // Get next date from the given date
-        let d: Date = this.getDate(date.year, date.month, date.day);
+        let d: Date = this.getDate(date);
         d.setDate(d.getDate() + 1);
         return {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
     }
 
     getTimeInMilliseconds(date: IMyDate): number {
         // Returns time in milliseconds
-        return this.getDate(date.year, date.month, date.day).getTime();
+        return this.getDate(date).getTime();
     }
 
     getDayNumber(date: IMyDate): number {
         // Get day number: sun=0, mon=1, tue=2, wed=3 ...
-        let d: Date = this.getDate(date.year, date.month, date.day);
+        let d: Date = this.getDate(date);
         return d.getDay();
     }
 
@@ -571,8 +574,8 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         return this.weekDayOpts[this.getDayNumber(date)];
     }
 
-    getDate(year: number, month: number, day: number): Date {
-        return new Date(year, month - 1, day, 0, 0, 0, 0);
+    getDate(date: IMyDate): Date {
+        return new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0);
     }
 
     getToday(): IMyDate {

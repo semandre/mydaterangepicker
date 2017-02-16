@@ -9,3 +9,4 @@ export * from "./my-date-range-model.interface";
 export * from "./my-input-field-changed.interface";
 export * from "./my-weekday.interface";
 export * from "./my-calendar-view-changed.interface";
+export * from "./my-date-selected.interface";

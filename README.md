@@ -331,6 +331,22 @@ Placeholder text in the input field.
   }
   ```
 
+### dateSelected callback
+  * called when the date (begin or end) is selected
+  * event parameter:
+    * event.type: Type of selected date (begin or end). 1 = begin date, 2 = end date
+    * event.date: Date object in the following format: { day: 23, month: 11, year: 2016 }
+    * event.formatted: Formatted date based on dateFormat option
+    * event.jsdate: Javascript Date object of the selected date
+  * event parameter type is [IMyDateSelected](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date-selected.interface.ts)
+
+  * Example of the date selected callback:
+  ```js
+    onDateSelected(event: IMyDateSelected) {
+        console.log('onDateSelected(): Value: ', event);
+    }
+  ```
+
 ## Change styles of the component
 
 The styles of the component can be changed by overriding the existing styles.

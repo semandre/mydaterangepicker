@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IMyOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged} from '../../src/my-date-range-picker/interfaces';
+import {IMyOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected} from '../../src/my-date-range-picker/interfaces';
 
 declare var require:any;
 const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-normal.html');
@@ -109,6 +109,10 @@ export class SampleDateRangePickerNormal implements OnInit {
 
     onCalendarViewChanged(event: IMyCalendarViewChanged) {
         console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
+    }
+
+    onDateSelected(event: IMyDateSelected) {
+        console.log('onDateSelected(): Value: ', event);
     }
 
     getCopyOfOptions(): IMyOptions {
