@@ -85,6 +85,12 @@ export class SampleDateRangePickerNormal implements OnInit {
         this.myDateRangePickerOptionsNormal = copy;
     }
 
+    onQuickDateRangeSelection(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.quickRangeSelect = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
     ngOnInit() {
         console.log('onInit(): SampleDateRangePickerNormal');
     }
