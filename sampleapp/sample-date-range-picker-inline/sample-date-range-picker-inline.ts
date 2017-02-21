@@ -21,7 +21,7 @@ export class SampleDateRangePickerInline implements OnInit {
         sunHighlight: true,
         inline: true,
         markCurrentDay: true,
-        showSelectDateText: false
+        showSelectDateText: true
     };
 
     selectedDateRangeInline:string = '';
