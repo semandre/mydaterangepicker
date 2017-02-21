@@ -1755,6 +1755,71 @@ describe('MyDateRangePicker', () => {
         btnpicker.nativeElement.click();
     });
 
+    it('options - quick date range select', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
+
+        comp.options = {
+            quickRangeSelect: true
+        };
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        let selector = getElement('.selector');
+        expect(selector).not.toBe(null);
+
+        fixture.detectChanges();
+        let currmonth = getElements('.caltable tbody tr td');
+        expect(currmonth).not.toBe(null);
+        expect(currmonth.length).toBe(42);
+
+        let first = currmonth[1];
+        expect(first.nativeElement.textContent.trim()).toBe('1');
+        expect(currmonth[30].nativeElement.textContent.trim()).toBe('30');
+
+        fixture.detectChanges();
+        first.nativeElement.click();
+
+        fixture.detectChanges();
+        let selectedday = getElement('.selectedday');
+        expect(selectedday).not.toBe(null);
+
+        fixture.detectChanges();
+        currmonth = getElements('.caltable tbody tr td');
+        currmonth[30].nativeElement.click();
+
+        fixture.detectChanges();
+        let selecteddaygreen = getElement('.selecteddaygreen');
+        expect(selecteddaygreen).not.toBe(null);
+
+        fixture.detectChanges();
+        let range = getElements('.caltable .range');
+        expect(range).not.toBe(null);
+        expect(range.length).toBe(30);
+
+        fixture.detectChanges();
+        let okbtn = getElement('.footerarea button:first-child');
+        expect(okbtn).not.toBe(null);
+        expect(okbtn.nativeElement.textContent.trim()).toBe('Accept');
+        okbtn.nativeElement.click();
+
+        fixture.detectChanges();
+        let selection = getElement('.selection');
+        expect(selection.nativeElement.value).toContain('2016-11-01 - 2016-11-30');
+
+        fixture.detectChanges();
+        let btnclear = getElement('.btnclear');
+        btnclear.nativeElement.click();
+
+        fixture.detectChanges();
+        selection = getElement('.selection');
+        expect(selection.nativeElement.value).toEqual('');
+    });
+
     // attributes
     it('selDateRange - initially selected date range - month as number', () => {
         comp.selectionDayTxt = '2016-11-04 - 2016-11-18';
