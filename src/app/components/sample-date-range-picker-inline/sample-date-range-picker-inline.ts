@@ -20,7 +20,7 @@ export class SampleDateRangePickerInline implements OnInit {
         firstDayOfWeek: 'mo',
         sunHighlight: true,
         inline: true,
-        showSelectDateText: false
+        showSelectDateText: true
     };
 
     selectedDateRangeInline:string = '';

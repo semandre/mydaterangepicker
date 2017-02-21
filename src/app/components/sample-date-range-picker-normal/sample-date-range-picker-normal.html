@@ -24,6 +24,12 @@
                 <input style="cursor: pointer" type="checkbox" (change)="onAlignSelectorRight($event.currentTarget.checked)" [checked]="false">
             </label>
         </li>
+        <li>
+            <label>
+                <span>Quick date range selection:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onQuickDateRangeSelection($event.currentTarget.checked)" [checked]="true">
+            </label>
+        </li>
     </ul>
 
     <table style="width: 100%">
