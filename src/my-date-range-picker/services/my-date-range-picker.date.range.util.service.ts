@@ -5,7 +5,7 @@ import { IMyDate } from "../interfaces/my-date.interface";
 import { IMyMonth } from "../interfaces/my-month.interface";
 
 @Injectable()
-export class DateRangeValidatorService {
+export class DateRangeUtilService {
     public isDateRangeValid(daterange: string, dateFormat: string, minYear: number, maxYear: number, disableUntil: IMyDate, disableSince: IMyDate, monthLabels: IMyMonthLabels): IMyDateRange {
         let invalidDateRange: IMyDateRange = {
             beginDate: {day: 0, month: 0, year: 0},
@@ -118,8 +118,12 @@ export class DateRangeValidatorService {
         return this.isInitializedDate(disableSince) && this.getTimeInMilliseconds(date) >= this.getTimeInMilliseconds(disableSince);
     }
 
-    private isInitializedDate(date: IMyDate): boolean {
+    public isInitializedDate(date: IMyDate): boolean {
         return date.year !== 0 && date.month !== 0 && date.day !== 0;
+    }
+
+    public getTimeInMilliseconds(date: IMyDate): number {
+        return new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0).getTime();
     }
 
     private isDateValid(date: string, dateFormat: string, minYear: number, maxYear: number, monthLabels: IMyMonthLabels, isMonthStr: boolean): IMyDate {
@@ -158,9 +162,5 @@ export class DateRangeValidatorService {
             return {day: day, month: month, year: year};
         }
         return invalidDate;
-    }
-
-    private getTimeInMilliseconds(date: IMyDate): number {
-        return new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0).getTime();
     }
 }

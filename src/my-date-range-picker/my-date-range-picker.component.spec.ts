@@ -69,6 +69,10 @@ describe('MyDateRangePicker', () => {
     it('select first and last dates to date range and clear', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
 
+        comp.options = {
+            quickRangeSelect: false
+        };
+
         comp.parseOptions();
 
         fixture.detectChanges();
@@ -135,6 +139,10 @@ describe('MyDateRangePicker', () => {
 
     it('select clear button', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
+
+        comp.options = {
+            quickRangeSelect: false
+        };
 
         comp.parseOptions();
 
@@ -337,6 +345,10 @@ describe('MyDateRangePicker', () => {
     it('select previous and next month from selector', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
 
+        comp.options = {
+            quickRangeSelect: false
+        };
+
         comp.parseOptions();
 
         fixture.detectChanges();
@@ -440,6 +452,10 @@ describe('MyDateRangePicker', () => {
 
     it('select end date, begin date and ok buttons', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
+
+        comp.options = {
+            quickRangeSelect: false
+        };
 
         comp.parseOptions();
 
@@ -876,7 +892,8 @@ describe('MyDateRangePicker', () => {
     it('options - begin date button text', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
         comp.options = {
-            beginDateBtnTxt: 'test text'
+            beginDateBtnTxt: 'test text',
+            quickRangeSelect: false
         };
 
         comp.parseOptions();
@@ -909,7 +926,8 @@ describe('MyDateRangePicker', () => {
     it('options - end date button text', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
         comp.options = {
-            endDateBtnTxt: 'test text'
+            endDateBtnTxt: 'test text',
+            quickRangeSelect: false
         };
 
         comp.parseOptions();
@@ -1742,7 +1760,8 @@ describe('MyDateRangePicker', () => {
         comp.selectionDayTxt = '2016-11-04 - 2016-11-18';
 
         comp.options = {
-            dateFormat: 'yyyy-mm-dd'
+            dateFormat: 'yyyy-mm-dd',
+            quickRangeSelect: false
         };
 
         comp.parseOptions();
@@ -1799,7 +1818,8 @@ describe('MyDateRangePicker', () => {
         comp.selectionDayTxt = '04 Nov 2016 - 18 Nov 2016';
 
         comp.options = {
-            dateFormat: 'dd mmm yyyy'
+            dateFormat: 'dd mmm yyyy',
+            quickRangeSelect: false
         };
 
         comp.parseOptions();

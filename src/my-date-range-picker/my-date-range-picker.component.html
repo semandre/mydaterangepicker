@@ -51,7 +51,7 @@
             <thead><tr><th class="weekdaytitle" scope="col" *ngFor="let d of weekDays">{{d}}</th></tr></thead>
             <tbody>
                 <tr *ngFor="let w of dates">
-                    <td class="daycell" *ngFor="let d of w" [ngClass]="{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'range': isInRange(d), 'disabled': d.disabled}" (click)="!d.disabled && cellClicked(d);$event.stopPropagation()" (keydown)="cellKeyDown($event, d)" tabindex="0">
+                    <td class="daycell" *ngFor="let d of w" [ngClass]="{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'range': isInRange(d)||d.range, 'disabled': d.disabled}" (click)="!d.disabled && cellClicked(d);$event.stopPropagation()" (keydown)="cellKeyDown($event, d)" (mouseenter)="opts.quickRangeSelect&&cellMouseEnter(d)" (mouseleave)="opts.quickRangeSelect&&cellMouseLeave()" tabindex="0">
                         <div style="background-color:inherit" [ngClass]="{'prevmonth':d.cmo===PREV_MONTH, 'selectedday':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year, 'currmonth':d.cmo===CURR_MONTH, 'nextmonth':d.cmo===NEXT_MONTH, 'selecteddaygreen':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year&&isBeginDate&&isRangeSelected()||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year&&!isBeginDate&&isRangeSelected(), 'sunday':d.dayNbr===0&&opts.sunHighlight}">
                             <span [ngClass]="{'currday':d.currDay&&opts.markCurrentDay, 'sundayDim': opts.sunHighlight && d.dayNbr === 0 && (d.cmo===PREV_MONTH || d.cmo===NEXT_MONTH || d.disabled)}">{{d.dateObj.day}}</span>
                         </div>
@@ -60,8 +60,8 @@
             </tbody>
         </table>
         <div class="footerarea">
-            <button type="button" class="footerbtn" [disabled]="beginDate&&beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0,'footerbtnenabled': beginDate.year!==0||!isBeginDate}" (click)="$event.stopPropagation();isBeginDate?toEndDate():toBeginDate()">{{isBeginDate?opts.endDateBtnTxt:opts.beginDateBtnTxt}}</button>
-            <button type="button" class="footerbtn" *ngIf="!isBeginDate||endDate.year!==0" [disabled]="endDate.year===0" [ngClass]="{'btndisable':endDate.year===0, 'footerbtnenabled': endDate.year!==0}" (click)="$event.stopPropagation();rangeSelected()">{{opts.acceptBtnTxt}}</button>
+            <button type="button" class="footerbtn" *ngIf="!opts.quickRangeSelect" [disabled]="beginDate&&beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0,'footerbtnenabled': beginDate.year!==0||!isBeginDate}" (click)="$event.stopPropagation();isBeginDate?toEndDate():toBeginDate()">{{isBeginDate?opts.endDateBtnTxt:opts.beginDateBtnTxt}}</button>
+            <button type="button" class="footerbtn" *ngIf="!isBeginDate||endDate.year!==0||opts.quickRangeSelect" [disabled]="endDate.year===0" [ngClass]="{'btndisable':endDate.year===0, 'footerbtnenabled': endDate.year!==0}" (click)="$event.stopPropagation();rangeSelected()">{{opts.acceptBtnTxt}}</button>
         </div>
     </div>
 </div>

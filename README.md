@@ -200,13 +200,14 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 
 | Option        | Default       | Description  |
 | ------------- | ------------- | ----- |
+| __quickRangeSelect__   | true      | Is quick date range selection enabled or not. Begin adn end date can be selected without any button click. |
 | __dayLabels__     | {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'} | Day labels visible on the selector. |
 | __monthLabels__   | { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' } | Month labels visible on the selector. |
 | __dateFormat__    | yyyy-mm-dd      | Date format on the selection area and the callback. For example: dd.mm.yyyy, yyyy-mm-dd, dd mmm yyyy (mmm = Month as a text) |
 | __showClearBtn__   | true      | Show 'Clear' button on calendar. |
 | __clearBtnTxt__   | Clear      | Clear button text. Can be used if __showClearBtn = true__. |
-| __beginDateBtnTxt__   | Begin Date      | To begin date button text. |
-| __endDateBtnTxt__   | End Date      | To end date button text. |
+| __beginDateBtnTxt__   | Begin Date      | To begin date button text. Can be used if __quickRangeSelect = false__. |
+| __endDateBtnTxt__   | End Date      | To end date button text. Can be used if __quickRangeSelect = false__. |
 | __acceptBtnTxt__   | OK      | Accept date range button text. |
 | __showSelectDateText__   | true      | Show select date text. |
 | __selectBeginDateTxt__   | Select Begin Date      | Select begin date text. Can be used if __showSelectDateText = true__.|

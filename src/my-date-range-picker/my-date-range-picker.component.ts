@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected } from "./interfaces/index";
-import { DateRangeValidatorService } from "./services/my-date-range-picker.date.range.validator.service";
+import { DateRangeUtilService } from "./services/my-date-range-picker.date.range.util.service";
 
 // webpack1_
 declare var require: any;
@@ -19,7 +19,7 @@ export const MYDRP_VALUE_ACCESSOR: any = {
     selector: "my-date-range-picker",
     styles: [myDrpStyles],
     template: myDrpTemplate,
-    providers: [DateRangeValidatorService, MYDRP_VALUE_ACCESSOR],
+    providers: [DateRangeUtilService, MYDRP_VALUE_ACCESSOR],
     encapsulation: ViewEncapsulation.None
 })
 
@@ -40,7 +40,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     visibleMonth: IMyMonth = {monthTxt: "", monthNbr: 0, year: 0};
     selectedMonth: IMyMonth = {monthTxt: "", monthNbr: 0, year: 0};
     weekDays: Array<string> = [];
-    dates: Array<Object> = [];
+    dates: Array<Array<IMyWeek>> = [];
     selectionDayTxt: string = "";
     invalidDateRange: boolean = false;
     dateRangeFormat: string = "";
@@ -104,10 +104,11 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         disableSince: <IMyDate> {year: 0, month: 0, day: 0},
         componentDisabled: <boolean> false,
         inputValueRequired: <boolean> false,
-        showSelectorArrow: <boolean> true
+        showSelectorArrow: <boolean> true,
+        quickRangeSelect: <boolean> true
     };
 
-    constructor(public elem: ElementRef, private renderer: Renderer, private dateRangeValidatorService: DateRangeValidatorService) {
+    constructor(public elem: ElementRef, private renderer: Renderer, private drus: DateRangeUtilService) {
         renderer.listenGlobal("document", "click", (event: any) => {
             if (this.showSelector && event.target && this.elem.nativeElement !== event.target && !this.elem.nativeElement.contains(event.target)) {
                 this.showSelector = false;
@@ -145,7 +146,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             this.clearDateRange();
         }
         else {
-            let daterange: IMyDateRange = this.dateRangeValidatorService.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.monthLabels);
+            let daterange: IMyDateRange = this.drus.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.monthLabels);
             if (daterange.beginDate.day !== 0 && daterange.beginDate.month !== 0 && daterange.beginDate.year !== 0 && daterange.endDate.day !== 0 && daterange.endDate.month !== 0 && daterange.endDate.year !== 0) {
                 this.beginDate = daterange.beginDate;
                 this.endDate = daterange.endDate;
@@ -172,7 +173,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
         this.invalidMonth = false;
 
-        let m: number = this.dateRangeValidatorService.isMonthLabelValid(event.target.value, this.opts.monthLabels);
+        let m: number = this.drus.isMonthLabelValid(event.target.value, this.opts.monthLabels);
         if (m !== -1) {
             this.editMonth = false;
             let viewChange: boolean = m !== this.visibleMonth.monthNbr;
@@ -191,7 +192,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
         this.invalidYear = false;
 
-        let y: number = this.dateRangeValidatorService.isYearLabelValid(Number(event.target.value), this.opts.minYear, this.opts.maxYear);
+        let y: number = this.drus.isYearLabelValid(Number(event.target.value), this.opts.minYear, this.opts.maxYear);
         if (y !== -1) {
             this.editYear = false;
             let viewChange: boolean = y !== this.visibleMonth.year;
@@ -322,7 +323,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     setVisibleMonth(): void {
         this.isBeginDate = true;
-        if (this.beginDate.year !== 0 && this.beginDate.month !== 0 && this.beginDate.day !== 0) {
+        if (this.drus.isInitializedDate(this.beginDate)) {
             this.toBeginDate();
         }
         else {
@@ -393,23 +394,61 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     cellClicked(cell: any): void {
         // Cell clicked in the selector
-        if (this.isBeginDate) {
-            this.beginDate = cell.dateObj;
-            this.titleAreaTextBegin = this.formatDate(this.beginDate);
-            this.titleAreaTextEnd = this.endDate.year === 0 ? this.opts.selectEndDateTxt : this.formatDate(this.endDate);
-            this.dateSelected.emit({type: 1, date: this.beginDate, formatted: this.titleAreaTextBegin, jsdate: this.getDate(this.beginDate)});
+        let bi: boolean = this.drus.isInitializedDate(this.beginDate);
+        let ei: boolean = this.drus.isInitializedDate(this.endDate);
+        if (this.opts.quickRangeSelect && !ei) {
+            if (!bi || bi && this.drus.getTimeInMilliseconds(cell.dateObj) < this.drus.getTimeInMilliseconds(this.beginDate)) {
+                this.selectBeginDate(cell.dateObj);
+            }
+            else if (this.drus.getTimeInMilliseconds(cell.dateObj) >= this.drus.getTimeInMilliseconds(this.beginDate)) {
+                this.selectEndDate(cell.dateObj);
+                this.toEndDate();
+            }
+        }
+        else if (this.isBeginDate) {
+            this.selectBeginDate(cell.dateObj);
         }
         else {
-            this.endDate = cell.dateObj;
-            this.titleAreaTextEnd = this.formatDate(this.endDate);
-            this.dateSelected.emit({type: 2, date: this.endDate, formatted: this.titleAreaTextEnd, jsdate: this.getDate(this.endDate)});
+            this.selectEndDate(cell.dateObj);
         }
     }
 
-    cellKeyDown(event: any, cell: any) {
+    selectBeginDate(date: IMyDate): void {
+        this.beginDate = date;
+        this.titleAreaTextBegin = this.formatDate(date);
+        this.titleAreaTextEnd = this.endDate.year === 0 ? this.opts.selectEndDateTxt : this.formatDate(this.endDate);
+        this.dateSelected.emit({type: 1, date: date, formatted: this.titleAreaTextBegin, jsdate: this.getDate(date)});
+    }
+
+    selectEndDate(date: IMyDate): void {
+        this.endDate = date;
+        this.titleAreaTextEnd = this.formatDate(date);
+        this.dateSelected.emit({type: 2, date: date, formatted: this.titleAreaTextEnd, jsdate: this.getDate(date)});
+    }
+
+    cellKeyDown(event: any, cell: any): void {
         if ((event.keyCode === 13 || event.keyCode === 32) && !cell.disabled) {
             event.preventDefault();
             this.cellClicked(cell);
+        }
+    }
+
+    cellMouseEnter(cell: any): void {
+        if (this.drus.isInitializedDate(this.beginDate) && !this.drus.isInitializedDate(this.endDate)) {
+            for (let week of this.dates) {
+                for (let day of week) {
+                    day.range = this.drus.getTimeInMilliseconds(day.dateObj) >= this.drus.getTimeInMilliseconds(this.beginDate)
+                        && this.drus.getTimeInMilliseconds(day.dateObj) <= this.drus.getTimeInMilliseconds(cell.dateObj);
+                }
+            }
+        }
+    }
+
+    cellMouseLeave(): void {
+        for (let week of this.dates) {
+            for (let day of week) {
+                day.range = false;
+            }
         }
     }
 
@@ -473,22 +512,19 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     getDateRangeModel(beginDate: IMyDate, endDate: IMyDate): IMyDateRangeModel {
         // Creates a date range model object from the given parameters
-        let bEpoc: number = this.getTimeInMilliseconds(beginDate) / 1000.0;
-        let eEpoc: number = this.getTimeInMilliseconds(endDate) / 1000.0;
+        let bEpoc: number = this.drus.getTimeInMilliseconds(beginDate) / 1000.0;
+        let eEpoc: number = this.drus.getTimeInMilliseconds(endDate) / 1000.0;
         return {beginDate: beginDate, beginJsDate: this.getDate(beginDate), endDate: endDate, endJsDate: this.getDate(endDate), formatted: this.formatDate(beginDate) + " - " + this.formatDate(endDate), beginEpoc: bEpoc, endEpoc: eEpoc};
     }
 
     isInRange(val: any): boolean {
         // Check is input date in range between the beginDate and the endDate
-        if (this.beginDate.year === 0 && this.beginDate.month === 0 && this.beginDate.day === 0 || this.endDate.year === 0 && this.endDate.month === 0 && this.endDate.day === 0) {
+        if (!this.drus.isInitializedDate(this.beginDate) || !this.drus.isInitializedDate(this.endDate)) {
             return false;
         }
 
-        let input: number = this.getTimeInMilliseconds(val.dateObj);
-        let begin: number = this.getTimeInMilliseconds(this.beginDate);
-        let end: number = this.getTimeInMilliseconds(this.endDate);
-
-        if (input >= begin && input <= end) {
+        let input: number = this.drus.getTimeInMilliseconds(val.dateObj);
+        if (input >= this.drus.getTimeInMilliseconds(this.beginDate) && input <= this.drus.getTimeInMilliseconds(this.endDate)) {
             return true;
         }
         return false;
@@ -496,7 +532,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     isRangeSelected(): boolean {
         // Check is both beginDate and the endDate selected
-        if (this.beginDate.year !== 0 && this.beginDate.month !== 0 && this.beginDate.day !== 0 && this.endDate.year !== 0 && this.endDate.month !== 0 && this.endDate.day !== 0) {
+        if (this.drus.isInitializedDate(this.beginDate) && this.drus.isInitializedDate(this.endDate)) {
             return true;
         }
         return false;
@@ -558,11 +594,6 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         return {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
     }
 
-    getTimeInMilliseconds(date: IMyDate): number {
-        // Returns time in milliseconds
-        return this.getDate(date).getTime();
-    }
-
     getDayNumber(date: IMyDate): number {
         // Get day number: sun=0, mon=1, tue=2, wed=3 ...
         let d: Date = this.getDate(date);
@@ -607,14 +638,14 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                 // Previous month
                 for (let j = pm; j <= dInPrevM; j++) {
                     let date: IMyDate = {year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: j};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateRangeValidatorService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter)});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter), range: false});
                 }
                 cmo = this.CURR_MONTH;
                 // Current month
                 let daysLeft: number = 7 - week.length;
                 for (let j = 0; j < daysLeft; j++) {
                     let date: IMyDate = {year: y, month: m, day: dayNbr};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateRangeValidatorService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter)});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter), range: false});
                     dayNbr++;
                 }
             }
@@ -634,7 +665,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                         }
                     }
                     let date: IMyDate = {year: y, month: m, day: dayNbr};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.dateRangeValidatorService.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter)});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.preventBefore, this.preventAfter), range: false});
                     dayNbr++;
                 }
             }
@@ -652,10 +683,10 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         let dnm: boolean = false;
         let dny: boolean = false;
         if (this.opts.disableHeaderButtons) {
-            dpm = this.dateRangeValidatorService.isMonthDisabledByDisableUntil({year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: this.daysInMonth(m === 1 ? 12 : m - 1, m === 1 ? y - 1 : y)}, this.opts.disableUntil);
-            dpy = this.dateRangeValidatorService.isMonthDisabledByDisableUntil({year: y - 1, month: m, day: this.daysInMonth(m, y - 1)}, this.opts.disableUntil);
-            dnm = this.dateRangeValidatorService.isMonthDisabledByDisableSince({year: m === 12 ? y + 1 : y, month: m === 12 ? 1 : m + 1, day: 1}, this.opts.disableSince);
-            dny = this.dateRangeValidatorService.isMonthDisabledByDisableSince({year: y + 1, month: m, day: 1}, this.opts.disableSince);
+            dpm = this.drus.isMonthDisabledByDisableUntil({year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: this.daysInMonth(m === 1 ? 12 : m - 1, m === 1 ? y - 1 : y)}, this.opts.disableUntil);
+            dpy = this.drus.isMonthDisabledByDisableUntil({year: y - 1, month: m, day: this.daysInMonth(m, y - 1)}, this.opts.disableUntil);
+            dnm = this.drus.isMonthDisabledByDisableSince({year: m === 12 ? y + 1 : y, month: m === 12 ? 1 : m + 1, day: 1}, this.opts.disableSince);
+            dny = this.drus.isMonthDisabledByDisableSince({year: y + 1, month: m, day: 1}, this.opts.disableSince);
         }
         this.prevMonthDisabled = m === 1 && y === this.opts.minYear || dpm;
         this.prevYearDisabled = y - 1 < this.opts.minYear || dpy;
@@ -668,13 +699,13 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         let date: IMyDate = {day: 0, month: 0, year: 0};
         if (typeof selDate === "string") {
             let sd: string = <string>selDate;
-            date.day = this.dateRangeValidatorService.parseDatePartNumber(this.opts.dateFormat, sd, "dd");
+            date.day = this.drus.parseDatePartNumber(this.opts.dateFormat, sd, "dd");
 
             date.month = this.opts.dateFormat.indexOf("mmm") !== -1
-                ? this.dateRangeValidatorService.parseDatePartMonthName(this.opts.dateFormat, sd, "mmm", this.opts.monthLabels)
-                : this.dateRangeValidatorService.parseDatePartNumber(this.opts.dateFormat, sd, "mm");
+                ? this.drus.parseDatePartMonthName(this.opts.dateFormat, sd, "mmm", this.opts.monthLabels)
+                : this.drus.parseDatePartNumber(this.opts.dateFormat, sd, "mm");
 
-            date.year = this.dateRangeValidatorService.parseDatePartNumber(this.opts.dateFormat, sd, "yyyy");
+            date.year = this.drus.parseDatePartNumber(this.opts.dateFormat, sd, "yyyy");
         }
         else if (typeof selDate === "object") {
             date = selDate;
@@ -683,6 +714,6 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     parseSelectedMonth(ms: string): IMyMonth {
-        return this.dateRangeValidatorService.parseDefaultMonth(ms);
+        return this.drus.parseDefaultMonth(ms);
     }
 }

@@ -6,4 +6,5 @@ export interface IMyWeek {
     currDay: boolean;
     dayNbr: number;
     disabled: boolean;
+    range: boolean;
 }
