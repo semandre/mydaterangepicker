@@ -28,7 +28,7 @@ export class SampleDateRangePickerNormal implements OnInit {
         showWeekNumbers: false
     };
 
-    selectedDateRangeNormal:string = '04 Nov 2016 - 18 Nov 2016';
+    selectedDateRangeNormal:string = '';
 
     selectedTextNormal: string = '';
     border: string = 'none';
