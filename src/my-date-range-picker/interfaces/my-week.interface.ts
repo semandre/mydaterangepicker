@@ -1,10 +1,6 @@
-import { IMyDate } from "./my-date.interface";
+import { IMyCalendarDay } from "./my-calendar-day.interface";
 
 export interface IMyWeek {
-    dateObj: IMyDate;
-    cmo: number;
-    currDay: boolean;
-    dayNbr: number;
-    disabled: boolean;
-    range: boolean;
+    week: Array<IMyCalendarDay>;
+    weekNbr: number;
 }

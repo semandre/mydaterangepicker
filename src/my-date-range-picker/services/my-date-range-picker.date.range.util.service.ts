@@ -126,6 +126,12 @@ export class DateRangeUtilService {
         return new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0).getTime();
     }
 
+    public getWeekNumber(date: IMyDate): number {
+        let d: Date = new Date(date.year, date.month - 1, date.day, 0, 0, 0, 0);
+        d.setDate(d.getDate() + (d.getDay() === 0 ? -3 : 4 - d.getDay()));
+        return Math.round(((d.getTime() - new Date(d.getFullYear(), 0, 4).getTime()) / 86400000) / 7) + 1;
+    }
+
     private isDateValid(date: string, dateFormat: string, minYear: number, maxYear: number, monthLabels: IMyMonthLabels, isMonthStr: boolean): IMyDate {
         let daysInMonth: Array<number> = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         let invalidDate: IMyDate = {day: 0, month: 0, year: 0};

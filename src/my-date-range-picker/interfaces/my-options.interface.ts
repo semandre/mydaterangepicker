@@ -27,6 +27,7 @@ export interface IMyOptions {
     editableDateRangeField?: boolean;
     editableMonthAndYear?: boolean;
     disableHeaderButtons?: boolean;
+    showWeekNumbers?: boolean;
     minYear?: number;
     maxYear?: number;
     disableUntil?: IMyDate;

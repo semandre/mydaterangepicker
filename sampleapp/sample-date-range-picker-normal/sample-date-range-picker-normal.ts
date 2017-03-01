@@ -32,7 +32,8 @@ export class SampleDateRangePickerNormal implements OnInit {
         showSelectorArrow: true,
         disableHeaderButtons: true,
         disableUntil: {year: 2001, month: 11, day: 10},
-        disableSince: {year: 2030, month: 3, day: 10}
+        disableSince: {year: 2030, month: 3, day: 10},
+        showWeekNumbers: false
     };
 
     //selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
@@ -88,6 +89,12 @@ export class SampleDateRangePickerNormal implements OnInit {
     onQuickDateRangeSelection(checked: boolean) {
         let copy = this.getCopyOfOptions();
         copy.quickRangeSelect = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowWeekNumbers(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showWeekNumbers = checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 

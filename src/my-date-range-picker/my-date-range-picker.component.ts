@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { IMyDateRange, IMyDate, IMyMonth, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected } from "./interfaces/index";
+import { IMyDateRange, IMyDate, IMyMonth, IMyCalendarDay, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected } from "./interfaces/index";
 import { DateRangeUtilService } from "./services/my-date-range-picker.date.range.util.service";
 
 // webpack1_
@@ -40,7 +40,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     visibleMonth: IMyMonth = {monthTxt: "", monthNbr: 0, year: 0};
     selectedMonth: IMyMonth = {monthTxt: "", monthNbr: 0, year: 0};
     weekDays: Array<string> = [];
-    dates: Array<Array<IMyWeek>> = [];
+    dates: Array<IMyWeek> = [];
     selectionDayTxt: string = "";
     invalidDateRange: boolean = false;
     dateRangeFormat: string = "";
@@ -98,6 +98,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         editableDateRangeField: <boolean> true,
         editableMonthAndYear: <boolean> true,
         disableHeaderButtons: <boolean> true,
+        showWeekNumbers: <boolean> false,
         minYear: <number> this.MIN_YEAR,
         maxYear: <number> this.MAX_YEAR,
         disableUntil: <IMyDate> {year: 0, month: 0, day: 0},
@@ -435,8 +436,8 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     cellMouseEnter(cell: any): void {
         if (this.drus.isInitializedDate(this.beginDate) && !this.drus.isInitializedDate(this.endDate)) {
-            for (let week of this.dates) {
-                for (let day of week) {
+            for (let w of this.dates) {
+                for (let day of w.week) {
                     day.range = this.drus.getTimeInMilliseconds(day.dateObj) >= this.drus.getTimeInMilliseconds(this.beginDate)
                         && this.drus.getTimeInMilliseconds(day.dateObj) <= this.drus.getTimeInMilliseconds(cell.dateObj);
                 }
@@ -445,8 +446,8 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     cellMouseLeave(): void {
-        for (let week of this.dates) {
-            for (let day of week) {
+        for (let w of this.dates) {
+            for (let day of w.week) {
                 day.range = false;
             }
         }
@@ -631,7 +632,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         let dayNbr: number = 1;
         let cmo: number = this.PREV_MONTH;
         for (let i = 1; i < 7; i++) {
-            let week: IMyWeek[] = [];
+            let week: Array<IMyCalendarDay> = [];
             if (i === 1) {
                 // First week
                 let pm: number = dInPrevM - monthStart + 1;
@@ -669,7 +670,8 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                     dayNbr++;
                 }
             }
-            this.dates.push(week);
+            let weekNbr: number = this.opts.showWeekNumbers  && this.opts.firstDayOfWeek === "mo" ? this.drus.getWeekNumber(week[0].dateObj) : 0;
+            this.dates.push({week: week, weekNbr: weekNbr});
         }
         if (viewChange) {
             // Notify parent
