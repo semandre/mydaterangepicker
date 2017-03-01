@@ -24,7 +24,8 @@ export class SampleDateRangePickerNormal implements OnInit {
         inline: false,
         selectionTxtFontSize: '13px',
         alignSelectorRight: false,
-        quickRangeSelect: true
+        quickRangeSelect: true,
+        showWeekNumbers: false
     };
 
     selectedDateRangeNormal:string = '04 Nov 2016 - 18 Nov 2016';
@@ -69,6 +70,12 @@ export class SampleDateRangePickerNormal implements OnInit {
     onQuickDateRangeSelection(checked: boolean) {
         let copy = this.getCopyOfOptions();
         copy.quickRangeSelect = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowWeekNumbers(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showWeekNumbers = checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 
