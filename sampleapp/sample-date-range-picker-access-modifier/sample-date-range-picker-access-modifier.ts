@@ -39,7 +39,8 @@ export class SampleDateRangePickerAccessModifier implements OnInit {
     }
 
     onSubmitReactiveForms(): void {
-        console.log('Value: ', this.myForm.controls['myDateRange'].value, ' - Valid: ', this.myForm.controls['myDateRange'].valid, ' - Dirty: ', this.myForm.controls['myDateRange'].dirty);
+        console.log('Value: ', this.myForm.controls['myDateRange'].value, ' - Valid: ', this.myForm.controls['myDateRange'].valid,
+                    ' - Dirty: ', this.myForm.controls['myDateRange'].dirty, ' - Touched: ', this.myForm.controls['myDateRange'].touched);
     }
 
     setDateRange(): void {

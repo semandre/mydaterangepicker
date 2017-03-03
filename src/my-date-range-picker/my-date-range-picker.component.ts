@@ -156,6 +156,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             else {
                 this.invalidDateRange = true;
                 this.onChangeCb("");
+                this.onTouchedCb();
             }
         }
         if (this.invalidDateRange) {
@@ -165,6 +166,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     lostFocusInput(event: any): void {
         this.selectionDayTxt = event.target.value;
+        this.onTouchedCb();
     }
 
     userMonthInput(event: any): void {
@@ -498,6 +500,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.dateRangeChanged.emit({beginDate: {year: 0, month: 0, day: 0}, beginJsDate: null, endDate: {year: 0, month: 0, day: 0}, endJsDate: null, formatted: "", beginEpoc: 0, endEpoc: 0});
         this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
         this.onChangeCb("");
+        this.onTouchedCb();
     }
 
     rangeSelected(): void {
@@ -508,6 +511,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.dateRangeChanged.emit(dateRangeModel);
         this.inputFieldChanged.emit({value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true});
         this.onChangeCb(dateRangeModel);
+        this.onTouchedCb();
         this.invalidDateRange = false;
     }
 
