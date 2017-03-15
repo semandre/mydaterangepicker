@@ -5,10 +5,10 @@
                (keyup)="userDateRangeInput($event)" (blur)="lostFocusInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField" [required]="opts.inputValueRequired">
         <span class="selbtngroup" [style.height]="opts.height">
             <button type="button" class="btnclear" aria-label="Clear date range" *ngIf="selectionDayTxt.length>0&&opts.showClearDateRangeBtn" (click)="removeBtnClicked()" [ngClass]="{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
-                <span class="icon icon-cross" [ngStyle]="{'line-height': opts.height}"></span>
+                <span class="mydrpicon icon-cross" [ngStyle]="{'line-height': opts.height}"></span>
             </button>
             <button type="button" class="btnpicker" aria-label="Open calendar" (click)="openBtnClicked()" [ngClass]="{'btnpickerenabled': !opts.componentDisabled, 'btnpickerdisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
-                <span class="icon icon-calendar" [ngStyle]="{'line-height': opts.height}"></span>
+                <span class="mydrpicon icon-calendar" [ngStyle]="{'line-height': opts.height}"></span>
             </button>
         </span>
     </div>
@@ -24,25 +24,25 @@
             <tr>
                 <td>
                     <div style="float:left">
-                        <div class="headerbtncell"><button type="button" class="headerbtn icon icon-left" aria-label="Previous month" (click)="prevMonth()" [disabled]="prevMonthDisabled" [ngClass]="{'headerbtnenabled': !prevMonthDisabled, 'headerbtndisabled': prevMonthDisabled}"></button></div>
+                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-left" aria-label="Previous month" (click)="prevMonth()" [disabled]="prevMonthDisabled" [ngClass]="{'headerbtnenabled': !prevMonthDisabled, 'headerbtndisabled': prevMonthDisabled}"></button></div>
                         <div class="headermonthtxt">
                             <input type="text" *ngIf="editMonth" class="monthinput" maxlength="12" [mydrpfocus]="2" [value]="visibleMonth.monthTxt" (keyup)="userMonthInput($event)" (click)="$event.stopPropagation()" [ngClass]="{'invalidmonth': invalidMonth}">
                             <button class="headerlabelbtn" type="button" [ngClass]="{'monthlabel': opts.editableMonthAndYear}" *ngIf="!editMonth" (click)="opts.editableMonthAndYear&&editMonthClicked($event)" tabindex="{{opts.editableMonthAndYear?'0':'-1'}}">{{visibleMonth.monthTxt}}</button>
                         </div>
-                        <div class="headerbtncell"><button type="button" class="headerbtn icon icon-right" aria-label="Next month" (click)="nextMonth()" [disabled]="nextMonthDisabled" [ngClass]="{'headerbtnenabled': !nextMonthDisabled, 'headerbtndisabled': nextMonthDisabled}"></button></div>
+                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-right" aria-label="Next month" (click)="nextMonth()" [disabled]="nextMonthDisabled" [ngClass]="{'headerbtnenabled': !nextMonthDisabled, 'headerbtndisabled': nextMonthDisabled}"></button></div>
                     </div>
                 </td>
                 <td *ngIf="opts.showClearBtn">
-                    <button type="button" class="headerclearbtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0, 'headerclearbtnenabled':beginDate.year!==0||endDate.year!==0}" (click)="clearBtnClicked()">{{opts.clearBtnTxt}}</button>
+                    <button type="button" class="headerclearbtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0, 'headerclearbtnenabled':beginDate.year!==0||endDate.year!==0}" (click)="clearDateRange()">{{opts.clearBtnTxt}}</button>
                 </td>
                 <td>
                     <div style="float:right">
-                        <div class="headerbtncell"><button type="button" class="headerbtn icon icon-left" aria-label="Previous year" (click)="prevYear()" [disabled]="prevYearDisabled" [ngClass]="{'headerbtnenabled': !prevYearDisabled, 'headerbtndisabled': prevYearDisabled}"></button></div>
+                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-left" aria-label="Previous year" (click)="prevYear()" [disabled]="prevYearDisabled" [ngClass]="{'headerbtnenabled': !prevYearDisabled, 'headerbtndisabled': prevYearDisabled}"></button></div>
                         <div class="headeryeartxt">
                             <input type="text" *ngIf="editYear" class="yearinput" maxlength="4" [mydrpfocus]="2" [value]="visibleMonth.year" (keyup)="userYearInput($event)" (click)="$event.stopPropagation()" [ngClass]="{'invalidyear': invalidYear}">
                             <button class="headerlabelbtn" type="button" [ngClass]="{'yearlabel': opts.editableMonthAndYear}" *ngIf="!editYear" (click)="opts.editableMonthAndYear&&editYearClicked($event)" tabindex="{{opts.editableMonthAndYear?'0':'-1'}}">{{visibleMonth.year}}</button>
                         </div>
-                        <div class="headerbtncell"><button type="button" class="headerbtn icon icon-right" aria-label="Next year" (click)="nextYear()" [disabled]="nextYearDisabled" [ngClass]="{'headerbtnenabled': !nextYearDisabled, 'headerbtndisabled': nextYearDisabled}"></button></div>
+                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-right" aria-label="Next year" (click)="nextYear()" [disabled]="nextYearDisabled" [ngClass]="{'headerbtnenabled': !nextYearDisabled, 'headerbtndisabled': nextYearDisabled}"></button></div>
                     </div>
                 </td>
             </tr>

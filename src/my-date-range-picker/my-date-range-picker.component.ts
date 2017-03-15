@@ -148,7 +148,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
         else {
             let daterange: IMyDateRange = this.drus.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.monthLabels);
-            if (daterange.beginDate.day !== 0 && daterange.beginDate.month !== 0 && daterange.beginDate.year !== 0 && daterange.endDate.day !== 0 && daterange.endDate.month !== 0 && daterange.endDate.year !== 0) {
+            if (this.drus.isInitializedDate(daterange.beginDate) && this.drus.isInitializedDate(daterange.endDate)) {
                 this.beginDate = daterange.beginDate;
                 this.endDate = daterange.endDate;
                 this.rangeSelected();
@@ -245,7 +245,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             this.inputFieldChanged.emit({value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true});
         }
         else if (value === "") {
-            this.clearBtnClicked();
+            this.clearRangeValues();
             this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
         }
         this.invalidDateRange = false;
@@ -382,8 +382,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, true);
     }
 
-    clearBtnClicked(): void {
+    clearRangeValues(): void {
         // Clear button selected
+        this.invalidDateRange = false;
         this.isBeginDate = true;
         this.selectionDayTxt = "";
         this.beginDate = {year: 0, month: 0, day: 0};
@@ -462,7 +463,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.preventAfter = {year: 0, month: 0, day: 0};
         this.preventBefore = this.getPreviousDate(this.beginDate);
 
-        if (this.endDate.year === 0 && this.endDate.month === 0 && this.endDate.day === 0) {
+        if (!this.drus.isInitializedDate(this.endDate)) {
             this.visibleMonth = {monthTxt: this.monthText(this.beginDate.month), monthNbr: this.beginDate.month, year: this.beginDate.year};
             this.generateCalendar(this.beginDate.month, this.beginDate.year, false);
         }
@@ -479,7 +480,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
         this.preventBefore = {year: 0, month: 0, day: 0};
 
-        if (this.endDate.year !== 0 && this.endDate.month !== 0 && this.endDate.day !== 0) {
+        if (this.drus.isInitializedDate(this.endDate)) {
             this.preventAfter = this.getNextDate(this.endDate);
         }
 
@@ -496,11 +497,15 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     clearDateRange(): void {
-        this.clearBtnClicked();
-        this.dateRangeChanged.emit({beginDate: {year: 0, month: 0, day: 0}, beginJsDate: null, endDate: {year: 0, month: 0, day: 0}, endJsDate: null, formatted: "", beginEpoc: 0, endEpoc: 0});
-        this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
-        this.onChangeCb("");
-        this.onTouchedCb();
+        if (this.drus.isInitializedDate(this.endDate)) {
+            this.dateRangeChanged.emit({beginDate: {year: 0, month: 0, day: 0}, beginJsDate: null, endDate: {year: 0, month: 0, day: 0}, endJsDate: null, formatted: "", beginEpoc: 0, endEpoc: 0});
+            if (this.selectionDayTxt !== "") {
+                this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
+            }
+            this.onChangeCb("");
+            this.onTouchedCb();
+        }
+        this.clearRangeValues();
     }
 
     rangeSelected(): void {
