@@ -201,8 +201,8 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 | Option        | Default       | Description  |
 | ------------- | ------------- | ----- |
 | __quickRangeSelect__   | true      | Is quick date range selection enabled or not. Begin adn end date can be selected without any button click. |
-| __dayLabels__     | {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'} | Day labels visible on the selector. |
-| __monthLabels__   | { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' } | Month labels visible on the selector. |
+| __dayLabels__     | [IMyDayLabels](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-day-labels.interface.ts) object. {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'} | Day labels visible on the selector. |
+| __monthLabels__   | [IMyMonthLabels](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-month-labels.interface.ts) object. { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' } | Month labels visible on the selector. |
 | __dateFormat__    | yyyy-mm-dd      | Date format on the selection area and the callback. For example: dd.mm.yyyy, yyyy-mm-dd, dd mmm yyyy (mmm = Month as a text) |
 | __showClearBtn__   | true      | Show 'Clear' button on calendar. |
 | __clearBtnTxt__   | Clear      | Clear button text. Can be used if __showClearBtn = true__. |
@@ -218,10 +218,10 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 | __editableMonthAndYear__   | true | Is month and year labels editable or not. |
 | __minYear__   | 1000 | Minimum allowed year in calendar. Cannot be less than 1000. |
 | __maxYear__   | 9999 | Maximum allowed year in calendar. Cannot be more than 9999. |
-| __disableUntil__   | no default value | Disable dates backward starting from the given date. For example: {year: 2016, month: 6, day: 26} |
-| __disableSince__   | no default value | Disable dates forward starting from the given date. For example: {year: 2016, month: 7, day: 22} |
-| __disableDates__   | no default value  | Disable single dates one by one. Array of disabled dates. The disabled date cannot be selected but it can be in a range. For example: [{year: 2016, month: 11, day: 14}, {year: 2016, month: 1, day: 15}] |
-| __disableDateRanges__   | no default value  | Disable date ranges one by one. Array of disabled date ranges. The disabled date cannot be selected but it can be in a range. For example: [{beginDate: {year: 2016, month: 11, day: 14}, endDate: {year: 2016, month: 11, day: 20}}] |
+| __disableUntil__   | no default value | Disable dates backward starting from the given date. [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) object. For example: {year: 2016, month: 6, day: 26} |
+| __disableSince__   | no default value | Disable dates forward starting from the given date. [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) object. For example: {year: 2016, month: 7, day: 22} |
+| __disableDates__   | no default value  | Disable single dates one by one. Array of [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) objects. The disabled date cannot be selected but it can be in a range. For example: [{year: 2016, month: 11, day: 14}, {year: 2016, month: 1, day: 15}] |
+| __disableDateRanges__   | no default value  | Disable date ranges one by one. Array of [IMyDateRange](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date-range.interface.ts) objects. The disabled date cannot be selected but it can be in a range. For example: [{beginDate: {year: 2016, month: 11, day: 14}, endDate: {year: 2016, month: 11, day: 20}}] |
 | __disableHeaderButtons__   | true | Prevent to change the calendar view with header buttons if previous or next month are fully disabled by disableUntil or disableSince. |
 | __showWeekNumbers__   | false | Are week numbers visible or not on calendar. Can be used if __firstDayOfWeek = mo__. |
 | __inline__   | false | Show mydaterangepicker in inline mode. |
