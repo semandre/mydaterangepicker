@@ -1,6 +1,7 @@
 import { IMyDayLabels } from "./my-day-labels.interface";
 import { IMyMonthLabels } from "./my-month-labels.interface";
 import { IMyDate } from "./my-date.interface";
+import { IMyDateRange } from "./my-date-range.interface";
 
 export interface IMyOptions {
     dayLabels?: IMyDayLabels;
@@ -32,6 +33,8 @@ export interface IMyOptions {
     maxYear?: number;
     disableUntil?: IMyDate;
     disableSince?: IMyDate;
+    disableDates?: Array<IMyDate>;
+    disableDateRanges?: Array<IMyDateRange>;
     componentDisabled?: boolean;
     inputValueRequired?: boolean;
     showSelectorArrow?: boolean;

@@ -1522,6 +1522,63 @@ describe('MyDateRangePicker', () => {
         expect(selectedday).toBe(null);
     });
 
+    it('options - disable days one by one', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
+        comp.options = {
+            disableDates: [{year: 2016, month: 10, day: 5}, {year: 2016, month: 10, day: 10}]
+        };
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        comp.generateCalendar(10, 2016, true);
+
+        fixture.detectChanges();
+        let disabled = getElements('tr .disabled');
+        expect(disabled).not.toBe(null);
+        expect(disabled.length).toBe(2);
+
+        let firstDisabled = disabled[0];
+        expect(firstDisabled.nativeElement.textContent.trim()).toBe('5');
+
+        let lastDisabled = disabled[1];
+        expect(lastDisabled.nativeElement.textContent.trim()).toBe('10');
+    });
+
+    it('options - disable date ranges one by one', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
+        comp.options = {
+            disableDateRanges: [
+                {beginDate: {year: 2016, month: 10, day: 5}, endDate: {year: 2016, month: 10, day: 7}},
+                {beginDate: {year: 2016, month: 10, day: 10}, endDate: {year: 2016, month: 10, day: 12}}
+                ]
+        };
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        comp.generateCalendar(10, 2016, true);
+
+        fixture.detectChanges();
+        let disabled = getElements('tr .disabled');
+        expect(disabled).not.toBe(null);
+        expect(disabled.length).toBe(6);
+
+        expect(disabled[0].nativeElement.textContent.trim()).toBe('5');
+        expect(disabled[1].nativeElement.textContent.trim()).toBe('6');
+        expect(disabled[2].nativeElement.textContent.trim()).toBe('7');
+
+        expect(disabled[3].nativeElement.textContent.trim()).toBe('10');
+        expect(disabled[4].nativeElement.textContent.trim()).toBe('11');
+        expect(disabled[5].nativeElement.textContent.trim()).toBe('12');
+    });
+
     it('options - inline', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
         comp.options = {

@@ -33,7 +33,11 @@ export class SampleDateRangePickerNormal implements OnInit {
         disableHeaderButtons: true,
         disableUntil: {year: 2001, month: 11, day: 10},
         disableSince: {year: 2030, month: 3, day: 10},
-        showWeekNumbers: false
+        showWeekNumbers: false,
+        disableDateRanges: [
+            {beginDate: {year: 2016, month: 10, day: 5}, endDate: {year: 2016, month: 10, day: 7}},
+            {beginDate: {year: 2016, month: 10, day: 10}, endDate: {year: 2016, month: 10, day: 12}}
+        ]
     };
 
     //selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
@@ -95,6 +99,15 @@ export class SampleDateRangePickerNormal implements OnInit {
     onShowWeekNumbers(checked: boolean) {
         let copy = this.getCopyOfOptions();
         copy.showWeekNumbers = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onDisableToday(checked:boolean) {
+        let date = new Date();
+
+        // Disable/enable today
+        let copy = this.getCopyOfOptions();
+        copy.disableDates = checked ? [{year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()}] : [];
         this.myDateRangePickerOptionsNormal = copy;
     }
 
