@@ -198,43 +198,43 @@ Add the following snippet inside your template:
 
 Value of the __options__ attribute is a type of [IMyOptions](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-options.interface.ts). It can contain the following properties.
 
-| Option        | Default       | Description  |
-| ------------- | ------------- | ----- |
-| __quickRangeSelect__   | true      | Is quick date range selection enabled or not. Begin adn end date can be selected without any button click. |
-| __dayLabels__     | [IMyDayLabels](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-day-labels.interface.ts) object. {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'} | Day labels visible on the selector. |
-| __monthLabels__   | [IMyMonthLabels](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-month-labels.interface.ts) object. { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' } | Month labels visible on the selector. |
-| __dateFormat__    | yyyy-mm-dd      | Date format on the selection area and the callback. For example: dd.mm.yyyy, yyyy-mm-dd, dd mmm yyyy (mmm = Month as a text) |
-| __showClearBtn__   | true      | Show 'Clear' button on calendar. |
-| __clearBtnTxt__   | Clear      | Clear button text. Can be used if __showClearBtn = true__. |
-| __beginDateBtnTxt__   | Begin Date      | To begin date button text. Can be used if __quickRangeSelect = false__. |
-| __endDateBtnTxt__   | End Date      | To end date button text. Can be used if __quickRangeSelect = false__. |
-| __acceptBtnTxt__   | OK      | Accept date range button text. |
-| __showSelectDateText__   | true      | Show select date text. |
-| __selectBeginDateTxt__   | Select Begin Date      | Select begin date text. Can be used if __showSelectDateText = true__.|
-| __selectEndDateTxt__   | Select End Date      | Select end date text. Can be used if __showSelectDateText = true__.  |
-| __firstDayOfWeek__   | mo | First day of week on calendar. One of the following: mo, tu, we, th, fr, sa, su |
-| __sunHighlight__   | true | Sunday red colored on calendar. |
-| __markCurrentDay__   | true | Is current day (today) marked on calendar. |
-| __editableMonthAndYear__   | true | Is month and year labels editable or not. |
-| __minYear__   | 1000 | Minimum allowed year in calendar. Cannot be less than 1000. |
-| __maxYear__   | 9999 | Maximum allowed year in calendar. Cannot be more than 9999. |
-| __disableUntil__   | no default value | Disable dates backward starting from the given date. [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) object. For example: {year: 2016, month: 6, day: 26} |
-| __disableSince__   | no default value | Disable dates forward starting from the given date. [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) object. For example: {year: 2016, month: 7, day: 22} |
-| __disableDates__   | no default value  | Disable single dates one by one. Array of [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) objects. The disabled date cannot be selected but it can be in a range. For example: [{year: 2016, month: 11, day: 14}, {year: 2016, month: 1, day: 15}] |
-| __disableDateRanges__   | no default value  | Disable date ranges one by one. Array of [IMyDateRange](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date-range.interface.ts) objects. The disabled date cannot be selected but it can be in a range. For example: [{beginDate: {year: 2016, month: 11, day: 14}, endDate: {year: 2016, month: 11, day: 20}}] |
-| __disableHeaderButtons__   | true | Prevent to change the calendar view with header buttons if previous or next month are fully disabled by disableUntil or disableSince. |
-| __showWeekNumbers__   | false | Are week numbers visible or not on calendar. Can be used if __firstDayOfWeek = mo__. |
-| __inline__   | false | Show mydaterangepicker in inline mode. |
-| __showClearDateRangeBtn__   | true | Is clear date range button shown or not. Can be used if __inline = false__. |
-| __height__   | 34px | mydatepicker height without selector. Can be used if __inline = false__. |
-| __width__   | 100% | mydatepicker width. Can be used if __inline = false__. |
-| __selectionTxtFontSize__   | 18px | Selection area font size. Can be used if __inline = false__. |
-| __alignSelectorRight__   | false | Align selector right. Can be used if __inline = false__. |
-| __indicateInvalidDateRange__   | true | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
-| __componentDisabled__   | false | Is selection area input field and buttons disabled or not (input disabled flag). Can be used if __inline = false__. |
-| __editableDateRangeField__   | true | Is selection area input field editable or not (input readonly flag). Can be used if __inline = false__. |
-| __inputValueRequired__   | false | Is selection area input field value required or not (input required flag). Can be used if __inline = false__. |
-| __showSelectorArrow__   | true | Is selector (calendar) arrow shown or not. Can be used if __inline = false__. |
+| Option        | Default       | Type  | Description  |
+| ------------- | ------------- | ----- | ------------ |
+| __quickRangeSelect__   | true      | boolean | Is quick date range selection enabled or not. Begin adn end date can be selected without any button click. |
+| __dayLabels__     | {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'} | [IMyDayLabels](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-day-labels.interface.ts) | Day labels visible on the selector. |
+| __monthLabels__   | { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' } | [IMyMonthLabels](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-month-labels.interface.ts) | Month labels visible on the selector. |
+| __dateFormat__    | yyyy-mm-dd      | string | Date format on the selection area and the callback. For example: dd.mm.yyyy, yyyy-mm-dd, dd mmm yyyy (mmm = Month as a text) |
+| __showClearBtn__   | true      | boolean | Show 'Clear' button on calendar. |
+| __clearBtnTxt__   | Clear      | string | Clear button text. Can be used if __showClearBtn = true__. |
+| __beginDateBtnTxt__   | Begin Date | string | To begin date button text. Can be used if __quickRangeSelect = false__. |
+| __endDateBtnTxt__   | End Date | string | To end date button text. Can be used if __quickRangeSelect = false__. |
+| __acceptBtnTxt__   | OK | string | Accept date range button text. |
+| __showSelectDateText__   | true | boolean | Show select date text. |
+| __selectBeginDateTxt__   | Select Begin Date | string | Select begin date text. Can be used if __showSelectDateText = true__.|
+| __selectEndDateTxt__   | Select End Date | string | Select end date text. Can be used if __showSelectDateText = true__.  |
+| __firstDayOfWeek__   | mo | string | First day of week on calendar. One of the following: mo, tu, we, th, fr, sa, su |
+| __sunHighlight__   | true | boolean | Sunday red colored on calendar. |
+| __markCurrentDay__   | true | boolean | Is current day (today) marked on calendar. |
+| __editableMonthAndYear__  | true | boolean | Is month and year labels editable or not. |
+| __minYear__   | 1000 | number | Minimum allowed year in calendar. Cannot be less than 1000. |
+| __maxYear__   | 9999 | number | Maximum allowed year in calendar. Cannot be more than 9999. |
+| __disableUntil__   | no default value | [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) | Disable dates backward starting from the given date. For example: {year: 2016, month: 6, day: 26} |
+| __disableSince__   | no default value | [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) | Disable dates forward starting from the given date. For example: {year: 2016, month: 7, day: 22} |
+| __disableDates__   | no default value  | Array<[IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts)> | Disable single dates one by one. The disabled date cannot be selected but it can be in a range. For example: [{year: 2016, month: 11, day: 14}, {year: 2016, month: 1, day: 15}] |
+| __disableDateRanges__  | no default value  | Array<[IMyDateRange](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date-range.interface.ts)> | Disable date ranges one by one. The disabled date cannot be selected but it can be in a range. For example: [{beginDate: {year: 2016, month: 11, day: 14}, endDate: {year: 2016, month: 11, day: 20}}] |
+| __disableHeaderButtons__   | true | boolean | Prevent to change the calendar view with header buttons if previous or next month are fully disabled by disableUntil or disableSince. |
+| __showWeekNumbers__   | false | boolean | Are week numbers visible or not on calendar. Can be used if __firstDayOfWeek = mo__. |
+| __inline__   | false | boolean | Show mydaterangepicker in inline mode. |
+| __showClearDateRangeBtn__   | true | boolean | Is clear date range button shown or not. Can be used if __inline = false__. |
+| __height__   | 34px | string | mydatepicker height without selector. Can be used if __inline = false__. |
+| __width__   | 100% | string | mydatepicker width. Can be used if __inline = false__. |
+| __selectionTxtFontSize__   | 18px | string | Selection area font size. Can be used if __inline = false__. |
+| __alignSelectorRight__   | false | boolean | Align selector right. Can be used if __inline = false__. |
+| __indicateInvalidDateRange__   | true | boolean | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
+| __componentDisabled__   | false | boolean | Is selection area input field and buttons disabled or not (input disabled flag). Can be used if __inline = false__. |
+| __editableDateRangeField__   | true | boolean | Is selection area input field editable or not (input readonly flag). Can be used if __inline = false__. |
+| __inputValueRequired__   | false | boolean | Is selection area input field value required or not (input required flag). Can be used if __inline = false__. |
+| __showSelectorArrow__   | true | boolean | Is selector (calendar) arrow shown or not. Can be used if __inline = false__. |
 
 * Example of the options data (not all properties listed):
 ```js
