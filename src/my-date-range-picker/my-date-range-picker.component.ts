@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewEncapsulation, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { IMyDateRange, IMyDate, IMyMonth, IMyCalendarDay, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected } from "./interfaces/index";
+import { IMyDateRange, IMyDate, IMyMonth, IMyCalendarDay, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged, IMyInputFocusBlur, IMyDateSelected } from "./interfaces/index";
 import { DateRangeUtilService } from "./services/my-date-range-picker.date.range.util.service";
 
 // webpack1_
@@ -31,6 +31,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     @Output() dateRangeChanged: EventEmitter<IMyDateRangeModel> = new EventEmitter<IMyDateRangeModel>();
     @Output() inputFieldChanged: EventEmitter<IMyInputFieldChanged> = new EventEmitter<IMyInputFieldChanged>();
     @Output() calendarViewChanged: EventEmitter<IMyCalendarViewChanged> = new EventEmitter<IMyCalendarViewChanged>();
+    @Output() inputFocusBlur: EventEmitter<IMyInputFocusBlur> = new EventEmitter<IMyInputFocusBlur>();
     @Output() dateSelected: EventEmitter<IMyDateSelected> = new EventEmitter<IMyDateSelected>();
 
     onChangeCb: (_: any) => void = () => { };
@@ -78,10 +79,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         monthLabels: <IMyMonthLabels> {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"},
         dateFormat: <string> "yyyy-mm-dd",
         showClearBtn: <boolean> true,
-        clearBtnTxt: <string> "Clear",
-        beginDateBtnTxt: <string> "Begin Date",
-        endDateBtnTxt: <string> "End Date",
-        acceptBtnTxt: <string> "Accept",
+        showApplyBtn: <boolean> true,
         showSelectDateText: <boolean> true,
         selectBeginDateTxt: <string> "Select Begin Date",
         selectEndDateTxt: <string> "Select End Date",
@@ -106,9 +104,8 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         disableDates: <Array<IMyDate>> [],
         disableDateRanges: <Array<IMyDateRange>> [],
         componentDisabled: <boolean> false,
-        inputValueRequired: <boolean> false,
         showSelectorArrow: <boolean> true,
-        quickRangeSelect: <boolean> true
+        openSelectorOnInputClick: <boolean> false,
     };
 
     constructor(public elem: ElementRef, private renderer: Renderer, private drus: DateRangeUtilService) {
@@ -166,9 +163,14 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
     }
 
+    onFocusInput(event: any): void {
+        this.inputFocusBlur.emit({reason: 1, value: event.target.value});
+    }
+
     lostFocusInput(event: any): void {
         this.selectionDayTxt = event.target.value;
         this.onTouchedCb();
+        this.inputFocusBlur.emit({reason: 2, value: event.target.value});
     }
 
     userMonthInput(event: any): void {
@@ -401,21 +403,22 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     cellClicked(cell: any): void {
         // Cell clicked in the selector
         let bi: boolean = this.drus.isInitializedDate(this.beginDate);
-        let ei: boolean = this.drus.isInitializedDate(this.endDate);
-        if (this.opts.quickRangeSelect && !ei) {
+        if (!this.drus.isInitializedDate(this.endDate)) {
             if (!bi || bi && this.drus.getTimeInMilliseconds(cell.dateObj) < this.drus.getTimeInMilliseconds(this.beginDate)) {
                 this.selectBeginDate(cell.dateObj);
             }
             else if (this.drus.getTimeInMilliseconds(cell.dateObj) >= this.drus.getTimeInMilliseconds(this.beginDate)) {
                 this.selectEndDate(cell.dateObj);
-                this.toEndDate();
+                this.rangeSelected();
             }
         }
         else if (this.isBeginDate) {
             this.selectBeginDate(cell.dateObj);
+            this.toEndDate();
         }
         else {
             this.selectEndDate(cell.dateObj);
+            this.rangeSelected();
         }
     }
 

@@ -8,10 +8,7 @@ export interface IMyOptions {
     monthLabels?: IMyMonthLabels;
     dateFormat?: string;
     showClearBtn?: boolean;
-    clearBtnTxt?: string;
-    beginDateBtnTxt?: string;
-    endDateBtnTxt?: string;
-    acceptBtnTxt?: string;
+    showApplyBtn?: boolean;
     showSelectDateText?: boolean;
     selectBeginDateTxt?: string;
     selectEndDateTxt?: string;
@@ -36,7 +33,6 @@ export interface IMyOptions {
     disableDates?: Array<IMyDate>;
     disableDateRanges?: Array<IMyDateRange>;
     componentDisabled?: boolean;
-    inputValueRequired?: boolean;
     showSelectorArrow?: boolean;
-    quickRangeSelect?: boolean;
+    openSelectorOnInputClick?: boolean;
 }

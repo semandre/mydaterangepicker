@@ -100,14 +100,13 @@ describe('MyDateRangePicker', () => {
         expect(selectedday).not.toBe(null);
 
         fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-        expect(enddatebtn.nativeElement.textContent.trim()).toBe('End Date');
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
         currmonth = getElements('.caltable tbody tr td');
         currmonth[30].nativeElement.click();
+
+
+        fixture.detectChanges();
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
 
         fixture.detectChanges();
         let selecteddaygreen = getElement('.selecteddaygreen');
@@ -117,12 +116,6 @@ describe('MyDateRangePicker', () => {
         let range = getElements('.caltable .range');
         expect(range).not.toBe(null);
         expect(range.length).toBe(30);
-
-        fixture.detectChanges();
-        let okbtn = getElement('.footerarea button:last-child');
-        expect(okbtn).not.toBe(null);
-        expect(okbtn.nativeElement.textContent.trim()).toBe('Accept');
-        okbtn.nativeElement.click();
 
         fixture.detectChanges();
         let selection = getElement('.selection');
@@ -171,18 +164,12 @@ describe('MyDateRangePicker', () => {
         expect(selectedday).not.toBe(null);
 
         fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-        expect(enddatebtn.nativeElement.textContent.trim()).toBe('End Date');
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
         currmonth = getElements('.caltable tbody tr td');
         currmonth[30].nativeElement.click();
 
         fixture.detectChanges();
-        let selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
 
         fixture.detectChanges();
         let range = getElements('.caltable .range');
@@ -199,7 +186,7 @@ describe('MyDateRangePicker', () => {
         selectedday = getElement('.selectedday');
         expect(selectedday).toBe(null);
 
-        selecteddaygreen = getElement('.selecteddaygreen');
+        let selecteddaygreen = getElement('.selecteddaygreen');
         expect(selecteddaygreen).toBe(null);
 
         range = getElements('.caltable .range');
@@ -345,10 +332,6 @@ describe('MyDateRangePicker', () => {
     it('select previous and next month from selector', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
 
-        comp.options = {
-            quickRangeSelect: false
-        };
-
         comp.parseOptions();
 
         fixture.detectChanges();
@@ -383,9 +366,13 @@ describe('MyDateRangePicker', () => {
         expect(comp.visibleMonth.monthTxt).toBe('Nov');
 
         fixture.detectChanges();
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
         monthlabel = getElement('.monthlabel');
         expect(monthlabel).not.toBe(null);
-        expect(monthlabel.nativeElement.textContent.trim()).toBe('Nov');
+        expect(monthlabel.nativeElement.textContent.trim()).toBe('Oct');
     });
 
     it('select previous year', () => {
@@ -448,196 +435,6 @@ describe('MyDateRangePicker', () => {
         let monthlabel = getElement('.monthlabel');
         expect(monthlabel).not.toBe(null);
         expect(monthlabel.nativeElement.textContent).toBe('May');
-    });
-
-    it('select end date, begin date and ok buttons', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
-
-        comp.options = {
-            quickRangeSelect: false
-        };
-
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        let btnpicker = getElement('.btnpicker');
-        btnpicker.nativeElement.click();
-
-        fixture.detectChanges();
-        let selector = getElement('.selector');
-        expect(selector).not.toBe(null);
-
-        fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-        expect(enddatebtn.nativeElement.textContent.trim()).toBe('End Date');
-        expect(enddatebtn.properties['disabled']).toBe(true);
-
-        fixture.detectChanges();
-        let currmonth = getElements('.caltable tbody tr td');
-        expect(currmonth).not.toBe(null);
-
-        fixture.detectChanges();
-        currmonth[1].nativeElement.click();
-
-        fixture.detectChanges();
-        enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-        expect(enddatebtn.properties['disabled']).toBe(false);
-
-        // Click to end date button
-        fixture.detectChanges();
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        let disabled = getElements('.disabled');
-        expect(disabled).not.toBe(null);
-        expect(disabled.length).toBe(1);
-
-        fixture.detectChanges();
-        let begindatebtn = getElement('.footerarea button:first-child');
-        expect(begindatebtn).not.toBe(null);
-        expect(begindatebtn.nativeElement.textContent.trim()).toBe('Begin Date');
-
-        fixture.detectChanges();
-        let okbtn = getElement('.footerarea button:last-child');
-        expect(okbtn).not.toBe(null);
-        expect(okbtn.nativeElement.textContent.trim()).toBe('Accept');
-        expect(okbtn.properties['disabled']).toBe(true);
-
-        // Click to begin date button
-        fixture.detectChanges();
-        begindatebtn = getElement('.footerarea button:first-child');
-        begindatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        disabled = getElements('.disabled');
-        expect(disabled).not.toBe(null);
-        expect(disabled.length).toBe(0);
-
-        fixture.detectChanges();
-        let selectedday = getElement('.selectedday');
-        expect(selectedday).not.toBe(null);
-
-        // Click to end date button
-        fixture.detectChanges();
-        enddatebtn = getElement('.footerarea button:first-child');
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        currmonth = getElements('.caltable tbody tr td');
-        currmonth[30].nativeElement.click();
-
-        fixture.detectChanges();
-        okbtn = getElement('.footerarea button:last-child');
-        expect(okbtn).not.toBe(null);
-        expect(okbtn.properties['disabled']).toBe(false);
-
-        // Click to begin date button
-        fixture.detectChanges();
-        begindatebtn = getElement('.footerarea button:first-child');
-        expect(begindatebtn).not.toBe(null);
-        begindatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        disabled = getElements('.disabled');
-        expect(disabled).not.toBe(null);
-        expect(disabled.length).toBe(11);
-
-        // Click to end date button
-        fixture.detectChanges();
-        enddatebtn = getElement('.footerarea button:first-child');
-        enddatebtn.nativeElement.click();
-
-        // Click to ok button
-        fixture.detectChanges();
-        okbtn = getElement('.footerarea button:last-child');
-        okbtn.nativeElement.click();
-
-        fixture.detectChanges();
-        let selection = getElement('.selection');
-        expect(selection.nativeElement.value).toContain('2016-11-01 - 2016-11-30');
-    });
-
-    it('popup title text and title text click', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
-
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        let btnpicker = getElement('.btnpicker');
-        btnpicker.nativeElement.click();
-
-        fixture.detectChanges();
-        let selector = getElement('.selector');
-        expect(selector).not.toBe(null);
-
-        fixture.detectChanges();
-        let titleareafull = getElement('.titleareafull');
-        expect(titleareafull).not.toBe(null);
-        expect(titleareafull.nativeElement.textContent).toBe('Select Begin Date');
-
-        fixture.detectChanges();
-        let currmonth = getElements('.caltable tbody tr td');
-        expect(currmonth).not.toBe(null);
-
-        fixture.detectChanges();
-        currmonth[1].nativeElement.click();
-
-        fixture.detectChanges();
-        let titlearealeft = getElement('.titlearealeft');
-        expect(titlearealeft).not.toBe(null);
-        expect(titlearealeft.nativeElement.textContent).toBe('2016-11-01');
-
-        fixture.detectChanges();
-        let titlearearight = getElement('.titlearearight');
-        expect(titlearearight).not.toBe(null);
-        expect(titlearearight.nativeElement.textContent).toBe('Select End Date');
-
-        fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        currmonth = getElements('.caltable tbody tr td');
-        expect(currmonth).not.toBe(null);
-
-        fixture.detectChanges();
-        currmonth[2].nativeElement.click();
-
-        fixture.detectChanges();
-        titlearealeft = getElement('.titlearealeft');
-        expect(titlearealeft).not.toBe(null);
-        expect(titlearealeft.nativeElement.textContent).toBe('2016-11-01');
-
-        fixture.detectChanges();
-        titlearearight = getElement('.titlearearight');
-        expect(titlearearight).not.toBe(null);
-        expect(titlearearight.nativeElement.textContent).toBe('2016-11-02');
-
-        fixture.detectChanges();
-        let selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
-        expect(selecteddaygreen.nativeElement.textContent.trim()).toBe('2');
-
-
-        // Title text click
-        fixture.detectChanges();
-        titlearealeft.nativeElement.click();
-
-        fixture.detectChanges();
-        selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
-        expect(selecteddaygreen.nativeElement.textContent.trim()).toBe('1');
-
-        fixture.detectChanges();
-        titlearearight.nativeElement.click();
-
-        fixture.detectChanges();
-        selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
-        expect(selecteddaygreen.nativeElement.textContent.trim()).toBe('2');
     });
 
     it('test calendar year 2016 month one by one - next month button', () => {
@@ -857,6 +654,7 @@ describe('MyDateRangePicker', () => {
         headerclearbtn = getElement('.headerclearbtn');
         expect(headerclearbtn).toBe(null);
 
+        fixture.detectChanges();
         btnpicker.nativeElement.click();
 
         comp.options = {showClearBtn: true};
@@ -871,11 +669,8 @@ describe('MyDateRangePicker', () => {
         expect(headerclearbtn).not.toBe(null);
     });
 
-    it('options - clear button text', () => {
+    it('options - show apply button', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
-        comp.options = {
-            clearBtnTxt: 'test text'
-        };
 
         comp.parseOptions();
 
@@ -884,103 +679,35 @@ describe('MyDateRangePicker', () => {
         btnpicker.nativeElement.click();
 
         fixture.detectChanges();
-        let headerclearbtn = getElement('.headerclearbtn');
+        let headerclearbtn = getElement('.headerokbtn');
         expect(headerclearbtn).not.toBe(null);
-        expect(headerclearbtn.nativeElement.textContent).toBe('test text');
-    });
 
-    it('options - begin date button text', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
-        comp.options = {
-            beginDateBtnTxt: 'test text',
-            quickRangeSelect: false
-        };
+        btnpicker.nativeElement.click();
 
+        comp.options = {showApplyBtn: false};
         comp.parseOptions();
 
         fixture.detectChanges();
-        let btnpicker = getElement('.btnpicker');
+        btnpicker = getElement('.btnpicker');
         btnpicker.nativeElement.click();
 
         fixture.detectChanges();
-        let currmonth = getElements('.caltable tbody tr td');
-        expect(currmonth).not.toBe(null);
-        expect(currmonth.length).toBe(42);
+        headerclearbtn = getElement('.headerokbtn');
+        expect(headerclearbtn).toBe(null);
 
         fixture.detectChanges();
-        currmonth[1].nativeElement.click();
+        btnpicker.nativeElement.click();
 
-        fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-
-        fixture.detectChanges();
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        let begindatebtn = getElement('.footerarea button:first-child');
-        expect(begindatebtn).not.toBe(null);
-        expect(begindatebtn.nativeElement.textContent.trim()).toBe('test text');
-    });
-
-    it('options - end date button text', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
-        comp.options = {
-            endDateBtnTxt: 'test text',
-            quickRangeSelect: false
-        };
-
+        comp.options = {showApplyBtn: true};
         comp.parseOptions();
 
         fixture.detectChanges();
-        let btnpicker = getElement('.btnpicker');
+        btnpicker = getElement('.btnpicker');
         btnpicker.nativeElement.click();
 
         fixture.detectChanges();
-        let currmonth = getElements('.caltable tbody tr td');
-        expect(currmonth).not.toBe(null);
-        expect(currmonth.length).toBe(42);
-
-        fixture.detectChanges();
-        currmonth[1].nativeElement.click();
-
-        fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-        expect(enddatebtn.nativeElement.textContent.trim()).toBe('test text');
-    });
-
-    it('options - accept date range button text', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
-        comp.options = {
-            acceptBtnTxt: 'test text'
-        };
-
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        let btnpicker = getElement('.btnpicker');
-        btnpicker.nativeElement.click();
-
-        fixture.detectChanges();
-        let currmonth = getElements('.caltable tbody tr td');
-        expect(currmonth).not.toBe(null);
-        expect(currmonth.length).toBe(42);
-
-        fixture.detectChanges();
-        currmonth[1].nativeElement.click();
-
-        fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-
-        fixture.detectChanges();
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        let acceptbtn = getElement('.footerarea button:last-child');
-        expect(acceptbtn).not.toBe(null);
-        expect(acceptbtn.nativeElement.textContent.trim()).toBe('test text');
+        headerclearbtn = getElement('.headerokbtn');
+        expect(headerclearbtn).not.toBe(null);
     });
 
     it('options - show select date text', () => {
@@ -1051,13 +778,6 @@ describe('MyDateRangePicker', () => {
 
         fixture.detectChanges();
         currmonth[1].nativeElement.click();
-
-        fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-
-        fixture.detectChanges();
-        enddatebtn.nativeElement.click();
 
         fixture.detectChanges();
         let titlearearight = getElement('.titlearearight');
@@ -1596,7 +1316,7 @@ describe('MyDateRangePicker', () => {
         expect(selectiongroup).toBe(null);
     });
 
-    it('options - show clear date button', () => {
+    it('options - show clear date range button', () => {
         let date = new Date();
         comp.selectedMonth = {monthTxt: '', monthNbr: date.getMonth() + 1, year: date.getFullYear()};
 
@@ -1610,21 +1330,9 @@ describe('MyDateRangePicker', () => {
         currday.nativeElement.click();
 
         fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-
-        fixture.detectChanges();
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
         currday = getElement('.currday');
         expect(currday).not.toBe(null);
         currday.nativeElement.click();
-
-        fixture.detectChanges();
-        let acceptbtn = getElement('.footerarea button:last-child');
-        expect(acceptbtn).not.toBe(null);
-        acceptbtn.nativeElement.click();
 
         fixture.detectChanges();
         let btnclear = getElement('.btnclear');
@@ -1645,21 +1353,9 @@ describe('MyDateRangePicker', () => {
         currday.nativeElement.click();
 
         fixture.detectChanges();
-        enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-
-        fixture.detectChanges();
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
         currday = getElement('.currday');
         expect(currday).not.toBe(null);
         currday.nativeElement.click();
-
-        fixture.detectChanges();
-        acceptbtn = getElement('.footerarea button:last-child');
-        expect(acceptbtn).not.toBe(null);
-        acceptbtn.nativeElement.click();
 
         fixture.detectChanges();
         btnclear = getElement('.btnclear');
@@ -1816,33 +1512,6 @@ describe('MyDateRangePicker', () => {
         expect(selection.nativeElement.value).toContain('2016-11-14 - 2016-12-18');
     });
 
-    it('options - input field value required', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
-        comp.options = {};
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        let selection = getElement('.selection');
-        expect(selection).not.toBe(null);
-        expect(selection.properties['required']).toBe(false);
-
-        comp.options = {inputValueRequired: true};
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        selection = getElement('.selection');
-        expect(selection).not.toBe(null);
-        expect(selection.properties['required']).toBe(true);
-
-        comp.options = {inputValueRequired: false};
-        comp.parseOptions();
-
-        fixture.detectChanges();
-        selection = getElement('.selection');
-        expect(selection).not.toBe(null);
-        expect(selection.properties['required']).toBe(false);
-    });
-
     it('options - show selector arrow', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
         comp.options = {};
@@ -1884,69 +1553,30 @@ describe('MyDateRangePicker', () => {
         btnpicker.nativeElement.click();
     });
 
-    it('options - quick date range select', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
-
-        comp.options = {
-            quickRangeSelect: true
-        };
-
+    it('options - click input to open selector', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
+        comp.options = {editableDateField: true};
         comp.parseOptions();
 
         fixture.detectChanges();
-        let btnpicker = getElement('.btnpicker');
-        btnpicker.nativeElement.click();
+        let selection = getElement('.selection');
+
+        selection.nativeElement.click();
 
         fixture.detectChanges();
         let selector = getElement('.selector');
-        expect(selector).not.toBe(null);
+        expect(selector).toBe(null);
 
-        fixture.detectChanges();
-        let currmonth = getElements('.caltable tbody tr td');
-        expect(currmonth).not.toBe(null);
-        expect(currmonth.length).toBe(42);
-
-        let first = currmonth[1];
-        expect(first.nativeElement.textContent.trim()).toBe('1');
-        expect(currmonth[30].nativeElement.textContent.trim()).toBe('30');
-
-        fixture.detectChanges();
-        first.nativeElement.click();
-
-        fixture.detectChanges();
-        let selectedday = getElement('.selectedday');
-        expect(selectedday).not.toBe(null);
-
-        fixture.detectChanges();
-        currmonth = getElements('.caltable tbody tr td');
-        currmonth[30].nativeElement.click();
-
-        fixture.detectChanges();
-        let selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
-
-        fixture.detectChanges();
-        let range = getElements('.caltable .range');
-        expect(range).not.toBe(null);
-        expect(range.length).toBe(30);
-
-        fixture.detectChanges();
-        let okbtn = getElement('.footerarea button:first-child');
-        expect(okbtn).not.toBe(null);
-        expect(okbtn.nativeElement.textContent.trim()).toBe('Accept');
-        okbtn.nativeElement.click();
-
-        fixture.detectChanges();
-        let selection = getElement('.selection');
-        expect(selection.nativeElement.value).toContain('2016-11-01 - 2016-11-30');
-
-        fixture.detectChanges();
-        let btnclear = getElement('.btnclear');
-        btnclear.nativeElement.click();
+        comp.options = {editableDateRangeField: false, openSelectorOnInputClick: true};
+        comp.parseOptions();
 
         fixture.detectChanges();
         selection = getElement('.selection');
-        expect(selection.nativeElement.value).toEqual('');
+        selection.nativeElement.click();
+
+        fixture.detectChanges();
+        selector = getElement('.selector');
+        expect(selector).not.toBe(null);
     });
 
     // attributes
@@ -1954,8 +1584,7 @@ describe('MyDateRangePicker', () => {
         comp.selectionDayTxt = '2016-11-04 - 2016-11-18';
 
         comp.options = {
-            dateFormat: 'yyyy-mm-dd',
-            quickRangeSelect: false
+            dateFormat: 'yyyy-mm-dd'
         };
 
         comp.parseOptions();
@@ -1994,18 +1623,6 @@ describe('MyDateRangePicker', () => {
         let disabled = getElements('.disabled');
         expect(disabled).not.toBe(null);
         expect(disabled.length).toBe(23);
-
-        fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-        expect(enddatebtn.nativeElement.textContent.trim()).toBe('End Date');
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        let okbtn = getElement('.footerarea button:last-child');
-        expect(okbtn).not.toBe(null);
-        expect(okbtn.nativeElement.textContent.trim()).toBe('Accept');
-        okbtn.nativeElement.click();
     });
 
     it('selDateRange - initially selected date range - mont as text', () => {
@@ -2052,18 +1669,6 @@ describe('MyDateRangePicker', () => {
         let disabled = getElements('.disabled');
         expect(disabled).not.toBe(null);
         expect(disabled.length).toBe(23);
-
-        fixture.detectChanges();
-        let enddatebtn = getElement('.footerarea button:first-child');
-        expect(enddatebtn).not.toBe(null);
-        expect(enddatebtn.nativeElement.textContent.trim()).toBe('End Date');
-        enddatebtn.nativeElement.click();
-
-        fixture.detectChanges();
-        let okbtn = getElement('.footerarea button:last-child');
-        expect(okbtn).not.toBe(null);
-        expect(okbtn.nativeElement.textContent.trim()).toBe('Accept');
-        okbtn.nativeElement.click();
     });
 
     it('defaultMonth - initially selected month', () => {
@@ -2100,7 +1705,6 @@ describe('MyDateRangePicker', () => {
         expect(selection).not.toBe(null);
         expect(selection.properties['placeholder']).toBe(comp.placeholder);
     });
-
 });
 
 

@@ -51,15 +51,15 @@ To install this component to an external project, follow the procedure:
 
 Use one of the following three options.
 
-### 1. Callbacks
+### 1. ngModel binding
 
-In this option the mydaterangepicker sends data back to host application using callbacks. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-range-picker-normal)
-is an example application. It shows how to use callbacks.
+In this option the ngModel binding is used. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-range-picker-access-modifier)
+is an example application. It shows how to use the __ngModel__.
 
-To use callbacks define the application class as follows:
+To use ngModel define the application class as follows:
 
-```js
-import {IMyOptions, IMyDateRangeModel} from 'mydaterangepicker';
+```ts
+import {IMyOptions} from 'mydaterangepicker';
 // other imports here...
 
 export class MyTestApp {
@@ -69,23 +69,22 @@ export class MyTestApp {
         dateFormat: 'dd.mm.yyyy',
     };
 
-    constructor() { }
+    // For example initialize to specific date (09.10.2018 - 19.10.2018). It is also possible
+    // to set initial date range value using the selDateRange attribute.
+    private model: Object = {beginDate: {year: 2018, month: 10, day: 9},
+                             endDate: {year: 2018, month: 10, day: 19}};
 
-    // dateRangeChanged callback function called when the user apply the date range. This is
-    // mandatory callback in this option. There are also optional inputFieldChanged and
-    // calendarViewChanged callbacks.
-    onDateRangeChanged(event: IMyDateRangeModel) {
-        // event properties are: event.beginDate, event.endDate, event.formatted,
-        // event.beginEpoc and event.endEpoc
-    }
+    constructor() { }
 }
 ```
 
 Add the following snippet inside your template:
 
 ```html
-<my-date-range-picker [options]="myDateRangePickerOptions"
-                   (dateRangeChanged)="onDateRangeChanged($event)"></my-date-range-picker>
+<form #myForm="ngForm" novalidate>
+    <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    [(ngModel)]="model" required></my-date-range-picker>
+</form>
 ```
 
 ### 2. Reactive forms
@@ -156,15 +155,15 @@ Add the following snippet inside your template:
 </form>
 ```
 
-### 3. ngModel binding
+### 3. Callbacks
 
-In this option the ngModel binding is used. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-range-picker-access-modifier)
-is an example application. It shows how to use the __ngModel__.
+In this option the mydaterangepicker sends data back to host application using callbacks. [Here](https://github.com/kekeh/mydaterangepicker/tree/master/sampleapp/sample-date-range-picker-normal)
+is an example application. It shows how to use callbacks.
 
-To use ngModel define the application class as follows:
+To use callbacks define the application class as follows:
 
-```ts
-import {IMyOptions} from 'mydaterangepicker';
+```js
+import {IMyOptions, IMyDateRangeModel} from 'mydaterangepicker';
 // other imports here...
 
 export class MyTestApp {
@@ -174,22 +173,23 @@ export class MyTestApp {
         dateFormat: 'dd.mm.yyyy',
     };
 
-    // For example initialize to specific date (09.10.2018 - 19.10.2018). It is also possible
-    // to set initial date range value using the selDateRange attribute.
-    private model: Object = {beginDate: {year: 2018, month: 10, day: 9},
-                             endDate: {year: 2018, month: 10, day: 19}};
-
     constructor() { }
+
+    // dateRangeChanged callback function called when the user apply the date range. This is
+    // mandatory callback in this option. There are also optional inputFieldChanged and
+    // calendarViewChanged callbacks.
+    onDateRangeChanged(event: IMyDateRangeModel) {
+        // event properties are: event.beginDate, event.endDate, event.formatted,
+        // event.beginEpoc and event.endEpoc
+    }
 }
 ```
 
 Add the following snippet inside your template:
 
 ```html
-<form #myForm="ngForm" novalidate>
-    <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
-                    [(ngModel)]="model" required></my-date-range-picker>
-</form>
+<my-date-range-picker [options]="myDateRangePickerOptions"
+                   (dateRangeChanged)="onDateRangeChanged($event)"></my-date-range-picker>
 ```
 
 ## Attributes
@@ -200,16 +200,12 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 
 | Option        | Default       | Type  | Description  |
 | ------------- | ------------- | ----- | ------------ |
-| __quickRangeSelect__   | true      | boolean | Is quick date range selection enabled or not. Begin adn end date can be selected without any button click. |
 | __dayLabels__     | {su: 'Sun', mo: 'Mon', tu: 'Tue', we: 'Wed', th: 'Thu', fr: 'Fri', sa: 'Sat'} | [IMyDayLabels](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-day-labels.interface.ts) | Day labels visible on the selector. |
 | __monthLabels__   | { 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun', 7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec' } | [IMyMonthLabels](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-month-labels.interface.ts) | Month labels visible on the selector. |
 | __dateFormat__    | yyyy-mm-dd      | string | Date format on the selection area and the callback. For example: dd.mm.yyyy, yyyy-mm-dd, dd mmm yyyy (mmm = Month as a text) |
-| __showClearBtn__   | true      | boolean | Show 'Clear' button on calendar. |
-| __clearBtnTxt__   | Clear      | string | Clear button text. Can be used if __showClearBtn = true__. |
-| __beginDateBtnTxt__   | Begin Date | string | To begin date button text. Can be used if __quickRangeSelect = false__. |
-| __endDateBtnTxt__   | End Date | string | To end date button text. Can be used if __quickRangeSelect = false__. |
-| __acceptBtnTxt__   | OK | string | Accept date range button text. |
-| __showSelectDateText__   | true | boolean | Show select date text. |
+| __showClearBtn__   | true      | boolean | Show the 'Clear' button on calendar. |
+| __showApplyBtn__   | true      | boolean | Show the 'Apply' button on calendar. |
+| __showSelectDateText__   | true | boolean | Show the select date text. |
 | __selectBeginDateTxt__   | Select Begin Date | string | Select begin date text. Can be used if __showSelectDateText = true__.|
 | __selectEndDateTxt__   | Select End Date | string | Select end date text. Can be used if __showSelectDateText = true__.  |
 | __firstDayOfWeek__   | mo | string | First day of week on calendar. One of the following: mo, tu, we, th, fr, sa, su |
@@ -233,16 +229,12 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 | __indicateInvalidDateRange__   | true | boolean | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
 | __componentDisabled__   | false | boolean | Is selection area input field and buttons disabled or not (input disabled flag). Can be used if __inline = false__. |
 | __editableDateRangeField__   | true | boolean | Is selection area input field editable or not (input readonly flag). Can be used if __inline = false__. |
-| __inputValueRequired__   | false | boolean | Is selection area input field value required or not (input required flag). Can be used if __inline = false__. |
 | __showSelectorArrow__   | true | boolean | Is selector (calendar) arrow shown or not. Can be used if __inline = false__. |
+| __openSelectorOnInputClick__   | false | boolean | Open selector when the input field is clicked. Can be used if __inline = false and editableDateField = false__. |
 
 * Example of the options data (not all properties listed):
 ```js
     myDateRangePickerOptions: IMyOptions = {
-        clearBtnTxt: 'Clear',
-        beginDateBtnTxt: 'Begin Date',
-        endDateBtnTxt: 'End Date',
-        acceptBtnTxt: 'OK',
         dateFormat: 'dd.mm.yyyy',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
@@ -349,6 +341,22 @@ Placeholder text in the input field.
     onDateSelected(event: IMyDateSelected) {
         console.log('onDateSelected(): Value: ', event);
     }
+  ```
+
+### inputFocusBlur callback
+  * called when the input box get or lost focus
+  * event parameter:
+    * event.reason: Reason of the event:
+      * 1 = focus to input box
+      * 2 = focus out of input box
+    * event.value: Value of input box
+    * event parameter type is [IMyInputFocusBlur](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-input-focus-blur.interface.ts)
+
+  * Example of the input focus blur callback:
+  ```js
+  onInputFocusBlur(event: IMyInputFocusBlur): void {
+      console.log('onInputFocusBlur(): Reason: ', event. reason, ' - Value: ', event.value);
+  }
   ```
 
 ## Change styles of the component

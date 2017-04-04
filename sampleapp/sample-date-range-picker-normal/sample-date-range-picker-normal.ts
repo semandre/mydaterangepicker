@@ -12,10 +12,6 @@ const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-norm
 export class SampleDateRangePickerNormal implements OnInit {
 
     private myDateRangePickerOptionsNormal: IMyOptions = {
-        clearBtnTxt: 'Clear',
-        beginDateBtnTxt: 'Begin Date',
-        endDateBtnTxt: 'End Date',
-        acceptBtnTxt: 'Apply',
         dateFormat: 'dd mmm yyyy',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
@@ -34,6 +30,10 @@ export class SampleDateRangePickerNormal implements OnInit {
         disableUntil: {year: 2001, month: 11, day: 10},
         disableSince: {year: 2030, month: 3, day: 10},
         showWeekNumbers: false,
+        showClearBtn: true,
+        showApplyBtn: true,
+        showSelectDateText: true,
+        openSelectorOnInputClick: false,
         disableDateRanges: [
             {beginDate: {year: 2016, month: 10, day: 5}, endDate: {year: 2016, month: 10, day: 7}},
             {beginDate: {year: 2016, month: 10, day: 10}, endDate: {year: 2016, month: 10, day: 12}}
@@ -65,6 +65,7 @@ export class SampleDateRangePickerNormal implements OnInit {
     onEditableDateField(checked: boolean) {
         let copy = this.getCopyOfOptions();
         copy.editableDateRangeField = checked;
+        copy.openSelectorOnInputClick = !checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 
@@ -90,12 +91,6 @@ export class SampleDateRangePickerNormal implements OnInit {
         this.myDateRangePickerOptionsNormal = copy;
     }
 
-    onQuickDateRangeSelection(checked: boolean) {
-        let copy = this.getCopyOfOptions();
-        copy.quickRangeSelect = checked;
-        this.myDateRangePickerOptionsNormal = copy;
-    }
-
     onShowWeekNumbers(checked: boolean) {
         let copy = this.getCopyOfOptions();
         copy.showWeekNumbers = checked;
@@ -108,6 +103,24 @@ export class SampleDateRangePickerNormal implements OnInit {
         // Disable/enable today
         let copy = this.getCopyOfOptions();
         copy.disableDates = checked ? [{year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()}] : [];
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowClearBtn(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showClearBtn = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowApplyBtn(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showApplyBtn = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowSelectDateText(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showSelectDateText = checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 

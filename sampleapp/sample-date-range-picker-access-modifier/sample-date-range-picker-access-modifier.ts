@@ -15,8 +15,7 @@ export class SampleDateRangePickerAccessModifier implements OnInit {
     private myDateRangePickerOptions: IMyOptions = {
         dateFormat: 'dd.mm.yyyy',
         height: '34px',
-        width: '250px',
-        acceptBtnTxt: 'Apply'
+        width: '250px'
     };
 
     private myForm: FormGroup;

@@ -1,14 +1,14 @@
 <div class="mydrp" [ngStyle]="{'width': opts.width, 'border': opts.inline ? 'none' : null}">
     <div class="selectiongroup" *ngIf="!opts.inline">
-        <input type="text" class="selection" aria-label="Date range input field" [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{placeholder}}"
+        <input type="text" class="selection" aria-label="Date range input field" (click)="opts.openSelectorOnInputClick&&!opts.editableDateRangeField&&openBtnClicked()"  [attr.maxlength]="dateRangeFormat.length" [ngClass]="{'invaliddaterange': invalidDateRange&&opts.indicateInvalidDateRange}" placeholder="{{placeholder}}"
                [ngStyle]="{'height': opts.height, 'line-height': height, 'font-size': opts.selectionTxtFontSize, 'border': 'none', 'padding-right': selectionDayTxt.length>0&&opts.showClearDateRangeBtn ? '60px' : '30px'}"
-               (keyup)="userDateRangeInput($event)" (blur)="lostFocusInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField" [required]="opts.inputValueRequired">
+               (keyup)="userDateRangeInput($event)" (focus)="opts.editableDateRangeField&&onFocusInput($event)" (blur)="opts.editableDateRangeField&&lostFocusInput($event)" [value]="selectionDayTxt" [disabled]="opts.componentDisabled" [readonly]="!opts.editableDateRangeField">
         <span class="selbtngroup" [style.height]="opts.height">
-            <button type="button" class="btnclear" aria-label="Clear date range" *ngIf="selectionDayTxt.length>0&&opts.showClearDateRangeBtn" (click)="removeBtnClicked()" [ngClass]="{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
-                <span class="mydrpicon icon-cross" [ngStyle]="{'line-height': opts.height}"></span>
+            <button type="button" class="btnclear" aria-label="Clear date range" *ngIf="selectionDayTxt.length>0&&opts.showClearDateRangeBtn" (click)="removeBtnClicked();$event.stopPropagation()" [ngClass]="{'btnclearenabled': !opts.componentDisabled, 'btncleardisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
+                <span class="mydrpicon icon-mydrpremove"></span>
             </button>
             <button type="button" class="btnpicker" aria-label="Open calendar" (click)="openBtnClicked()" [ngClass]="{'btnpickerenabled': !opts.componentDisabled, 'btnpickerdisabled': opts.componentDisabled}" [disabled]="opts.componentDisabled">
-                <span class="mydrpicon icon-calendar" [ngStyle]="{'line-height': opts.height}"></span>
+                <span class="mydrpicon icon-mydrpcalendar"></span>
             </button>
         </span>
     </div>
@@ -24,25 +24,30 @@
             <tr>
                 <td>
                     <div style="float:left">
-                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-left" aria-label="Previous month" (click)="prevMonth()" [disabled]="prevMonthDisabled" [ngClass]="{'headerbtnenabled': !prevMonthDisabled, 'headerbtndisabled': prevMonthDisabled}"></button></div>
+                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-mydrpleft" aria-label="Previous month" (click)="prevMonth()" [disabled]="prevMonthDisabled" [ngClass]="{'headerbtnenabled': !prevMonthDisabled, 'headerbtndisabled': prevMonthDisabled}"></button></div>
                         <div class="headermonthtxt">
                             <input type="text" *ngIf="editMonth" class="monthinput" maxlength="12" [mydrpfocus]="2" [value]="visibleMonth.monthTxt" (keyup)="userMonthInput($event)" (click)="$event.stopPropagation()" [ngClass]="{'invalidmonth': invalidMonth}">
                             <button class="headerlabelbtn" type="button" [ngClass]="{'monthlabel': opts.editableMonthAndYear}" *ngIf="!editMonth" (click)="opts.editableMonthAndYear&&editMonthClicked($event)" tabindex="{{opts.editableMonthAndYear?'0':'-1'}}">{{visibleMonth.monthTxt}}</button>
                         </div>
-                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-right" aria-label="Next month" (click)="nextMonth()" [disabled]="nextMonthDisabled" [ngClass]="{'headerbtnenabled': !nextMonthDisabled, 'headerbtndisabled': nextMonthDisabled}"></button></div>
+                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-mydrpright" aria-label="Next month" (click)="nextMonth()" [disabled]="nextMonthDisabled" [ngClass]="{'headerbtnenabled': !nextMonthDisabled, 'headerbtndisabled': nextMonthDisabled}"></button></div>
                     </div>
                 </td>
-                <td *ngIf="opts.showClearBtn">
-                    <button type="button" class="headerclearbtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0, 'headerclearbtnenabled':beginDate.year!==0||endDate.year!==0}" (click)="clearDateRange()">{{opts.clearBtnTxt}}</button>
+                <td>
+                    <button type="button" class="headerclearbtn" *ngIf="opts.showClearBtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0, 'headerclearbtnenabled':beginDate.year!==0||endDate.year!==0}" (click)="clearDateRange()">
+                        <span class="mydrpicon icon-mydrpremove"></span>
+                    </button>
+                    <button type="button" class="headerokbtn" *ngIf="opts.showApplyBtn" [disabled]="beginDate.year===0&&endDate.year===0" [ngClass]="{'btndisable':beginDate.year===0&&endDate.year===0, 'headerokbtnenabled':beginDate.year!==0||endDate.year!==0}" (click)="rangeSelected()">
+                        <span class="mydrpicon icon-mydrpok"></span>
+                    </button>
                 </td>
                 <td>
                     <div style="float:right">
-                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-left" aria-label="Previous year" (click)="prevYear()" [disabled]="prevYearDisabled" [ngClass]="{'headerbtnenabled': !prevYearDisabled, 'headerbtndisabled': prevYearDisabled}"></button></div>
+                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-mydrpleft" aria-label="Previous year" (click)="prevYear()" [disabled]="prevYearDisabled" [ngClass]="{'headerbtnenabled': !prevYearDisabled, 'headerbtndisabled': prevYearDisabled}"></button></div>
                         <div class="headeryeartxt">
                             <input type="text" *ngIf="editYear" class="yearinput" maxlength="4" [mydrpfocus]="2" [value]="visibleMonth.year" (keyup)="userYearInput($event)" (click)="$event.stopPropagation()" [ngClass]="{'invalidyear': invalidYear}">
                             <button class="headerlabelbtn" type="button" [ngClass]="{'yearlabel': opts.editableMonthAndYear}" *ngIf="!editYear" (click)="opts.editableMonthAndYear&&editYearClicked($event)" tabindex="{{opts.editableMonthAndYear?'0':'-1'}}">{{visibleMonth.year}}</button>
                         </div>
-                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-right" aria-label="Next year" (click)="nextYear()" [disabled]="nextYearDisabled" [ngClass]="{'headerbtnenabled': !nextYearDisabled, 'headerbtndisabled': nextYearDisabled}"></button></div>
+                        <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-mydrpright" aria-label="Next year" (click)="nextYear()" [disabled]="nextYearDisabled" [ngClass]="{'headerbtnenabled': !nextYearDisabled, 'headerbtndisabled': nextYearDisabled}"></button></div>
                     </div>
                 </td>
             </tr>
@@ -52,7 +57,7 @@
             <tbody>
                 <tr *ngFor="let w of dates">
                     <td class="daycell daycellweeknbr" *ngIf="opts.showWeekNumbers&&opts.firstDayOfWeek==='mo'">{{w.weekNbr}}</td>
-                    <td class="daycell" *ngFor="let d of w.week" [ngClass]="{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'range': isInRange(d)||d.range, 'disabled': d.disabled}" (click)="!d.disabled && cellClicked(d);$event.stopPropagation()" (keydown)="cellKeyDown($event, d)" (mouseenter)="opts.quickRangeSelect&&cellMouseEnter(d)" (mouseleave)="opts.quickRangeSelect&&cellMouseLeave()" tabindex="0">
+                    <td class="daycell" *ngFor="let d of w.week" [ngClass]="{'currmonth':d.cmo===CURR_MONTH&&!d.disabled, 'range': isInRange(d)||d.range, 'disabled': d.disabled}" (click)="!d.disabled && cellClicked(d);$event.stopPropagation()" (keydown)="cellKeyDown($event, d)" (mouseenter)="cellMouseEnter(d)" (mouseleave)="cellMouseLeave()" tabindex="0">
                         <div style="background-color:inherit" [ngClass]="{'prevmonth':d.cmo===PREV_MONTH, 'selectedday':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year, 'currmonth':d.cmo===CURR_MONTH, 'nextmonth':d.cmo===NEXT_MONTH, 'selecteddaygreen':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year&&isBeginDate&&isRangeSelected()||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year&&!isBeginDate&&isRangeSelected(), 'sunday':d.dayNbr===0&&opts.sunHighlight}">
                             <span [ngClass]="{'currday':d.currDay&&opts.markCurrentDay, 'sundayDim': opts.sunHighlight && d.dayNbr === 0 && (d.cmo===PREV_MONTH || d.cmo===NEXT_MONTH || d.disabled)}">{{d.dateObj.day}}</span>
                         </div>
@@ -60,9 +65,5 @@
                 </tr>
             </tbody>
         </table>
-        <div class="footerarea">
-            <button type="button" class="footerbtn" *ngIf="!opts.quickRangeSelect" [disabled]="beginDate&&beginDate.year===0" [ngClass]="{'btndisable':beginDate.year===0,'footerbtnenabled': beginDate.year!==0||!isBeginDate}" (click)="$event.stopPropagation();isBeginDate?toEndDate():toBeginDate()">{{isBeginDate?opts.endDateBtnTxt:opts.beginDateBtnTxt}}</button>
-            <button type="button" class="footerbtn" *ngIf="!isBeginDate||endDate.year!==0||opts.quickRangeSelect" [disabled]="endDate.year===0" [ngClass]="{'btndisable':endDate.year===0, 'footerbtnenabled': endDate.year!==0}" (click)="$event.stopPropagation();rangeSelected()">{{opts.acceptBtnTxt}}</button>
-        </div>
     </div>
 </div>
