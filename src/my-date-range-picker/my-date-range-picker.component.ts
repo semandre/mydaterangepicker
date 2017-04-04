@@ -410,6 +410,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             else if (this.drus.getTimeInMilliseconds(cell.dateObj) >= this.drus.getTimeInMilliseconds(this.beginDate)) {
                 this.selectEndDate(cell.dateObj);
                 this.rangeSelected();
+                if (this.opts.inline) {
+                    this.toBeginDate();
+                }
             }
         }
         else if (this.isBeginDate) {
@@ -419,6 +422,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         else {
             this.selectEndDate(cell.dateObj);
             this.rangeSelected();
+            if (this.opts.inline) {
+                this.toBeginDate();
+            }
         }
     }
 
