@@ -26,14 +26,14 @@
         </li>
         <li>
             <label>
-                <span>Quick date range selection:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onQuickDateRangeSelection($event.currentTarget.checked)" [checked]="true">
+                <span>Show week numbers:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onShowWeekNumbers($event.currentTarget.checked)" [checked]="false">
             </label>
         </li>
         <li>
             <label>
-                <span>Show week numbers:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onShowWeekNumbers($event.currentTarget.checked)" [checked]="false">
+                <span>Show calendar select date text:</span>
+                <input style="cursor: pointer" type="checkbox" (change)="onShowSelectDateText($event.currentTarget.checked)" [checked]="true">
             </label>
         </li>
     </ul>
@@ -42,7 +42,8 @@
         <tr>
             <td style="vertical-align: top">
                 <my-date-range-picker [options]="myDateRangePickerOptionsNormal" [selDateRange]="selectedDateRangeNormal" [placeholder]="placeholderTxt"
-                                      (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)" (dateSelected)="onDateSelected($event)"></my-date-range-picker>
+                                      (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)"
+                                      (dateSelected)="onDateSelected($event)" (inputFocusBlur)="onInputFocusBlur($event)"></my-date-range-picker>
             </td>
             <td style="vertical-align: top">
                 <div style="padding:4px;border-radius:4px;float:right" [ngStyle]="{border: border}">

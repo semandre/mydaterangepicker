@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyDateSelected} from 'mydaterangepicker';
+import {IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyDateSelected, IMyInputFocusBlur} from 'mydaterangepicker';
 
 declare var require:any;
 const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-normal.html');
@@ -12,10 +12,6 @@ const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-norm
 export class SampleDateRangePickerNormal implements OnInit {
 
     private myDateRangePickerOptionsNormal: IMyOptions = {
-        clearBtnTxt: 'Clear',
-        beginDateBtnTxt: 'Begin Date',
-        endDateBtnTxt: 'End Date',
-        acceptBtnTxt: 'Apply',
         dateFormat: 'dd mmm yyyy',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
@@ -24,8 +20,9 @@ export class SampleDateRangePickerNormal implements OnInit {
         inline: false,
         selectionTxtFontSize: '13px',
         alignSelectorRight: false,
-        quickRangeSelect: true,
-        showWeekNumbers: false
+        showWeekNumbers: false,
+        openSelectorOnInputClick: false,
+        showSelectDateText: true
     };
 
     selectedDateRangeNormal:string = '';
@@ -52,6 +49,7 @@ export class SampleDateRangePickerNormal implements OnInit {
     onEditableDateRangeField(checked: boolean) {
         let copy = this.getCopyOfOptions();
         copy.editableDateRangeField = checked;
+        copy.openSelectorOnInputClick = !checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 
@@ -67,15 +65,15 @@ export class SampleDateRangePickerNormal implements OnInit {
         this.myDateRangePickerOptionsNormal = copy;
     }
 
-    onQuickDateRangeSelection(checked: boolean) {
-        let copy = this.getCopyOfOptions();
-        copy.quickRangeSelect = checked;
-        this.myDateRangePickerOptionsNormal = copy;
-    }
-
     onShowWeekNumbers(checked: boolean) {
         let copy = this.getCopyOfOptions();
         copy.showWeekNumbers = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowSelectDateText(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showSelectDateText = checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 
@@ -97,6 +95,10 @@ export class SampleDateRangePickerNormal implements OnInit {
 
     onDateSelected(event: IMyDateSelected) {
         console.log('onDateSelected(): Value: ', event);
+    }
+
+    onInputFocusBlur(event: IMyInputFocusBlur) {
+        console.log('onInputFocusBlur(): Reason: ', event. reason, ' - Value: ', event.value);
     }
 
     getCopyOfOptions(): IMyOptions {

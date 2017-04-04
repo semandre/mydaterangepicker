@@ -12,15 +12,11 @@ const sampleDrpInlineTemplate: string = require('./sample-date-range-picker-inli
 export class SampleDateRangePickerInline implements OnInit {
 
     private myDateRangePickerOptionsInline: IMyOptions = {
-        clearBtnTxt: 'Clear',
-        beginDateBtnTxt: 'Begin Date',
-        endDateBtnTxt: 'End Date',
-        acceptBtnTxt: 'Apply',
         dateFormat: 'yyyy-mm-dd',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
         inline: true,
-        showSelectDateText: true
+        showSelectDateText: false
     };
 
     selectedDateRangeInline:string = '';
