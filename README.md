@@ -230,7 +230,7 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 | __componentDisabled__   | false | boolean | Is selection area input field and buttons disabled or not (input disabled flag). Can be used if __inline = false__. |
 | __editableDateRangeField__   | true | boolean | Is selection area input field editable or not (input readonly flag). Can be used if __inline = false__. |
 | __showSelectorArrow__   | true | boolean | Is selector (calendar) arrow shown or not. Can be used if __inline = false__. |
-| __openSelectorOnInputClick__   | false | boolean | Open selector when the input field is clicked. Can be used if __inline = false and editableDateField = false__. |
+| __openSelectorOnInputClick__   | false | boolean | Open selector when the input field is clicked. Can be used if __inline = false and editableDateRangeField = false__. |
 
 * Example of the options data (not all properties listed):
 ```js
