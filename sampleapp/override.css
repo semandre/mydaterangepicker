@@ -1,16 +1,20 @@
 /*
 * Font weights to normal.
 */
+/*
 .mydrp .weekdaytitle,
 .mydrp .monthinput,
 .mydrp .yearinput,
 .mydrp .titleareatxt {
     font-weight: normal;
 }
+*/
 
 /*
 * Change color of the weekday font.
 */
+/*
 .mydrp .weekdaytitle {
     color: #000;
 }
+*/

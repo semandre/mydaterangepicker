@@ -15,6 +15,29 @@ export const MYDRP_VALUE_ACCESSOR: any = {
     multi: true
 };
 
+enum Year {
+    min = 1000,
+    max = 9999
+}
+
+enum InputFocusBlur {
+    focus = 1,
+    blur = 2
+}
+
+enum KeyCode {
+    enter = 13,
+    space = 32,
+    leftArrow = 37,
+    rigthArrow = 39
+}
+
+enum MonthId {
+    prev = 1,
+    curr = 2,
+    next = 3
+}
+
 @Component({
     selector: "my-date-range-picker",
     styles: [myDrpStyles],
@@ -58,12 +81,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     prevYearDisabled: boolean = false;
     nextYearDisabled: boolean = false;
 
-    PREV_MONTH: number = 1;
-    CURR_MONTH: number = 2;
-    NEXT_MONTH: number = 3;
-
-    MIN_YEAR: number = 1000;
-    MAX_YEAR: number = 9999;
+    prevMonthId: number = MonthId.prev;
+    currMonthId: number = MonthId.curr;
+    nextMonthId: number = MonthId.next;
 
     isBeginDate: boolean = true;
     beginDate: IMyDate = {year: 0, month: 0, day: 0};
@@ -97,8 +117,8 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         editableMonthAndYear: <boolean> true,
         disableHeaderButtons: <boolean> true,
         showWeekNumbers: <boolean> false,
-        minYear: <number> this.MIN_YEAR,
-        maxYear: <number> this.MAX_YEAR,
+        minYear: <number> Year.min,
+        maxYear: <number> Year.max,
         disableUntil: <IMyDate> {year: 0, month: 0, day: 0},
         disableSince: <IMyDate> {year: 0, month: 0, day: 0},
         disableDates: <Array<IMyDate>> [],
@@ -164,17 +184,17 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     onFocusInput(event: any): void {
-        this.inputFocusBlur.emit({reason: 1, value: event.target.value});
+        this.inputFocusBlur.emit({reason: InputFocusBlur.focus, value: event.target.value});
     }
 
-    lostFocusInput(event: any): void {
+    onBlurInput(event: any): void {
         this.selectionDayTxt = event.target.value;
         this.onTouchedCb();
-        this.inputFocusBlur.emit({reason: 2, value: event.target.value});
+        this.inputFocusBlur.emit({reason: InputFocusBlur.blur, value: event.target.value});
     }
 
     userMonthInput(event: any): void {
-        if (event.keyCode === 13 || event.keyCode === 37 || event.keyCode === 39) {
+        if (this.preventUserInput(event)) {
             return;
         }
 
@@ -193,7 +213,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     userYearInput(event: any): void {
-        if (event.keyCode === 13 || event.keyCode === 37 || event.keyCode === 39) {
+        if (this.preventUserInput(event)) {
             return;
         }
 
@@ -211,6 +231,10 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
     }
 
+    preventUserInput(event: any): boolean {
+        return event.keyCode === KeyCode.enter || event.keyCode === KeyCode.leftArrow || event.keyCode === KeyCode.rigthArrow;
+    }
+
     parseOptions(): void {
         if (this.options !== undefined) {
             Object.keys(this.options).forEach((k) => {
@@ -218,11 +242,11 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             });
         }
 
-        if (this.opts.minYear < this.MIN_YEAR) {
-            this.opts.minYear = this.MIN_YEAR;
+        if (this.opts.minYear < Year.min) {
+            this.opts.minYear = Year.min;
         }
-        if (this.opts.maxYear > this.MAX_YEAR) {
-            this.opts.maxYear = this.MAX_YEAR;
+        if (this.opts.maxYear > Year.max) {
+            this.opts.maxYear = Year.max;
         }
 
         this.dateRangeFormat = this.opts.dateFormat + " - " + this.opts.dateFormat;
@@ -442,7 +466,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     }
 
     cellKeyDown(event: any, cell: any): void {
-        if ((event.keyCode === 13 || event.keyCode === 32) && !cell.disabled) {
+        if ((event.keyCode === KeyCode.enter || event.keyCode === KeyCode.space) && !cell.disabled) {
             event.preventDefault();
             this.cellClicked(cell);
         }
@@ -598,7 +622,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     isCurrDay(d: number, m: number, y: number, cmo: number, today: IMyDate): boolean {
         // Check is a given date the current date
-        return d === today.day && m === today.month && y === today.year && cmo === this.CURR_MONTH;
+        return d === today.day && m === today.month && y === today.year && cmo === this.currMonthId;
     }
 
     getPreviousDate(date: IMyDate): IMyDate {
@@ -650,7 +674,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.setHeaderBtnDisabledState(m, y);
 
         let dayNbr: number = 1;
-        let cmo: number = this.PREV_MONTH;
+        let cmo: number = this.prevMonthId;
         for (let i = 1; i < 7; i++) {
             let week: Array<IMyCalendarDay> = [];
             if (i === 1) {
@@ -661,7 +685,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                     let date: IMyDate = {year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: j};
                     week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.preventBefore, this.preventAfter), range: false});
                 }
-                cmo = this.CURR_MONTH;
+                cmo = this.currMonthId;
                 // Current month
                 let daysLeft: number = 7 - week.length;
                 for (let j = 0; j < daysLeft; j++) {
@@ -676,7 +700,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                     if (dayNbr > dInThisM) {
                         // Next month
                         dayNbr = 1;
-                        cmo = this.NEXT_MONTH;
+                        cmo = this.nextMonthId;
                         if (m === 12) {
                             y++;
                             m = 1;
