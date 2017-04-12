@@ -122,6 +122,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         disableUntil: <IMyDate> {year: 0, month: 0, day: 0},
         disableSince: <IMyDate> {year: 0, month: 0, day: 0},
         disableDates: <Array<IMyDate>> [],
+        enableDates: <Array<IMyDate>> [],
         disableDateRanges: <Array<IMyDateRange>> [],
         componentDisabled: <boolean> false,
         showSelectorArrow: <boolean> true,
@@ -173,7 +174,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             this.clearDateRange();
         }
         else {
-            let daterange: IMyDateRange = this.drus.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.monthLabels);
+            let daterange: IMyDateRange = this.drus.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates, this.opts.monthLabels);
             if (this.drus.isInitializedDate(daterange.beginDate) && this.drus.isInitializedDate(daterange.endDate)) {
                 this.beginDate = daterange.beginDate;
                 this.endDate = daterange.endDate;
@@ -690,14 +691,14 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                 // Previous month
                 for (let j = pm; j <= dInPrevM; j++) {
                     let date: IMyDate = {year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: j};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.preventBefore, this.preventAfter), range: false});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.preventBefore, this.preventAfter, this.opts.enableDates), range: false});
                 }
                 cmo = this.currMonthId;
                 // Current month
                 let daysLeft: number = 7 - week.length;
                 for (let j = 0; j < daysLeft; j++) {
                     let date: IMyDate = {year: y, month: m, day: dayNbr};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.preventBefore, this.preventAfter), range: false});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.preventBefore, this.preventAfter, this.opts.enableDates), range: false});
                     dayNbr++;
                 }
             }
@@ -717,7 +718,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                         }
                     }
                     let date: IMyDate = {year: y, month: m, day: dayNbr};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.preventBefore, this.preventAfter), range: false});
+                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.preventBefore, this.preventAfter, this.opts.enableDates), range: false});
                     dayNbr++;
                 }
             }

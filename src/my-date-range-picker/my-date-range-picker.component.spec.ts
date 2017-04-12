@@ -69,10 +69,6 @@ describe('MyDateRangePicker', () => {
     it('select first and last dates to date range and clear', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
 
-        comp.options = {
-            quickRangeSelect: false
-        };
-
         comp.parseOptions();
 
         fixture.detectChanges();
@@ -132,10 +128,6 @@ describe('MyDateRangePicker', () => {
 
     it('select clear button', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
-
-        comp.options = {
-            quickRangeSelect: false
-        };
 
         comp.parseOptions();
 
@@ -1242,7 +1234,7 @@ describe('MyDateRangePicker', () => {
         expect(selectedday).toBe(null);
     });
 
-    it('options - disable days one by one', () => {
+    it('options - disable dates one by one', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 10, year: 2016};
         comp.options = {
             disableDates: [{year: 2016, month: 10, day: 5}, {year: 2016, month: 10, day: 10}]
@@ -1266,6 +1258,71 @@ describe('MyDateRangePicker', () => {
 
         let lastDisabled = disabled[1];
         expect(lastDisabled.nativeElement.textContent.trim()).toBe('10');
+    });
+
+    it('options - enable dates one by one', () => {
+        comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2017};
+        comp.options = {
+            dateFormat: 'dd.mm.yyyy',
+            disableDateRanges: [{beginDate: {year: 2017, month: 1, day: 1}, endDate:{year: 2017, month: 1, day: 31}}],
+            enableDates: [{year: 2017, month: 1, day: 14}, {year: 2017, month: 1, day: 15}, {year: 2017, month: 1, day: 20}]
+        };
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        let selector = getElement('.selector');
+        expect(selector).not.toBe(null);
+
+        fixture.detectChanges();
+        let currmonth = getElements('.caltable tbody tr td');
+        expect(currmonth).not.toBe(null);
+        expect(currmonth.length).toBe(42);
+
+        fixture.detectChanges();
+        currmonth[19].nativeElement.click();
+
+        fixture.detectChanges();
+        let selectedday = getElement('.selectedday');
+        expect(selectedday).not.toBe(null);
+
+        fixture.detectChanges();
+        currmonth = getElements('.caltable tbody tr td');
+        currmonth[21].nativeElement.click();
+
+        fixture.detectChanges();
+        currmonth = getElements('.caltable tbody tr td');
+        currmonth[25].nativeElement.click();
+
+
+        fixture.detectChanges();
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        let selecteddaygreen = getElement('.selecteddaygreen');
+        expect(selecteddaygreen).not.toBe(null);
+
+        fixture.detectChanges();
+        let range = getElements('.caltable .range');
+        expect(range).not.toBe(null);
+        expect(range.length).toBe(7);
+
+        fixture.detectChanges();
+        let selection = getElement('.selection');
+        expect(selection.nativeElement.value).toContain('14.01.2017 - 20.01.2017');
+
+        fixture.detectChanges();
+        let btnclear = getElement('.btnclear');
+        btnclear.nativeElement.click();
+
+        fixture.detectChanges();
+        selection = getElement('.selection');
+        expect(selection.nativeElement.value).toEqual('');
     });
 
     it('options - disable date ranges one by one', () => {
@@ -1629,8 +1686,7 @@ describe('MyDateRangePicker', () => {
         comp.selectionDayTxt = '04 Nov 2016 - 18 Nov 2016';
 
         comp.options = {
-            dateFormat: 'dd mmm yyyy',
-            quickRangeSelect: false
+            dateFormat: 'dd mmm yyyy'
         };
 
         comp.parseOptions();

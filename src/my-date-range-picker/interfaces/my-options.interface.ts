@@ -31,6 +31,7 @@ export interface IMyOptions {
     disableUntil?: IMyDate;
     disableSince?: IMyDate;
     disableDates?: Array<IMyDate>;
+    enableDates?: Array<IMyDate>;
     disableDateRanges?: Array<IMyDateRange>;
     componentDisabled?: boolean;
     showSelectorArrow?: boolean;

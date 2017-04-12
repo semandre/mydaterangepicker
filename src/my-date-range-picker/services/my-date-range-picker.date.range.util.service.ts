@@ -6,7 +6,7 @@ import { IMyMonth } from "../interfaces/my-month.interface";
 
 @Injectable()
 export class DateRangeUtilService {
-    public isDateRangeValid(daterange: string, dateFormat: string, minYear: number, maxYear: number, disableUntil: IMyDate, disableSince: IMyDate, disableDates: Array<IMyDate>, disableDateRanges: Array<IMyDateRange>, monthLabels: IMyMonthLabels): IMyDateRange {
+    public isDateRangeValid(daterange: string, dateFormat: string, minYear: number, maxYear: number, disableUntil: IMyDate, disableSince: IMyDate, disableDates: Array<IMyDate>, disableDateRanges: Array<IMyDateRange>, enableDates: Array<IMyDate>, monthLabels: IMyMonthLabels): IMyDateRange {
         let invalidDateRange: IMyDateRange = {
             beginDate: {day: 0, month: 0, year: 0},
             endDate: {day: 0, month: 0, year: 0}
@@ -30,7 +30,7 @@ export class DateRangeUtilService {
             if (date.day === 0 && date.month === 0 && date.year === 0) {
                 return invalidDateRange;
             }
-            if (this.isDisabledDay(date, disableUntil, disableSince, disableDates, disableDateRanges, notSetDate, notSetDate)) {
+            if (this.isDisabledDay(date, disableUntil, disableSince, disableDates, disableDateRanges, notSetDate, notSetDate, enableDates)) {
                 return invalidDateRange;
             }
             validDates.push(date);
@@ -93,18 +93,23 @@ export class DateRangeUtilService {
         return month;
     }
 
-    public isDisabledDay(date: IMyDate, disableUntil: IMyDate, disableSince: IMyDate, disableDates: Array<IMyDate>, disableDateRanges: Array<IMyDateRange>, preventBefore: IMyDate, preventAfter: IMyDate): boolean {
+    public isDisabledDay(date: IMyDate, disableUntil: IMyDate, disableSince: IMyDate, disableDates: Array<IMyDate>, disableDateRanges: Array<IMyDateRange>, preventBefore: IMyDate, preventAfter: IMyDate, enableDates: Array<IMyDate>): boolean {
         let dateMs: number = this.getTimeInMilliseconds(date);
-        if (this.isInitializedDate(disableUntil) && dateMs <= this.getTimeInMilliseconds(disableUntil)) {
-            return true;
-        }
-        if (this.isInitializedDate(disableSince) && dateMs >= this.getTimeInMilliseconds(disableSince)) {
-            return true;
-        }
         if (this.isInitializedDate(preventBefore) && dateMs <= this.getTimeInMilliseconds(preventBefore)) {
             return true;
         }
         if (this.isInitializedDate(preventAfter) && dateMs >= this.getTimeInMilliseconds(preventAfter)) {
+            return true;
+        }
+        for (let d of enableDates) {
+            if (d.year === date.year && d.month === date.month && d.day === date.day) {
+                return false;
+            }
+        }
+        if (this.isInitializedDate(disableUntil) && dateMs <= this.getTimeInMilliseconds(disableUntil)) {
+            return true;
+        }
+        if (this.isInitializedDate(disableSince) && dateMs >= this.getTimeInMilliseconds(disableSince)) {
             return true;
         }
         for (let d of disableDates) {

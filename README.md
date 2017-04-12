@@ -217,6 +217,7 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 | __disableUntil__   | no default value | [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) | Disable dates backward starting from the given date. For example: {year: 2016, month: 6, day: 26} |
 | __disableSince__   | no default value | [IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts) | Disable dates forward starting from the given date. For example: {year: 2016, month: 7, day: 22} |
 | __disableDates__   | no default value  | Array<[IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts)> | Disable single dates one by one. The disabled date cannot be selected but it can be in a range. For example: [{year: 2016, month: 11, day: 14}, {year: 2016, month: 1, day: 15}] |
+| __enableDates__   | no default value  | Array<[IMyDate](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date.interface.ts)> | Enable given dates one by one if the date is disabled. For example if you disable the date range and want to enable some dates in range. Array of enabled days. For example: [{year: 2016, month: 11, day: 14}, {year: 2016, month: 1, day: 15}] |
 | __disableDateRanges__  | no default value  | Array<[IMyDateRange](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date-range.interface.ts)> | Disable date ranges one by one. The disabled date cannot be selected but it can be in a range. For example: [{beginDate: {year: 2016, month: 11, day: 14}, endDate: {year: 2016, month: 11, day: 20}}] |
 | __disableHeaderButtons__   | true | boolean | Prevent to change the calendar view with header buttons if previous or next month are fully disabled by disableUntil or disableSince. |
 | __showWeekNumbers__   | false | boolean | Are week numbers visible or not on calendar. Can be used if __firstDayOfWeek = mo__. |
@@ -248,7 +249,6 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
         height: '34px',
         width: '260px',
         inline: false,
-        selectionTxtFontSize: '15px',
         alignSelectorRight: false,
         indicateInvalidDateRange: true
     };
