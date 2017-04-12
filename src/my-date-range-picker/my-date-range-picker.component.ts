@@ -110,7 +110,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         width: <string> "262px",
         inline: <boolean> false,
         showClearDateRangeBtn: <boolean> true,
-        selectionTxtFontSize: <string> "16px",
+        selectionTxtFontSize: <string> "14px",
         alignSelectorRight: <boolean> false,
         indicateInvalidDateRange: <boolean> true,
         editableDateRangeField: <boolean> true,
@@ -126,6 +126,13 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         componentDisabled: <boolean> false,
         showSelectorArrow: <boolean> true,
         openSelectorOnInputClick: <boolean> false,
+        ariaLabelInputField: <string> "Date range input field",
+        ariaLabelClearDateRange: <string> "Clear date range",
+        ariaLabelOpenCalendar: <string> "Open Calendar",
+        ariaLabelPrevMonth: <string> "Previous Month",
+        ariaLabelNextMonth: <string> "Next Month",
+        ariaLabelPrevYear: <string> "Previous Year",
+        ariaLabelNextYear: <string> "Next Year"
     };
 
     constructor(public elem: ElementRef, private renderer: Renderer, private drus: DateRangeUtilService) {

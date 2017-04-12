@@ -224,13 +224,20 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 | __showClearDateRangeBtn__   | true | boolean | Is clear date range button shown or not. Can be used if __inline = false__. |
 | __height__   | 34px | string | mydatepicker height without selector. Can be used if __inline = false__. |
 | __width__   | 100% | string | mydatepicker width. Can be used if __inline = false__. |
-| __selectionTxtFontSize__   | 18px | string | Selection area font size. Can be used if __inline = false__. |
+| __selectionTxtFontSize__   | 14px | string | Selection area font size. Can be used if __inline = false__. |
 | __alignSelectorRight__   | false | boolean | Align selector right. Can be used if __inline = false__. |
 | __indicateInvalidDateRange__   | true | boolean | If user typed date range is not same format as __dateFormat__, show red background in the selection area. Can be used if __inline = false__. |
 | __componentDisabled__   | false | boolean | Is selection area input field and buttons disabled or not (input disabled flag). Can be used if __inline = false__. |
 | __editableDateRangeField__   | true | boolean | Is selection area input field editable or not (input readonly flag). Can be used if __inline = false__. |
 | __showSelectorArrow__   | true | boolean | Is selector (calendar) arrow shown or not. Can be used if __inline = false__. |
 | __openSelectorOnInputClick__   | false | boolean | Open selector when the input field is clicked. Can be used if __inline = false and editableDateRangeField = false__. |
+| __ariaLabelInputField__   | Date range input field | string | Aria label text of input field. |
+| __ariaLabelClearDateRange__   | Clear date range | string | Aria label text of clear date range button. |
+| __ariaLabelOpenCalendar__   | Open Calendar | string | Aria label text of open calendar button. |
+| __ariaLabelPrevMonth__   | Previous Month | string | Aria label text of previous month button. |
+| __ariaLabelNextMonth__   | Next Month | string | Aria label text of next month button. |
+| __ariaLabelPrevYear__   | Previous Year | string | Aria label text of previous year button. |
+| __ariaLabelNextYear__   | Next Year | string | Aria label text of next year button. |
 
 * Example of the options data (not all properties listed):
 ```js

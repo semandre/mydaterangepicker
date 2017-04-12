@@ -35,4 +35,11 @@ export interface IMyOptions {
     componentDisabled?: boolean;
     showSelectorArrow?: boolean;
     openSelectorOnInputClick?: boolean;
+    ariaLabelInputField?: string;
+    ariaLabelClearDateRange?: string;
+    ariaLabelOpenCalendar?: string;
+    ariaLabelPrevMonth?: string;
+    ariaLabelNextMonth?: string;
+    ariaLabelPrevYear?: string;
+    ariaLabelNextYear?: string;
 }

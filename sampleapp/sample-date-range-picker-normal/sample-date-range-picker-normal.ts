@@ -18,7 +18,6 @@ export class SampleDateRangePickerNormal implements OnInit {
         height: '34px',
         width: '250px',
         inline: false,
-        selectionTxtFontSize: '13px',
         alignSelectorRight: false,
         indicateInvalidDateRange: true,
         minYear: 1900,

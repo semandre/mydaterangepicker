@@ -1,6 +1,5 @@
 .mydrp {
     min-width: 100px;
-    border-radius: 2px;
     line-height: 1;
     display: inline-block;
     position: relative;
@@ -15,6 +14,47 @@
     margin: 0;
 }
 
+.mydrp,
+.mydrp .selectiongroup,
+.mydrp .selection,
+.mydrp .selector,
+.mydrp .headertodaybtn {
+    border-radius: 4px;
+}
+
+.mydrp .header {
+    border-radius: 4px 4px 0 0;
+}
+
+.mydrp .titlearea,
+.mydrp .titleareatxt {
+    border-radius: 4px 4px 0 0;
+}
+
+.mydrp .titlearealeft {
+    border-top-left-radius: 4px;
+}
+
+.mydrp .titlearearight {
+    border-top-right-radius: 4px;
+}
+
+.mydrp .caltable {
+    border-radius: 0 0 4px 4px;
+}
+
+.mydrp .caltable tbody tr:nth-child(6) td:first-child {
+    border-bottom-left-radius: 4px;
+}
+
+.mydrp .caltable tbody tr:nth-child(6) td:last-child {
+    border-bottom-right-radius: 4px;
+}
+
+.mydrp .btnpicker {
+    border-radius: 0 4px 4px 0;
+}
+
 .mydrp .selector {
     margin-top: 2px;
     margin-left: -1px;
@@ -22,7 +62,6 @@
     width: 252px;
     padding: 0;
     border: 1px solid #CCC;
-    border-radius: 2px;
     z-index: 100;
     animation: selectorfadein 0.06s;
 }
@@ -104,12 +143,13 @@
     display: table-cell;
     position: absolute;
     width: 100%;
-    font-size: 14px;
     padding: 0 64px 0 4px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    text-align: center;
+    padding-left: 6px;
+    border: none;
+    color: #555;
 }
 
 .mydrp .invalidyear,
@@ -134,7 +174,7 @@
 .mydrp .btnpicker,
 .mydrp .btnclear {
     height: 100%;
-    width: 30px;
+    width: 28px;
     border: none;
     border-left: 1px solid #CCC;
     padding: 0;
@@ -375,8 +415,7 @@
 .mydrp .headermonthtxt,
 .mydrp .headeryeartxt,
 .mydrp .headerclearbtn,
-.mydrp .headerokbtn,
-.mydrp .selection {
+.mydrp .headerokbtn {
     color: #000;
 }
 
