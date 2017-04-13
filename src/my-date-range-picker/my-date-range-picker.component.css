@@ -278,7 +278,7 @@
 
 .mydrp .titleareatxtlink:hover {
     text-decoration: underline;
-    color: #8BDAF4;
+    color: #777;
     cursor: pointer;
 }
 
@@ -504,9 +504,12 @@
 .mydrp .btnpickerenabled:hover,
 .mydrp .btnclearenabled:hover,
 .mydrp .headerclearbtnenabled:hover,
-.mydrp .headerokbtnenabled:hover,
+.mydrp .headerokbtnenabled:hover {
+    background-color: #E6E6E6;
+}
+
 .mydrp .daycell:hover {
-    background-color: #8BDAF4;
+    background-color: #DDD;
 }
 
 .mydrp .monthlabel,
@@ -528,7 +531,7 @@
 .mydrp .headerbtnenabled:hover,
 .mydrp .monthlabel:hover,
 .mydrp .yearlabel:hover {
-    color: #8BDAF4;
+    color: #777;
 }
 
 @font-face {
