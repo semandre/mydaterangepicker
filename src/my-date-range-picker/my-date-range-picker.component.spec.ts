@@ -1,5 +1,6 @@
 ///<reference path="../../node_modules/@types/jasmine/index.d.ts"/>
 
+import {FormsModule} from "@angular/forms";
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
@@ -31,6 +32,7 @@ function getElements(id: string): Array<DebugElement> {
 describe('MyDateRangePicker', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
+            imports: [FormsModule],
             declarations: [MyDateRangePicker, FocusDirective],
         });
 
@@ -575,48 +577,39 @@ describe('MyDateRangePicker', () => {
         comp.parseOptions();
 
         fixture.detectChanges();
-        let value = {target:{value:'2016-08-22 - 2016-08-24'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('2016-08-22 - 2016-08-24');
         expect(comp.invalidDateRange).toBe(true);
 
         fixture.detectChanges();
         let invaliddaterange = getElement('.invaliddaterange');
         expect(invaliddaterange).not.toBe(null);
 
-        value = {target:{value:'2016-08-22 - 2016-08-2'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('2016-08-22 - 2016-08-2');
         expect(comp.invalidDateRange).toBe(true);
 
-        value = {target:{value:'2016/08-22 - 2016-08/24'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('2016/08-22 - 2016-08/24');
         expect(comp.invalidDateRange).toBe(true);
 
-        value = {target:{value:'2016-08-22 - 2016-08-xx'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('2016-08-22 - 2016-08-xx');
         expect(comp.invalidDateRange).toBe(true);
 
-        value = {target:{value:'22.08.2016 - 24.08.206'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('22.08.2016 - 24.08.206');
         expect(comp.invalidDateRange).toBe(true);
 
-        value = {target:{value:'22.08.2016 - 24.08.20111'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('22.08.2016 - 24.08.20111');
         expect(comp.invalidDateRange).toBe(true);
 
-        value = {target:{value:'22.08.2016 - 24.08.2016'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('22.08.2016 - 24.08.2016');
         expect(comp.invalidDateRange).toBe(false);
 
         comp.options = {dateFormat: 'dd mmm yyyy', indicateInvalidDate: true};
 
         comp.parseOptions();
 
-        value = {target:{value:'2016-08-22 - 2016-08-24'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('2016-08-22 - 2016-08-24');
         expect(comp.invalidDateRange).toBe(true);
 
-        value = {target:{value:'22 Aug 2016 - 22 Sep 2016'}};
-        comp.userDateRangeInput(value);
+        comp.onUserDateRangeInput('22 Aug 2016 - 22 Sep 2016');
         expect(comp.invalidDateRange).toBe(false);
     });
 
@@ -884,7 +877,7 @@ describe('MyDateRangePicker', () => {
         let monthinput = getElement('.monthinput');
         expect(monthinput).not.toBe(null);
 
-        comp.userMonthInput({target:{value:'jan'}});
+        comp.onUserMonthInput('jan');
 
         fixture.detectChanges();
         montlabel = getElement('.headermonthtxt .headerlabelbtn');
@@ -899,11 +892,19 @@ describe('MyDateRangePicker', () => {
         monthinput = getElement('.monthinput');
         expect(monthinput).not.toBe(null);
 
-        comp.userMonthInput({target:{value:'ja'}});
+        comp.onUserMonthInput('ja');
 
         fixture.detectChanges();
         montlabel = getElement('.invalidmonth');
         expect(montlabel).not.toBe(null);
+
+        fixture.detectChanges();
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
+
+        fixture.detectChanges();
+        btnpicker = getElement('.btnpicker');
+        btnpicker.nativeElement.click();
 
         // Year input
         fixture.detectChanges();
@@ -915,7 +916,7 @@ describe('MyDateRangePicker', () => {
         let yearinput = getElement('.yearinput');
         expect(yearinput).not.toBe(null);
 
-        comp.userYearInput({target:{value:'2019'}});
+        comp.onUserYearInput('2019');
 
         fixture.detectChanges();
         yearlabel = getElement('.headeryeartxt .headerlabelbtn');
@@ -929,7 +930,7 @@ describe('MyDateRangePicker', () => {
         yearinput = getElement('.yearinput');
         expect(yearinput).not.toBe(null);
 
-        comp.userYearInput({target:{value:'999'}});
+        comp.onUserYearInput('999');
 
         fixture.detectChanges();
         yearlabel = getElement('.invalidyear');
@@ -1131,13 +1132,13 @@ describe('MyDateRangePicker', () => {
         let yearinput = getElement('.yearinput');
         expect(yearinput).not.toBe(null);
 
-        comp.userYearInput({target:{value:1999}});
+        comp.onUserYearInput('1999');
 
         fixture.detectChanges();
         let invalidyear = getElement('.invalidyear');
         expect(invalidyear).not.toBe(null);
 
-        comp.userYearInput({target:{value:2000}});
+        comp.onUserYearInput('2000');
 
         fixture.detectChanges();
         yearlabel = getElement('.headeryeartxt .headerlabelbtn');
@@ -1166,13 +1167,13 @@ describe('MyDateRangePicker', () => {
         let yearinput = getElement('.yearinput');
         expect(yearinput).not.toBe(null);
 
-        comp.userYearInput({target:{value:2021}});
+        comp.onUserYearInput('2021');
 
         fixture.detectChanges();
         let invalidyear = getElement('.invalidyear');
         expect(invalidyear).not.toBe(null);
 
-        comp.userYearInput({target:{value:2020}});
+        comp.onUserYearInput('2020');
 
         fixture.detectChanges();
         yearlabel = getElement('.headeryeartxt .headerlabelbtn');
@@ -1504,22 +1505,22 @@ describe('MyDateRangePicker', () => {
 
         comp.parseOptions();
 
-        comp.userDateRangeInput({target:{value:'2016-08-22 - 2016-08-24'}});
+        comp.onUserDateRangeInput('2016-08-22 - 2016-08-24');
         fixture.detectChanges();
         let invaliddate = getElement('.invaliddaterange');
         expect(invaliddate).not.toBe(null);
 
-        comp.userDateRangeInput({target:{value:'22.xx.2016 - 24.yy.2016'}});
+        comp.onUserDateRangeInput('22.xx.2016 - 24.yy.2016');
         fixture.detectChanges();
         invaliddate = getElement('.invaliddaterange');
         expect(invaliddate).not.toBe(null);
 
-        comp.userDateRangeInput({target:{value:'22.14.2016 - 24.15.2016'}});
+        comp.onUserDateRangeInput('22.14.2016 - 24.15.2016');
         fixture.detectChanges();
         invaliddate = getElement('.invaliddaterange');
         expect(invaliddate).not.toBe(null);
 
-        comp.userDateRangeInput({target:{value:'10.10.2016 - 11.11.2016'}});
+        comp.onUserDateRangeInput('10.10.2016 - 11.11.2016');
         fixture.detectChanges();
         invaliddate = getElement('.invaliddaterange');
         expect(invaliddate).toBe(null);

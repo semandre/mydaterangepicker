@@ -15,28 +15,10 @@ export const MYDRP_VALUE_ACCESSOR: any = {
     multi: true
 };
 
-enum Year {
-    min = 1000,
-    max = 9999
-}
-
-enum InputFocusBlur {
-    focus = 1,
-    blur = 2
-}
-
-enum KeyCode {
-    enter = 13,
-    space = 32,
-    leftArrow = 37,
-    rigthArrow = 39
-}
-
-enum MonthId {
-    prev = 1,
-    curr = 2,
-    next = 3
-}
+enum Year {min = 1000, max = 9999}
+enum InputFocusBlur {focus = 1, blur = 2}
+enum KeyCode {enter = 13, space = 32}
+enum MonthId {prev = 1, curr = 2, next = 3}
 
 @Component({
     selector: "my-date-range-picker",
@@ -141,7 +123,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             if (this.showSelector && event.target && this.elem.nativeElement !== event.target && !this.elem.nativeElement.contains(event.target)) {
                 this.showSelector = false;
             }
-            if (this.opts.editableMonthAndYear && event.target && this.elem.nativeElement.contains(event.target)) {
+            if (this.opts.editableMonthAndYear) {
                 this.resetMonthYearEdit();
             }
         });
@@ -168,13 +150,13 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
     }
 
-    userDateRangeInput(event: any): void {
+    onUserDateRangeInput(value: string): void {
         this.invalidDateRange = false;
-        if (event.target.value.length === 0) {
+        if (value.length === 0) {
             this.clearDateRange();
         }
         else {
-            let daterange: IMyDateRange = this.drus.isDateRangeValid(event.target.value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates, this.opts.monthLabels);
+            let daterange: IMyDateRange = this.drus.isDateRangeValid(value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates, this.opts.monthLabels);
             if (this.drus.isInitializedDate(daterange.beginDate) && this.drus.isInitializedDate(daterange.endDate)) {
                 this.beginDate = daterange.beginDate;
                 this.endDate = daterange.endDate;
@@ -187,7 +169,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             }
         }
         if (this.invalidDateRange) {
-            this.inputFieldChanged.emit({value: event.target.value, dateRangeFormat: this.dateRangeFormat, valid: !(event.target.value.length === 0 || this.invalidDateRange)});
+            this.inputFieldChanged.emit({value: value, dateRangeFormat: this.dateRangeFormat, valid: !(value.length === 0 || this.invalidDateRange)});
         }
     }
 
@@ -201,14 +183,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.inputFocusBlur.emit({reason: InputFocusBlur.blur, value: event.target.value});
     }
 
-    userMonthInput(event: any): void {
-        if (this.preventUserInput(event)) {
-            return;
-        }
-
+    onUserMonthInput(value: string): void {
         this.invalidMonth = false;
-
-        let m: number = this.drus.isMonthLabelValid(event.target.value, this.opts.monthLabels);
+        let m: number = this.drus.isMonthLabelValid(value, this.opts.monthLabels);
         if (m !== -1) {
             this.editMonth = false;
             let viewChange: boolean = m !== this.visibleMonth.monthNbr;
@@ -220,14 +197,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
     }
 
-    userYearInput(event: any): void {
-        if (this.preventUserInput(event)) {
-            return;
-        }
-
+    onUserYearInput(value: string): void {
         this.invalidYear = false;
-
-        let y: number = this.drus.isYearLabelValid(Number(event.target.value), this.opts.minYear, this.opts.maxYear);
+        let y: number = this.drus.isYearLabelValid(Number(value), this.opts.minYear, this.opts.maxYear);
         if (y !== -1) {
             this.editYear = false;
             let viewChange: boolean = y !== this.visibleMonth.year;
@@ -237,10 +209,6 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         else {
             this.invalidYear = true;
         }
-    }
-
-    preventUserInput(event: any): boolean {
-        return event.keyCode === KeyCode.enter || event.keyCode === KeyCode.leftArrow || event.keyCode === KeyCode.rigthArrow;
     }
 
     parseOptions(): void {
@@ -561,6 +529,9 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.onChangeCb(dateRangeModel);
         this.onTouchedCb();
         this.invalidDateRange = false;
+        if (this.opts.editableMonthAndYear) {
+            this.resetMonthYearEdit();
+        }
     }
 
     getDateRangeModel(beginDate: IMyDate, endDate: IMyDate): IMyDateRangeModel {
