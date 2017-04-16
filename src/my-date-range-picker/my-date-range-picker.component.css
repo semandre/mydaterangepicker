@@ -183,20 +183,34 @@
     -moz-user-select: none;
 }
 
+.mydrp .headerclearbtn,
+.mydrp .headerokbtn {
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 11px;
+    height: 20px;
+    width: 28px;
+    outline: none;
+}
+
 .mydrp .btnpickerenabled,
 .mydrp .btnclearenabled,
 .mydrp .headerbtnenabled {
     cursor: pointer;
 }
 
+.mydrp .selectiondisabled,
 .mydrp .btnpickerdisabled,
 .mydrp .btncleardisabled,
-.mydrp .headerbtndisabled {
+.mydrp .headerbtndisabled,
+.mydrp .clearbtndisabled,
+.mydrp .okbtndisabled {
     cursor: not-allowed;
+    opacity: 0.65;
 }
 
-.mydrp .headerbtndisabled {
-    opacity: 0.4;
+.mydrp .selectiondisabled {
+    background-color: #EEE;
 }
 
 .mydrp .btnpicker,
@@ -417,21 +431,6 @@
 .mydrp .headerclearbtn,
 .mydrp .headerokbtn {
     color: #000;
-}
-
-.mydrp .headerclearbtn,
-.mydrp .headerokbtn {
-    border-radius: 2px;
-    cursor: pointer;
-    font-size: 11px;
-    height: 20px;
-    width: 28px;
-    outline: none;
-}
-
-.mydrp .btndisable {
-    cursor: default;
-    opacity: 0.5;
 }
 
 .mydrp button::-moz-focus-inner {
