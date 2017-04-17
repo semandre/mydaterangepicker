@@ -1,9 +1,10 @@
 {
   "name": "mydaterangepicker",
-  "version": "2.1.4",
-  "description": "Angular2 date range picker",
+  "version": "2.1.5",
+  "description": "Angular date range picker",
   "keywords": [
     "Angular2",
+    "Angular4",
     "date range picker"
   ],
   "author": "kekeh",
