@@ -1,6 +1,6 @@
 {
   "name": "mydaterangepicker",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Angular date range picker",
   "keywords": [
     "Angular2",
@@ -20,7 +20,7 @@
     "test": "karma start config/karma.conf.js",
     "tslint": "gulp tslint",
     "ngc": "ngc -p tsconfig.publish.json",
-    "bundle": "rollup -c rollup.config.js && uglifyjs npmdist/bundles/mydaterangepicker.umd.js -c --screw-ie8 -o npmdist/bundles/mydaterangepicker.umd.min.js"
+    "bundle": "rollup -c rollup.config.js && uglifyjs npmdist/bundles/mydaterangepicker.umd.js --compress --mangle --screw-ie8 -o npmdist/bundles/mydaterangepicker.umd.min.js"
   },
   "main": "bundles/mydaterangepicker.umd.js",
   "typings": "index.d.ts",

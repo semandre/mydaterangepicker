@@ -17,7 +17,7 @@ export const MYDRP_VALUE_ACCESSOR: any = {
 
 enum Year {min = 1000, max = 9999}
 enum InputFocusBlur {focus = 1, blur = 2}
-enum KeyCode {enter = 13, space = 32}
+enum KeyCode {enter = 13, esc = 27, space = 32}
 enum MonthId {prev = 1, curr = 2, next = 3}
 
 @Component({
@@ -211,6 +211,26 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
     }
 
+    onCloseSelector(event: any): void {
+        if (event.keyCode === KeyCode.esc && this.showSelector && !this.opts.inline) {
+            this.showSelector = false;
+        }
+    }
+
+    onCloseEditMonth(event: any): void {
+        if (event.keyCode === KeyCode.esc) {
+            event.stopPropagation();
+            this.editMonth = false;
+        }
+    }
+
+    onCloseEditYear(event: any): void {
+        if (event.keyCode === KeyCode.esc) {
+            event.stopPropagation();
+            this.editYear = false;
+        }
+    }
+
     parseOptions(): void {
         if (this.options !== undefined) {
             Object.keys(this.options).forEach((k) => {
@@ -349,7 +369,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
     }
 
-    prevMonth(): void {
+    onPrevMonth(): void {
         let d: Date = this.getDate({year: this.visibleMonth.year, month: this.visibleMonth.monthNbr, day: 1});
         d.setMonth(d.getMonth() - 1);
 
@@ -360,7 +380,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.generateCalendar(m, y, true);
     }
 
-    nextMonth(): void {
+    onNextMonth(): void {
         let d: Date = this.getDate({year: this.visibleMonth.year, month: this.visibleMonth.monthNbr, day: 1});
         d.setMonth(d.getMonth() + 1);
 
@@ -371,7 +391,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.generateCalendar(m, y, true);
     }
 
-    prevYear(): void {
+    onPrevYear(): void {
         if (this.visibleMonth.year - 1 < this.opts.minYear) {
             return;
         }
@@ -379,7 +399,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, true);
     }
 
-    nextYear(): void {
+    onNextYear(): void {
         if (this.visibleMonth.year + 1 > this.opts.maxYear) {
             return;
         }
@@ -401,7 +421,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, false);
     }
 
-    cellClicked(cell: any): void {
+    onCellClicked(cell: any): void {
         // Cell clicked in the selector
         let bi: boolean = this.drus.isInitializedDate(this.beginDate);
         if (!this.drus.isInitializedDate(this.endDate)) {
@@ -442,14 +462,14 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         this.dateSelected.emit({type: 2, date: date, formatted: this.titleAreaTextEnd, jsdate: this.getDate(date)});
     }
 
-    cellKeyDown(event: any, cell: any): void {
+    onCellKeyDown(event: any, cell: any): void {
         if ((event.keyCode === KeyCode.enter || event.keyCode === KeyCode.space) && !cell.disabled) {
             event.preventDefault();
-            this.cellClicked(cell);
+            this.onCellClicked(cell);
         }
     }
 
-    cellMouseEnter(cell: any): void {
+    onCellMouseEnter(cell: any): void {
         if (this.drus.isInitializedDate(this.beginDate) && !this.drus.isInitializedDate(this.endDate)) {
             for (let w of this.dates) {
                 for (let day of w.week) {
@@ -460,7 +480,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         }
     }
 
-    cellMouseLeave(): void {
+    onCellMouseLeave(): void {
         for (let w of this.dates) {
             for (let day of w.week) {
                 day.range = false;

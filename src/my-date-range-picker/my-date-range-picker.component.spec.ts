@@ -470,7 +470,7 @@ describe('MyDateRangePicker', () => {
             expect(currmonth[41]).not.toBe(null);
             expect(currmonth[41].nativeElement.textContent.trim()).toBe(endDate[i]);
 
-            comp.nextMonth();
+            comp.onNextMonth();
 
             i++;
         } while (i < 12)
@@ -515,7 +515,7 @@ describe('MyDateRangePicker', () => {
             expect(currmonth[41]).not.toBe(null);
             expect(currmonth[41].nativeElement.textContent.trim()).toBe(endDate[i]);
 
-            comp.prevMonth();
+            comp.onPrevMonth();
 
             i--;
         } while (i >= 0)
