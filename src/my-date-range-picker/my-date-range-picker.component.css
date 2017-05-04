@@ -143,6 +143,7 @@
 }
 
 .mydrp .selection {
+    width: 100%;
     outline: none;
     background-color: #FFF;
     display: table-cell;
@@ -177,9 +178,8 @@
 .mydrp .btnpicker,
 .mydrp .btnclear {
     height: 100%;
-    width: 28px;
+    width: 26px;
     border: none;
-    border-left: 1px solid #CCC;
     padding: 0;
     outline: 0;
     font: inherit;
