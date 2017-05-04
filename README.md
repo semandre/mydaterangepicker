@@ -1,3 +1,3 @@
 ## mydaterangepicker sample app:
 
-* build: ng build --target=production --output-hashing none
+* build: ng build --aot --target=production --output-hashing none
