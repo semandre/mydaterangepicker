@@ -16,6 +16,8 @@ export class SampleDateRangePickerNormal implements OnInit {
         height: '34px',
         width: '250px',
         inline: false,
+        minYear: 1900,
+        maxYear: 2200,
         selectionTxtFontSize: '13px',
         alignSelectorRight: false,
         showWeekNumbers: false,
