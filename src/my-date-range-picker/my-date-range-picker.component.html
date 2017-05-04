@@ -12,7 +12,7 @@
             </button>
         </span>
     </div>
-    <div class="selector" *ngIf="showSelector||opts.inline" [mydrpfocus]="opts.inline?'0':'1'" [ngClass]="{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight, 'selectorarrow': opts.showSelectorArrow&&!opts.inline, 'selectorarrowleft': opts.showSelectorArrow&&!opts.alignSelectorRight&&!opts.inline, 'selectorarrowright': opts.showSelectorArrow&&opts.alignSelectorRight&&!opts.inline}" (keyup)="onCloseSelector($event)" tabindex="0">
+    <div class="selector" #selectorEl *ngIf="showSelector||opts.inline" [mydrpfocus]="opts.inline?'0':'1'" [ngClass]="{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight, 'selectorarrow': opts.showSelectorArrow&&!opts.inline, 'selectorarrowleft': opts.showSelectorArrow&&!opts.alignSelectorRight&&!opts.inline, 'selectorarrowright': opts.showSelectorArrow&&opts.alignSelectorRight&&!opts.inline}" (keyup)="onCloseSelector($event)" tabindex="0">
         <div class="titlearea" *ngIf="opts.showSelectDateText">
             <div class="titleareatxt">
                 <div class="titleareafull" *ngIf="titleAreaTextBegin.length===0&&titleAreaTextEnd.length===0">{{opts.selectBeginDateTxt}}</div>
@@ -26,8 +26,7 @@
                     <div style="float:left">
                         <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-mydrpleft" [attr.aria-label]="opts.ariaLabelPrevMonth" (click)="onPrevMonth()" [disabled]="prevMonthDisabled" [ngClass]="{'headerbtnenabled': !prevMonthDisabled, 'headerbtndisabled': prevMonthDisabled}"></button></div>
                         <div class="headermonthtxt">
-                            <input type="text" *ngIf="editMonth" class="monthinput" maxlength="12" [mydrpfocus]="2" [value]="visibleMonth.monthTxt" [ngModel]="visibleMonth.monthTxt" (ngModelChange)="onUserMonthInput($event)" (click)="$event.stopPropagation()" (keyup)="onCloseEditMonth($event)" [ngClass]="{'invalidmonth': invalidMonth}">
-                            <button class="headerlabelbtn" type="button" [ngClass]="{'monthlabel': opts.editableMonthAndYear}" *ngIf="!editMonth" (click)="opts.editableMonthAndYear&&editMonthClicked($event)" tabindex="{{opts.editableMonthAndYear?'0':'-1'}}">{{visibleMonth.monthTxt}}</button>
+                            <button class="headerlabelbtn" type="button" [ngClass]="{'monthlabel': opts.monthSelector}" (click)="opts.monthSelector&&onSelectMonthClicked($event)" tabindex="{{opts.monthSelector?'0':'-1'}}">{{visibleMonth.monthTxt}}</button>
                         </div>
                         <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-mydrpright" [attr.aria-label]="opts.ariaLabelNextMonth" (click)="onNextMonth()" [disabled]="nextMonthDisabled" [ngClass]="{'headerbtnenabled': !nextMonthDisabled, 'headerbtndisabled': nextMonthDisabled}"></button></div>
                     </div>
@@ -44,15 +43,14 @@
                     <div style="float:right">
                         <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-mydrpleft" [attr.aria-label]="opts.ariaLabelPrevYear" (click)="onPrevYear()" [disabled]="prevYearDisabled" [ngClass]="{'headerbtnenabled': !prevYearDisabled, 'headerbtndisabled': prevYearDisabled}"></button></div>
                         <div class="headeryeartxt">
-                            <input type="text" *ngIf="editYear" class="yearinput" maxlength="4" [mydrpfocus]="2" [value]="visibleMonth.year" [ngModel]="visibleMonth.year" (ngModelChange)="onUserYearInput($event)" (click)="$event.stopPropagation()" (keyup)="onCloseEditYear($event)" [ngClass]="{'invalidyear': invalidYear}">
-                            <button class="headerlabelbtn" type="button" [ngClass]="{'yearlabel': opts.editableMonthAndYear}" *ngIf="!editYear" (click)="opts.editableMonthAndYear&&editYearClicked($event)" tabindex="{{opts.editableMonthAndYear?'0':'-1'}}">{{visibleMonth.year}}</button>
+                            <button class="headerlabelbtn" type="button" [ngClass]="{'yearlabel': opts.yearSelector}" (click)="opts.yearSelector&&onSelectYearClicked($event)" tabindex="{{opts.yearSelector?'0':'-1'}}">{{visibleMonth.year}}</button>
                         </div>
                         <div class="headerbtncell"><button type="button" class="headerbtn mydrpicon icon-mydrpright" [attr.aria-label]="opts.ariaLabelNextYear" (click)="onNextYear()" [disabled]="nextYearDisabled" [ngClass]="{'headerbtnenabled': !nextYearDisabled, 'headerbtndisabled': nextYearDisabled}"></button></div>
                     </div>
                 </td>
             </tr>
         </table>
-        <table class="caltable">
+        <table class="caltable" *ngIf="!selectMonth&&!selectYear">
             <thead><tr><th class="weekdaytitle weekdaytitleweeknbr" *ngIf="opts.showWeekNumbers&&opts.firstDayOfWeek==='mo'">#</th><th class="weekdaytitle" scope="col" *ngFor="let d of weekDays">{{d}}</th></tr></thead>
             <tbody>
                 <tr *ngFor="let w of dates">
@@ -61,6 +59,34 @@
                         <div style="background-color:inherit" [ngClass]="{'prevmonth':d.cmo===prevMonthId, 'selectedday':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year, 'currmonth':d.cmo===currMonthId, 'nextmonth':d.cmo===nextMonthId, 'selecteddaygreen':beginDate.day===d.dateObj.day&&beginDate.month===d.dateObj.month&&beginDate.year===d.dateObj.year&&isBeginDate&&isRangeSelected()||endDate.day===d.dateObj.day&&endDate.month===d.dateObj.month&&endDate.year===d.dateObj.year&&!isBeginDate&&isRangeSelected(), 'sunday':d.dayNbr===0&&opts.sunHighlight}">
                             <span [ngClass]="{'currday':d.currDay&&opts.markCurrentDay, 'sundayDim': opts.sunHighlight && d.dayNbr === 0 && (d.cmo===prevMonthId || d.cmo===nextMonthId || d.disabled)}">{{d.dateObj.day}}</span>
                         </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="monthtable" *ngIf="selectMonth">
+            <tbody>
+                <tr *ngFor="let mr of months">
+                    <td class="monthcell tablesinglemonth" [ngClass]="{'selectedmonth': m.selected, 'disabled': m.disabled}" *ngFor="let m of mr" (click)="!m.disabled&&onMonthCellClicked(m);$event.stopPropagation()" (keydown)="onMonthCellKeyDown($event, m)" tabindex="0">
+                        <div class="monthvalue">{{m.name}}</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="yeartable" *ngIf="selectYear">
+            <tbody>
+                <tr>
+                    <td colspan="5" class="yearchangebtncell" (click)="$event.stopPropagation()">
+                        <button type="button" class="yearchangebtn mydrpicon icon-mydrpup" (click)="onPrevYears($event, years[0][0].year)" [disabled]="prevYearsDisabled" [ngClass]="{'yearchangebtnenabled': !prevYearsDisabled, 'yearchangebtndisabled': prevYearsDisabled}"></button>
+                    </td>
+                </tr>
+                <tr *ngFor="let yr of years">
+                    <td class="yearcell tablesingleyear" [ngClass]="{'selectedyear': y.selected, 'disabled': y.disabled}" *ngFor="let y of yr" (click)="!y.disabled&&onYearCellClicked(y);$event.stopPropagation()" (keydown)="onYearCellKeyDown($event, y)" tabindex="0">
+                        <div class="yearvalue">{{y.year}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="yearchangebtncell" (click)="$event.stopPropagation()">
+                        <button type="button" class="yearchangebtn mydrpicon icon-mydrpdown" (click)="onNextYears($event, years[0][0].year)" [disabled]="nextYearsDisabled" [ngClass]="{'yearchangebtnenabled': !nextYearsDisabled, 'yearchangebtndisabled': nextYearsDisabled}"></button>
                     </td>
                 </tr>
             </tbody>

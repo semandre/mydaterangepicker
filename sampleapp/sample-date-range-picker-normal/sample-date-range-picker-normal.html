@@ -1,82 +1,134 @@
-<div>
-    <ul>
-        <li>
-            <label>
-                <span>Disable component:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onDisableComponent($event.currentTarget.checked)" [checked]="false">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Editable date field:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onEditableDateField($event.currentTarget.checked)" [checked]="true">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Show input clear button:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onShowClearButton($event.currentTarget.checked)" [checked]="true">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Align selector right:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onAlignSelectorRight($event.currentTarget.checked)" [checked]="false">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Show placeholder text:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onShowPlaceholderText($event.currentTarget.checked)" [checked]="false">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Disable header buttons:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onDisableHeaderButtons($event.currentTarget.checked)" [checked]="true">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Show week numbers:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onShowWeekNumbers($event.currentTarget.checked)" [checked]="false">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Disable today:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onDisableToday($event.currentTarget.checked)" [checked]="false">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Show calendar clear button:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onShowClearBtn($event.currentTarget.checked)" [checked]="true">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Show calendar apply button:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onShowApplyBtn($event.currentTarget.checked)" [checked]="true">
-            </label>
-        </li>
-        <li>
-            <label>
-                <span>Show calendar select date text:</span>
-                <input style="cursor: pointer" type="checkbox" (change)="onShowSelectDateText($event.currentTarget.checked)" [checked]="true">
-            </label>
-        </li>
-    </ul>
+<style>
+    .settingstable,
+    .pickertable {
+        width: 100%;
+        border: none;
+    }
+    .settingstable tr td {
+        width: 50%;
+        border: none;
+    }
+    .pickertable tr td {
+        vertical-align: top;
+    }
+    .buttondiv {
+        margin: 15px 0;
+    }
+    .selectedtext {
+        padding: 4px;
+        border-radius: 4px;
+        float: right;
+    }
+</style>
 
-    <table style="width: 100%">
+<div>
+    <table class="settingstable">
         <tr>
-            <td style="vertical-align: top">
+            <td>
+                <label>
+                    <span>Disable component:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onDisableComponent($event.currentTarget.checked)" [checked]="false">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <span>Editable date field:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onEditableDateField($event.currentTarget.checked)" [checked]="true">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <span>Show input clear button:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onShowClearButton($event.currentTarget.checked)" [checked]="true">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <span>Align selector right:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onAlignSelectorRight($event.currentTarget.checked)" [checked]="false">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <span>Show placeholder text:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onShowPlaceholderText($event.currentTarget.checked)" [checked]="false">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <span>Disable header buttons:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onDisableHeaderButtons($event.currentTarget.checked)" [checked]="true">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <span>Show week numbers:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onShowWeekNumbers($event.currentTarget.checked)" [checked]="false">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <span>Disable today:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onDisableToday($event.currentTarget.checked)" [checked]="false">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <span>Show calendar clear button:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onShowClearBtn($event.currentTarget.checked)" [checked]="true">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <span>Show calendar apply button:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onShowApplyBtn($event.currentTarget.checked)" [checked]="true">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <span>Show calendar select date text:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onShowSelectDateText($event.currentTarget.checked)" [checked]="true">
+                </label>
+            </td>
+            <td>
+                <label>
+                    <span>Month selector:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onMonthSelector($event.currentTarget.checked)" [checked]="true">
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <span>Year selector:</span>
+                    <input style="cursor: pointer" type="checkbox" (change)="onYearSelector($event.currentTarget.checked)" [checked]="true">
+                </label>
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    </table>
+
+    <table class="pickertable">
+        <tr>
+            <td>
                 <my-date-range-picker [options]="myDateRangePickerOptionsNormal" (dateRangeChanged)="onDateRangeChanged($event)" (inputFieldChanged)="onInputFieldChanged($event)"
                                       (calendarViewChanged)="onCalendarViewChanged($event)" (dateSelected)="onDateSelected($event)"
                                       [selDateRange]="selectedDateRangeNormal" [placeholder]="placeholderTxt"></my-date-range-picker>
             </td>
-            <td style="vertical-align: top">
-                <div style="padding:4px;border-radius:4px;float:right" [ngStyle]="{border: border}">
+            <td>
+                <div class="selectedtext" [ngStyle]="{border: border}">
                     {{selectedTextNormal}}
                 </div>
             </td>

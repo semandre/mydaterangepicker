@@ -26,13 +26,13 @@ export class SampleDateRangePickerNormal implements OnInit {
         showClearDateRangeBtn: true,
         showSelectorArrow: true,
         disableHeaderButtons: true,
-        disableUntil: {year: 2001, month: 11, day: 10},
-        disableSince: {year: 2030, month: 3, day: 10},
         showWeekNumbers: false,
         showClearBtn: true,
         showApplyBtn: true,
         showSelectDateText: true,
         openSelectorOnInputClick: false,
+        monthSelector: true,
+        yearSelector: true,
         disableDateRanges: [
             {beginDate: {year: 2016, month: 10, day: 5}, endDate: {year: 2016, month: 10, day: 7}},
             {beginDate: {year: 2016, month: 10, day: 10}, endDate: {year: 2016, month: 10, day: 12}}
@@ -120,6 +120,18 @@ export class SampleDateRangePickerNormal implements OnInit {
     onShowSelectDateText(checked: boolean) {
         let copy = this.getCopyOfOptions();
         copy.showSelectDateText = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onMonthSelector(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.monthSelector = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onYearSelector(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.yearSelector = checked;
         this.myDateRangePickerOptionsNormal = copy;
     }
 

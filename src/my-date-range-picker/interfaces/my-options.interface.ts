@@ -23,7 +23,8 @@ export interface IMyOptions {
     alignSelectorRight?: boolean;
     indicateInvalidDateRange?: boolean;
     editableDateRangeField?: boolean;
-    editableMonthAndYear?: boolean;
+    monthSelector?: boolean;
+    yearSelector?: boolean;
     disableHeaderButtons?: boolean;
     showWeekNumbers?: boolean;
     minYear?: number;

@@ -855,11 +855,9 @@ describe('MyDateRangePicker', () => {
         expect(currday).toBe(null);
     });
 
-    it('options - editable month and year', () => {
-        comp.selectedMonth = {monthTxt: '', monthNbr: 11, year: 2016};
-        comp.options = {
-            editableMonthAndYear: true
-        };
+    it('options - month selector', () => {
+        comp.selectedMonth = {monthTxt: 'May', monthNbr: 5, year: 2016};
+        comp.options = {monthSelector: true};
 
         comp.parseOptions();
 
@@ -872,69 +870,72 @@ describe('MyDateRangePicker', () => {
         expect(montlabel).not.toBe(null);
         montlabel.nativeElement.click();
 
-        // Month input
         fixture.detectChanges();
-        let monthinput = getElement('.monthinput');
-        expect(monthinput).not.toBe(null);
-
-        comp.onUserMonthInput('jan');
+        let monthtable = getElement('.monthtable');
+        expect(monthtable).not.toBe(null);
 
         fixture.detectChanges();
-        montlabel = getElement('.headermonthtxt .headerlabelbtn');
-        expect(montlabel).not.toBe(null);
-        expect(montlabel.nativeElement.textContent).toBe('Jan');
-
-
-        // Invalid month
-        montlabel.nativeElement.click();
+        let monthcell = getElements('.monthcell');
+        expect(monthcell).not.toBe(null);
+        expect(monthcell.length).toBe(12);
 
         fixture.detectChanges();
-        monthinput = getElement('.monthinput');
-        expect(monthinput).not.toBe(null);
-
-        comp.onUserMonthInput('ja');
+        expect(monthcell[0].nativeElement.textContent.trim()).toBe('Jan');
 
         fixture.detectChanges();
-        montlabel = getElement('.invalidmonth');
-        expect(montlabel).not.toBe(null);
+        expect(monthcell[11].nativeElement.textContent.trim()).toBe('Dec');
 
         fixture.detectChanges();
-        btnpicker = getElement('.btnpicker');
+        let selectedmonth = getElement('.selectedmonth');
+        expect(selectedmonth).not.toBe(null);
+        expect(selectedmonth.nativeElement.textContent.trim()).toBe('May');
+        selectedmonth.nativeElement.click();
+
+        fixture.detectChanges();
+        monthtable = getElement('.monthtable');
+        expect(monthtable).toBe(null);
+    });
+
+    it('options - year selector', () => {
+        comp.selectedMonth = {monthTxt: 'May', monthNbr: 5, year: 2016};
+        comp.options = {yearSelector: true};
+
+        comp.parseOptions();
+
+        fixture.detectChanges();
+        let btnpicker = getElement('.btnpicker');
         btnpicker.nativeElement.click();
 
-        fixture.detectChanges();
-        btnpicker = getElement('.btnpicker');
-        btnpicker.nativeElement.click();
-
-        // Year input
         fixture.detectChanges();
         let yearlabel = getElement('.headeryeartxt .headerlabelbtn');
         expect(yearlabel).not.toBe(null);
         yearlabel.nativeElement.click();
 
         fixture.detectChanges();
-        let yearinput = getElement('.yearinput');
-        expect(yearinput).not.toBe(null);
-
-        comp.onUserYearInput('2019');
+        let yeartable = getElement('.yeartable');
+        expect(yeartable).not.toBe(null);
 
         fixture.detectChanges();
-        yearlabel = getElement('.headeryeartxt .headerlabelbtn');
-        expect(yearlabel).not.toBe(null);
-        expect(yearlabel.nativeElement.textContent).toBe('2019');
-
-        // Invalid year
-        yearlabel.nativeElement.click();
+        let yearcell = getElements('.yearcell');
+        expect(yearcell).not.toBe(null);
+        expect(yearcell.length).toBe(25);
 
         fixture.detectChanges();
-        yearinput = getElement('.yearinput');
-        expect(yearinput).not.toBe(null);
-
-        comp.onUserYearInput('999');
+        expect(yearcell[0].nativeElement.textContent.trim()).toBe('2016');
 
         fixture.detectChanges();
-        yearlabel = getElement('.invalidyear');
-        expect(yearlabel).not.toBe(null);
+        expect(yearcell[24].nativeElement.textContent.trim()).toBe('2040');
+
+        fixture.detectChanges();
+        let selectedyear = getElement('.selectedyear');
+        expect(selectedyear).not.toBe(null);
+        expect(selectedyear.nativeElement.textContent.trim()).toBe('2016');
+
+        selectedyear.nativeElement.click();
+
+        fixture.detectChanges();
+        yeartable = getElement('.yeartable');
+        expect(yeartable).toBe(null);
     });
 
     it('options - disable header buttons', () => {
@@ -1112,10 +1113,8 @@ describe('MyDateRangePicker', () => {
     });
 
     it('options - min year', () => {
-        comp.visibleMonth = {monthTxt: 'May', monthNbr: 11, year: 2016};
-        comp.options = {
-            minYear: 2000
-        };
+        comp.selectedMonth = {monthTxt: 'May', monthNbr: 5, year: 2016};
+        comp.options = {minYear: 2015};
 
         comp.parseOptions();
 
@@ -1124,33 +1123,54 @@ describe('MyDateRangePicker', () => {
         btnpicker.nativeElement.click();
 
         fixture.detectChanges();
-        let yearlabel = getElement('.headeryeartxt .headerlabelbtn');
-        expect(yearlabel).not.toBe(null);
-        yearlabel.nativeElement.click();
+        let prevyear = getElement(PREVYEAR);
+        expect(prevyear).not.toBe(null);
+        prevyear.nativeElement.click();
+
+        expect(comp.visibleMonth.monthTxt).toBe('May');
+        expect(comp.visibleMonth.monthNbr).toBe(5);
+        expect(comp.visibleMonth.year).toBe(2015);
 
         fixture.detectChanges();
-        let yearinput = getElement('.yearinput');
-        expect(yearinput).not.toBe(null);
-
-        comp.onUserYearInput('1999');
-
-        fixture.detectChanges();
-        let invalidyear = getElement('.invalidyear');
-        expect(invalidyear).not.toBe(null);
-
-        comp.onUserYearInput('2000');
+        let daycell = getElements('.daycell');
+        expect(daycell).not.toBe(null);
+        expect(daycell.length).toBe(42);
 
         fixture.detectChanges();
-        yearlabel = getElement('.headeryeartxt .headerlabelbtn');
-        expect(yearlabel).not.toBe(null);
-        expect(yearlabel.nativeElement.textContent).toBe('2000');
+        expect(daycell[0].nativeElement.textContent.trim()).toBe('27');
+
+        fixture.detectChanges();
+        expect(daycell[41].nativeElement.textContent.trim()).toBe('7');
+
+
+        fixture.detectChanges();
+        prevyear = getElement(PREVYEAR);
+        expect(prevyear).not.toBe(null);
+        prevyear.nativeElement.click();
+
+        expect(comp.visibleMonth.monthTxt).toBe('May');
+        expect(comp.visibleMonth.monthNbr).toBe(5);
+        expect(comp.visibleMonth.year).toBe(2015);
+
+        fixture.detectChanges();
+        daycell = getElements('.daycell');
+        expect(daycell).not.toBe(null);
+        expect(daycell.length).toBe(42);
+
+        fixture.detectChanges();
+        expect(daycell[0].nativeElement.textContent.trim()).toBe('27');
+
+        fixture.detectChanges();
+        expect(daycell[41].nativeElement.textContent.trim()).toBe('7');
+
+        fixture.detectChanges();
+        let headerbtndisabled = getElement('.headerbtndisabled');
+        expect(headerbtndisabled).not.toBe(null);
     });
 
     it('options - max year', () => {
-        comp.visibleMonth = {monthTxt: 'May', monthNbr: 11, year: 2016};
-        comp.options = {
-            maxYear: 2020
-        };
+        comp.selectedMonth = {monthTxt: 'May', monthNbr: 5, year: 2016};
+        comp.options = {maxYear: 2017};
 
         comp.parseOptions();
 
@@ -1159,26 +1179,49 @@ describe('MyDateRangePicker', () => {
         btnpicker.nativeElement.click();
 
         fixture.detectChanges();
-        let yearlabel = getElement('.headeryeartxt .headerlabelbtn');
-        expect(yearlabel).not.toBe(null);
-        yearlabel.nativeElement.click();
+        let nextyear = getElement(NEXTYEAR);
+        expect(nextyear).not.toBe(null);
+        nextyear.nativeElement.click();
+
+        expect(comp.visibleMonth.monthTxt).toBe('May');
+        expect(comp.visibleMonth.monthNbr).toBe(5);
+        expect(comp.visibleMonth.year).toBe(2017);
 
         fixture.detectChanges();
-        let yearinput = getElement('.yearinput');
-        expect(yearinput).not.toBe(null);
-
-        comp.onUserYearInput('2021');
-
-        fixture.detectChanges();
-        let invalidyear = getElement('.invalidyear');
-        expect(invalidyear).not.toBe(null);
-
-        comp.onUserYearInput('2020');
+        let daycell = getElements('.daycell');
+        expect(daycell).not.toBe(null);
+        expect(daycell.length).toBe(42);
 
         fixture.detectChanges();
-        yearlabel = getElement('.headeryeartxt .headerlabelbtn');
-        expect(yearlabel).not.toBe(null);
-        expect(yearlabel.nativeElement.textContent).toBe('2020');
+        expect(daycell[0].nativeElement.textContent.trim()).toBe('1');
+
+        fixture.detectChanges();
+        expect(daycell[41].nativeElement.textContent.trim()).toBe('11');
+
+
+        fixture.detectChanges();
+        nextyear = getElement(NEXTYEAR);
+        expect(nextyear).not.toBe(null);
+        nextyear.nativeElement.click();
+
+        expect(comp.visibleMonth.monthTxt).toBe('May');
+        expect(comp.visibleMonth.monthNbr).toBe(5);
+        expect(comp.visibleMonth.year).toBe(2017);
+
+        fixture.detectChanges();
+        daycell = getElements('.daycell');
+        expect(daycell).not.toBe(null);
+        expect(daycell.length).toBe(42);
+
+        fixture.detectChanges();
+        expect(daycell[0].nativeElement.textContent.trim()).toBe('1');
+
+        fixture.detectChanges();
+        expect(daycell[41].nativeElement.textContent.trim()).toBe('11');
+
+        fixture.detectChanges();
+        let headerbtndisabled = getElement('.headerbtndisabled');
+        expect(headerbtndisabled).not.toBe(null);
     });
 
     it('options - disable until', () => {
