@@ -35,7 +35,7 @@
                 <form #f="ngForm" (ngSubmit)="onSubmitNgModel()" novalidate>
                     <my-date-range-picker name="ngModelDateRange" [options]="myDateRangePickerOptions" [(ngModel)]="model" required></my-date-range-picker>
                     <div>
-                        <button class="button" type="submit" [disabled]="!f.valid">Submit</button>
+                        <button class="button" type="submit">Submit</button>
                         <p class="error" *ngIf="!f.valid">Date range is required!</p>
                     </div>
                 </form>
@@ -49,7 +49,7 @@
                 <form [formGroup]="myForm" (ngSubmit)="onSubmitReactiveForms()" novalidate>
                     <my-date-range-picker name="reactiveFormsDateRange" [options]="myDateRangePickerOptions" formControlName="myDateRange"></my-date-range-picker>
                     <div>
-                        <button class="button" type="submit" [disabled]="myForm.controls.myDateRange.errors">Submit</button>
+                        <button class="button" type="submit">Submit</button>
                         <button class="button" type="button" (click)="setDateRange()">Set Range (today)</button>
                         <button class="button" type="button" (click)="resetDateRange()">Reset Range (today)</button>
                         <button class="button" type="button" (click)="clearDateRange()">Set Empty</button>

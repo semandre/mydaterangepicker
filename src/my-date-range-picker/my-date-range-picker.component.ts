@@ -237,7 +237,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             }
             else {
                 this.invalidDateRange = true;
-                this.onChangeCb("");
+                this.onChangeCb(null);
                 this.onTouchedCb();
             }
         }
@@ -298,10 +298,14 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             this.titleAreaTextEnd = end;
             this.selectionDayTxt = begin + " - " + end;
             this.inputFieldChanged.emit({value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true});
+            this.onChangeCb(this.getDateRangeModel(this.beginDate, this.endDate));
+            this.onTouchedCb();
         }
-        else if (value === "") {
+        else if (value === null || value === "") {
             this.clearRangeValues();
             this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
+            this.onChangeCb(null);
+            this.onTouchedCb();
         }
         this.invalidDateRange = false;
     }
@@ -565,7 +569,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             if (this.selectionDayTxt !== "") {
                 this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
             }
-            this.onChangeCb("");
+            this.onChangeCb(null);
             this.onTouchedCb();
         }
         this.clearRangeValues();

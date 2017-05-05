@@ -20,7 +20,7 @@ export class SampleDateRangePickerAccessModifier implements OnInit {
 
     private myForm: FormGroup;
 
-    private model: string = '';   // not initial date range set
+    private model: string = null;   // not initial date range set
     //private model: Object = {beginDate: {year: 2018, month: 10, day: 9}, endDate: {year: 2018, month: 10, day: 19}};   // this example is initialized to specific date range
 
     constructor(private formBuilder: FormBuilder) { }
@@ -28,7 +28,7 @@ export class SampleDateRangePickerAccessModifier implements OnInit {
     ngOnInit() {
         console.log('onInit(): SampleDateRangePickerReactiveForms');
         this.myForm = this.formBuilder.group({
-            //myDateRange: ['', Validators.required]   // not initial date range set
+            //myDateRange: [null, Validators.required]   // not initial date range set
             myDateRange: [{beginDate: {year: 2018, month: 10, day: 9}, endDate: {year: 2018, month: 10, day: 19}}, Validators.required]   // this example is initialized to specific date range
         });
     }
@@ -62,6 +62,6 @@ export class SampleDateRangePickerAccessModifier implements OnInit {
 
     clearDateRange(): void {
         // Clear the date range using the setValue function
-        this.myForm.setValue({myDateRange: ''});
+        this.myForm.setValue({myDateRange: null});
     }
 }
