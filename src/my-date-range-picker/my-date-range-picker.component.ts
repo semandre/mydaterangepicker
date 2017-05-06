@@ -298,16 +298,16 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             this.titleAreaTextEnd = end;
             this.selectionDayTxt = begin + " - " + end;
             this.inputFieldChanged.emit({value: this.selectionDayTxt, dateRangeFormat: this.dateRangeFormat, valid: true});
-            this.onChangeCb(this.getDateRangeModel(this.beginDate, this.endDate));
-            this.onTouchedCb();
         }
         else if (value === null || value === "") {
             this.clearRangeValues();
             this.inputFieldChanged.emit({value: "", dateRangeFormat: this.dateRangeFormat, valid: false});
-            this.onChangeCb(null);
-            this.onTouchedCb();
         }
         this.invalidDateRange = false;
+    }
+
+    setDisabledState(disabled: boolean): void {
+        this.opts.componentDisabled = disabled;
     }
 
     registerOnChange(fn: any): void {
