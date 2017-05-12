@@ -23,7 +23,6 @@ export class DateRangeUtilService {
         }
 
         let validDates: Array<IMyDate> = [];
-        let notSetDate: IMyDate = {day: 0, month: 0, year: 0};
 
         for (let i in dates) {
             let date: IMyDate = this.isDateValid(dates[i], dateFormat, minYear, maxYear, monthLabels, isMonthStr);
