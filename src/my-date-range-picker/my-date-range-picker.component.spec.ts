@@ -107,10 +107,6 @@ describe('MyDateRangePicker', () => {
         btnpicker.nativeElement.click();
 
         fixture.detectChanges();
-        let selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
-
-        fixture.detectChanges();
         let range = getElements('.caltable .range');
         expect(range).not.toBe(null);
         expect(range.length).toBe(30);
@@ -747,7 +743,8 @@ describe('MyDateRangePicker', () => {
     it('options - select end date text', () => {
         comp.selectedMonth = {monthTxt: '', monthNbr: 1, year: 2016};
         comp.options = {
-            selectEndDateTxt: 'test text'
+            selectEndDateTxt: 'test text',
+            dateFormat: 'dd.mm.yyyy'
         };
 
         comp.parseOptions();
@@ -762,12 +759,12 @@ describe('MyDateRangePicker', () => {
         expect(currmonth.length).toBe(42);
 
         fixture.detectChanges();
-        currmonth[1].nativeElement.click();
+        currmonth[0].nativeElement.click();
 
         fixture.detectChanges();
-        let titlearearight = getElement('.titlearearight');
+        let titlearearight = getElement('.titleareatxt');
         expect(titlearearight).not.toBe(null);
-        expect(titlearearight.nativeElement.textContent.trim()).toBe('test text');
+        expect(titlearearight.nativeElement.textContent.trim()).toBe('28.12.2015 - test text');
     });
 
     it('options - first day of week', () => {
@@ -1348,10 +1345,6 @@ describe('MyDateRangePicker', () => {
         btnpicker.nativeElement.click();
 
         fixture.detectChanges();
-        let selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
-
-        fixture.detectChanges();
         let range = getElements('.caltable .range');
         expect(range).not.toBe(null);
         expect(range.length).toBe(7);
@@ -1711,19 +1704,9 @@ describe('MyDateRangePicker', () => {
         expect(selectedday[1].nativeElement.textContent.trim()).toBe('18');
 
         fixture.detectChanges();
-        let selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
-        expect(selecteddaygreen.nativeElement.textContent.trim()).toBe('4');
-
-        fixture.detectChanges();
         let range = getElements('.caltable .range');
         expect(range).not.toBe(null);
         expect(range.length).toBe(15);
-
-        fixture.detectChanges();
-        let disabled = getElements('.disabled');
-        expect(disabled).not.toBe(null);
-        expect(disabled.length).toBe(23);
     });
 
     it('selDateRange - initially selected date range - mont as text', () => {
@@ -1756,19 +1739,9 @@ describe('MyDateRangePicker', () => {
         expect(selectedday[1].nativeElement.textContent.trim()).toBe('18');
 
         fixture.detectChanges();
-        let selecteddaygreen = getElement('.selecteddaygreen');
-        expect(selecteddaygreen).not.toBe(null);
-        expect(selecteddaygreen.nativeElement.textContent.trim()).toBe('4');
-
-        fixture.detectChanges();
         let range = getElements('.caltable .range');
         expect(range).not.toBe(null);
         expect(range.length).toBe(15);
-
-        fixture.detectChanges();
-        let disabled = getElements('.disabled');
-        expect(disabled).not.toBe(null);
-        expect(disabled.length).toBe(23);
     });
 
     it('defaultMonth - initially selected month', () => {

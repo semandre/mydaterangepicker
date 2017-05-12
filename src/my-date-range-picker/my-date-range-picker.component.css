@@ -30,14 +30,6 @@
     border-radius: 4px 4px 0 0;
 }
 
-.mydrp .titlearealeft {
-    border-top-left-radius: 4px;
-}
-
-.mydrp .titlearearight {
-    border-top-right-radius: 4px;
-}
-
 .mydrp .caltable,
 .mydrp .monthtable,
 .mydrp .yeartable {
@@ -255,50 +247,10 @@
 }
 
 .mydrp .titleareatxt {
-    display: table;
-    border-spacing: 0;
-    width: 100%;
-    height: 26px;
-    line-height: 26px;
+    height: 24px;
+    line-height: 24px;
     font-size: 12px;
-}
-
-.mydrp .titleareafull {
-    border-bottom: 1px solid #CCC;
-}
-
-.mydrp .titlearealeft,
-.mydrp .titlearearight {
-    display: table-cell;
-    width: 50%;
-}
-
-.mydrp .titlearealeftenabled {
-    background-color: #FFF;
-    border-right: 1px solid transparent;
-}
-
-.mydrp .titlearearightenabled {
-    background-color: #FFF;
-    border-left: 1px solid transparent;
-}
-
-.mydrp .titlearealeftdisabled {
-    border-bottom: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    border-bottom-right-radius: 4px;
-}
-
-.mydrp .titlearearightdisabled {
-    border-bottom: 1px solid #CCC;
-    border-left: 1px solid #CCC;
-    border-bottom-left-radius: 4px;
-}
-
-.mydrp .titleareatxtlink:hover {
-    text-decoration: underline;
-    color: #777;
-    cursor: pointer;
+    border-bottom: 1px solid #DDD;
 }
 
 .mydrp .inline {
@@ -421,10 +373,6 @@
     padding: 2px;
 }
 
-.mydrp .selecteddaygreen {
-    background-color: #28A828 !important;
-}
-
 .mydrp .headerbtncell {
     background-color: #FFF;
     cursor: pointer;
@@ -502,11 +450,6 @@
 .mydrp .yearlabel:focus,
 .mydrp .yearchangebtn:focus {
     color: #ADD8E6;
-    outline: none;
-}
-.mydrp .titlearealeft:focus,
-.mydrp .titlearearight:focus {
-    text-decoration: underline;
     outline: none;
 }
 
