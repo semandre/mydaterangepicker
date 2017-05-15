@@ -360,7 +360,7 @@
 .mydrp .selectedday,
 .mydrp .selectedmonth .monthvalue,
 .mydrp .selectedyear .yearvalue {
-    border: 1px solid #004198;
+    border: none;
     background-color: #8EBFFF !important;
     border-radius: 2px;
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IMyOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected} from '../../src/my-date-range-picker/interfaces';
+import {IMyDrpOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected} from '../../src/my-date-range-picker/interfaces';
 
 declare var require:any;
 const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-normal.html');
@@ -11,7 +11,7 @@ const sampleDrpNormalTemplate: string = require('./sample-date-range-picker-norm
 
 export class SampleDateRangePickerNormal implements OnInit {
 
-    private myDateRangePickerOptionsNormal: IMyOptions = {
+    private myDateRangePickerOptionsNormal: IMyDrpOptions = {
         dateFormat: 'dd mmm yyyy',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
@@ -165,7 +165,7 @@ export class SampleDateRangePickerNormal implements OnInit {
         console.log('onDateSelected(): Value: ', event);
     }
 
-    getCopyOfOptions(): IMyOptions {
+    getCopyOfOptions(): IMyDrpOptions {
         return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
     }
 }

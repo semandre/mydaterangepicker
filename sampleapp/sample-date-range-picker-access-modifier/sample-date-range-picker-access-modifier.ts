@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {IMyOptions} from '../../src/my-date-range-picker/interfaces';
+import {IMyDrpOptions} from '../../src/my-date-range-picker/interfaces';
 
 declare var require:any;
 const amSampleTpl: string = require('./sample-date-range-picker-access-modifier.html');
@@ -12,7 +12,7 @@ const amSampleTpl: string = require('./sample-date-range-picker-access-modifier.
 
 export class SampleDateRangePickerAccessModifier implements OnInit {
 
-    private myDateRangePickerOptions: IMyOptions = {
+    private myDateRangePickerOptions: IMyDrpOptions = {
         dateFormat: 'dd.mm.yyyy',
         height: '34px',
         width: '250px'

@@ -61,12 +61,12 @@ is an example application. It shows how to use the __ngModel__.
 To use ngModel define the application class as follows:
 
 ```ts
-import {IMyOptions} from 'mydaterangepicker';
+import {IMyDrpOptions} from 'mydaterangepicker';
 // other imports here...
 
 export class MyTestApp {
 
-    private myDateRangePickerOptions: IMyOptions = {
+    private myDateRangePickerOptions: IMyDrpOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
@@ -97,12 +97,12 @@ is an example application. It shows how to use the __formControlName__.
 To use reactive forms define the application class as follows:
 
 ```ts
-import {IMyOptions} from 'mydaterangepicker';
+import {IMyDrpOptions} from 'mydaterangepicker';
 // other imports here...
 
 export class MyTestApp implements OnInit {
 
-    private myDateRangePickerOptions: IMyOptions = {
+    private myDateRangePickerOptions: IMyDrpOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
@@ -165,12 +165,12 @@ is an example application. It shows how to use callbacks.
 To use callbacks define the application class as follows:
 
 ```js
-import {IMyOptions, IMyDateRangeModel} from 'mydaterangepicker';
+import {IMyDrpOptions, IMyDateRangeModel} from 'mydaterangepicker';
 // other imports here...
 
 export class MyTestApp {
 
-    private myDateRangePickerOptions: IMyOptions = {
+    private myDateRangePickerOptions: IMyDrpOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
@@ -198,7 +198,7 @@ Add the following snippet inside your template:
 
 ### options attribute
 
-Value of the __options__ attribute is a type of [IMyOptions](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-options.interface.ts). It can contain the following properties.
+Value of the __options__ attribute is a type of [IMyDrpOptions](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-options.interface.ts). It can contain the following properties.
 
 | Option        | Default       | Type  | Description  |
 | ------------- | ------------- | ----- | ------------ |
@@ -245,7 +245,7 @@ Value of the __options__ attribute is a type of [IMyOptions](https://github.com/
 
 * Example of the options data (not all properties listed):
 ```js
-    myDateRangePickerOptions: IMyOptions = {
+    myDateRangePickerOptions: IMyDrpOptions = {
         dateFormat: 'dd.mm.yyyy',
         firstDayOfWeek: 'mo',
         sunHighlight: true,

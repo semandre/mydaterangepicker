@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IMyOptions, IMyDateRangeModel} from '../../src/my-date-range-picker/interfaces';
+import {IMyDrpOptions, IMyDateRangeModel} from '../../src/my-date-range-picker/interfaces';
 
 declare var require:any;
 const sampleDrpInlineTemplate: string = require('./sample-date-range-picker-inline.html');
@@ -11,7 +11,7 @@ const sampleDrpInlineTemplate: string = require('./sample-date-range-picker-inli
 
 export class SampleDateRangePickerInline implements OnInit {
 
-    private myDateRangePickerOptionsInline: IMyOptions = {
+    private myDateRangePickerOptionsInline: IMyDrpOptions = {
         dateFormat: 'yyyy-mm-dd',
         firstDayOfWeek: 'mo',
         sunHighlight: true,
@@ -74,7 +74,7 @@ export class SampleDateRangePickerInline implements OnInit {
         }
     }
 
-    getCopyOfOptions(): IMyOptions {
+    getCopyOfOptions(): IMyDrpOptions {
         return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsInline));
     }
 }
