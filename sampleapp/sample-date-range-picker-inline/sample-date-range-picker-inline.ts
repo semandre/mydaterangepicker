@@ -16,7 +16,10 @@ export class SampleDateRangePickerInline implements OnInit {
         firstDayOfWeek: 'mo',
         sunHighlight: true,
         inline: true,
-        markCurrentDay: true
+        markCurrentDay: true,
+        selectorHeight: '232px',
+        selectorWidth: '252px',
+        showSelectDateText: false
     };
 
     selectedDateRangeInline:string = '';
@@ -24,6 +27,7 @@ export class SampleDateRangePickerInline implements OnInit {
     border: string = 'none';
 
     dateFormats:Array<string> = new Array('yyyy-mm-dd', 'dd.mm.yyyy', 'dd/mm/yyyy');
+    selectorSizes: Array<string> = new Array('normal', 'small', 'big');
 
     constructor() {
         console.log('constructor(): SampleDateRangePickerInline');
@@ -56,6 +60,25 @@ export class SampleDateRangePickerInline implements OnInit {
         let copy = this.getCopyOfOptions();
         copy.disableSince = checked ? {year: date.getFullYear(), month: date.getMonth() + 1, day: 1} : {year: 0, month: 0, day: 0};
         this.myDateRangePickerOptionsInline = copy;
+    }
+
+    onSelectorSize(size:string) {
+        let copy = this.getCopyOfOptions();
+        if (size === 'normal') {
+            copy.selectorHeight = '232px';
+            copy.selectorWidth = '252px';
+            this.myDateRangePickerOptionsInline = copy;
+        }
+        else if (size === 'small') {
+            copy.selectorHeight = '200px';
+            copy.selectorWidth = '220px';
+            this.myDateRangePickerOptionsInline = copy;
+        }
+        else {
+            copy.selectorHeight = '260px';
+            copy.selectorWidth = '290px';
+            this.myDateRangePickerOptionsInline = copy;
+        }
     }
 
     ngOnInit() {

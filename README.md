@@ -224,6 +224,8 @@ Value of the __options__ attribute is a type of [IMyDrpOptions](https://github.c
 | __disableDateRanges__  | no default value  | Array<[IMyDateRange](https://github.com/kekeh/mydaterangepicker/blob/master/src/my-date-range-picker/interfaces/my-date-range.interface.ts)> | Disable date ranges one by one. The disabled date cannot be selected but it can be in a range. For example: [{beginDate: {year: 2016, month: 11, day: 14}, endDate: {year: 2016, month: 11, day: 20}}]. To reset existing disableDateRanges value set empty array to it. |
 | __disableHeaderButtons__   | true | boolean | Prevent to change the calendar view with header buttons if previous or next month are fully disabled by disableUntil or disableSince. |
 | __showWeekNumbers__   | false | boolean | Are week numbers visible or not on calendar. Can be used if __firstDayOfWeek = mo__. |
+| __selectorHeight__   | 232px | string | Selector height. |
+| __selectorWidth__   | 252px | string | Selector width. |
 | __inline__   | false | boolean | Show mydaterangepicker in inline mode. |
 | __showClearDateRangeBtn__   | true | boolean | Is clear date range button shown or not. Can be used if __inline = false__. |
 | __height__   | 34px | string | mydatepicker height without selector. Can be used if __inline = false__. |

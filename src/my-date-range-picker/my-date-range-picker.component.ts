@@ -89,6 +89,8 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         markCurrentDay: <boolean> true,
         height: <string> "34px",
         width: <string> "262px",
+        selectorHeight: <string> "232px",
+        selectorWidth: <string> "252px",
         inline: <boolean> false,
         showClearDateRangeBtn: <boolean> true,
         selectionTxtFontSize: <string> "14px",

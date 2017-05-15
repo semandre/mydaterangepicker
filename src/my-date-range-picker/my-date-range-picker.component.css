@@ -56,7 +56,6 @@
     margin-top: 2px;
     margin-left: -1px;
     position: absolute;
-    width: 252px;
     padding: 0;
     border: 1px solid #CCC;
     z-index: 100;
@@ -250,7 +249,7 @@
     height: 24px;
     line-height: 24px;
     font-size: 12px;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #EEE;
 }
 
 .mydrp .inline {
@@ -302,19 +301,14 @@
     border-right: 1px solid #BBB;
 }
 
-.mydrp .daycell {
-    height: 30px;
-}
-
 .mydrp .monthcell {
     background-color: #FAFAFA;
-    height: 50px;
-    width: 33.3333%;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .mydrp .yearcell {
     background-color: #FAFAFA;
-    height: 30px;
     width: 20%;
 }
 
@@ -365,14 +359,6 @@
     border-radius: 2px;
 }
 
-.mydrp .selectedmonth .monthvalue {
-    padding: 6px;
-}
-
-.mydrp .selectedyear .yearvalue {
-    padding: 2px;
-}
-
 .mydrp .headerbtncell {
     background-color: #FFF;
     cursor: pointer;
@@ -382,7 +368,6 @@
 
 .mydrp .yearchangebtncell {
     text-align: center;
-    height: 25px;
     background-color: #FAFAFA;
 }
 

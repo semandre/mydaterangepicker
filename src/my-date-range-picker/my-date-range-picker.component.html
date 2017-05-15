@@ -12,7 +12,7 @@
             </button>
         </span>
     </div>
-    <div class="selector" #selectorEl *ngIf="showSelector||opts.inline" [mydrpfocus]="opts.inline?'0':'1'" [ngClass]="{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight, 'selectorarrow': opts.showSelectorArrow&&!opts.inline, 'selectorarrowleft': opts.showSelectorArrow&&!opts.alignSelectorRight&&!opts.inline, 'selectorarrowright': opts.showSelectorArrow&&opts.alignSelectorRight&&!opts.inline}" (keyup)="onCloseSelector($event)" tabindex="0">
+    <div class="selector" #selectorEl *ngIf="showSelector||opts.inline" [ngStyle]="{'width': opts.selectorWidth, 'height' : opts.selectorHeight}" [mydrpfocus]="opts.inline?'0':'1'" [ngClass]="{'inline': opts.inline, 'alignselectorright': opts.alignSelectorRight, 'selectorarrow': opts.showSelectorArrow&&!opts.inline, 'selectorarrowleft': opts.showSelectorArrow&&!opts.alignSelectorRight&&!opts.inline, 'selectorarrowright': opts.showSelectorArrow&&opts.alignSelectorRight&&!opts.inline}" (keyup)="onCloseSelector($event)" tabindex="0">
         <div class="titlearea" *ngIf="opts.showSelectDateText">
             <div class="titleareatxt">{{titleAreaText!==''?titleAreaText:opts.selectBeginDateTxt}}</div>
         </div>
@@ -46,7 +46,7 @@
                 </td>
             </tr>
         </table>
-        <table class="caltable" *ngIf="!selectMonth&&!selectYear">
+        <table class="caltable" *ngIf="!selectMonth&&!selectYear" [ngStyle]="{'height': opts.showSelectDateText?'calc(100% - 54px)':'calc(100% - 30px)'}">
             <thead><tr><th class="weekdaytitle weekdaytitleweeknbr" *ngIf="opts.showWeekNumbers&&opts.firstDayOfWeek==='mo'">#</th><th class="weekdaytitle" scope="col" *ngFor="let d of weekDays">{{d}}</th></tr></thead>
             <tbody>
                 <tr *ngFor="let w of dates">
@@ -59,7 +59,7 @@
                 </tr>
             </tbody>
         </table>
-        <table class="monthtable" *ngIf="selectMonth">
+        <table class="monthtable" *ngIf="selectMonth" [ngStyle]="{'height': opts.showSelectDateText?'calc(100% - 54px)':'calc(100% - 30px)'}">
             <tbody>
                 <tr *ngFor="let mr of months">
                     <td class="monthcell tablesinglemonth" [ngClass]="{'selectedmonth': m.selected, 'disabled': m.disabled}" *ngFor="let m of mr" (click)="!m.disabled&&onMonthCellClicked(m);$event.stopPropagation()" (keydown)="onMonthCellKeyDown($event, m)" tabindex="0">
@@ -68,7 +68,7 @@
                 </tr>
             </tbody>
         </table>
-        <table class="yeartable" *ngIf="selectYear">
+        <table class="yeartable" *ngIf="selectYear" [ngStyle]="{'height': opts.showSelectDateText?'calc(100% - 54px)':'calc(100% - 30px)'}">
             <tbody>
                 <tr>
                     <td colspan="5" class="yearchangebtncell" (click)="$event.stopPropagation()">

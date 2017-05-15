@@ -17,6 +17,8 @@ export interface IMyOptions {
     markCurrentDay?: boolean;
     height?: string;
     width?: string;
+    selectorHeight?: string;
+    selectorWidth?: string;
     inline?: boolean;
     showClearDateRangeBtn?: boolean;
     selectionTxtFontSize?: string;
