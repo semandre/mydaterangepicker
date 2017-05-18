@@ -1,1 +1,1 @@
-export {MyDateRangePickerModule} from "./dist/my-date-range-picker.module";
+export {MyDateRangePickerModule, MyDateRangePicker} from "./dist/my-date-range-picker.module";
