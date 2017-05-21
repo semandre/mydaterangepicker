@@ -347,7 +347,9 @@
     background: #D9F2E6;
 }
 
-.mydrp .currday {
+.mydrp .markcurrday,
+.mydrp .markcurrmonth,
+.mydrp .markcurryear {
     text-decoration: underline;
 }
 

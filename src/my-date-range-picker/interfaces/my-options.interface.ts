@@ -15,6 +15,8 @@ export interface IMyOptions {
     firstDayOfWeek?: string;
     sunHighlight?: boolean;
     markCurrentDay?: boolean;
+    markCurrentMonth?: boolean;
+    markCurrentYear?: boolean;
     height?: string;
     width?: string;
     selectorHeight?: string;
