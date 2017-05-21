@@ -6,7 +6,7 @@
   background-color: #EEE;
   height: 180px;
   border-bottom: 1px solid #CCC;
-  background: linear-gradient(to right, rgba(44,83,158,1) 0%,rgba(44,83,158,1) 100%);
+  background: linear-gradient(to right, rgba(44, 83, 158, 1) 0%, rgba(44, 83, 158, 1) 100%);
   text-align: center;
 }
 
@@ -40,7 +40,7 @@
 .tab {
   display: table-cell;
   border-radius: 4px;
-  width: 50%;
+  width: 33.33333%;
   padding: 8px 0;
   text-align: center;
 }
@@ -60,7 +60,12 @@
   text-decoration: underline;
 }
 
+.pagetext {
+  margin: 20px 0;
+}
+
 hr {
+  margin: 6px 0;
   border: none;
   height: 1px;
   background-image: linear-gradient(to right, #DDD, #555, #DDD);
