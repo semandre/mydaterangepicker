@@ -368,8 +368,12 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                 }
             }
         }
-        if (this.opts.inline) {
+        if (this.visibleMonth.year === 0 && this.visibleMonth.monthNbr === 0) {
             this.setVisibleMonth();
+        }
+        else {
+            this.visibleMonth.monthTxt = this.opts.monthLabels[this.visibleMonth.monthNbr];
+            this.generateCalendar(this.visibleMonth.monthNbr, this.visibleMonth.year, false);
         }
     }
 
