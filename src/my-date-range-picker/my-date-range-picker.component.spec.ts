@@ -94,8 +94,8 @@ describe('MyDateRangePicker', () => {
         first.nativeElement.click();
 
         fixture.detectChanges();
-        let selectedday = getElement('.selectedday');
-        expect(selectedday).not.toBe(null);
+        let selecteddaybegin = getElement('.selecteddaybegin');
+        expect(selecteddaybegin).not.toBe(null);
 
         fixture.detectChanges();
         currmonth = getElements('.caltable tbody tr td');
@@ -150,8 +150,8 @@ describe('MyDateRangePicker', () => {
         first.nativeElement.click();
 
         fixture.detectChanges();
-        let selectedday = getElement('.selectedday');
-        expect(selectedday).not.toBe(null);
+        let selecteddaybegin = getElement('.selecteddaybegin');
+        expect(selecteddaybegin).not.toBe(null);
 
         fixture.detectChanges();
         currmonth = getElements('.caltable tbody tr td');
@@ -173,8 +173,8 @@ describe('MyDateRangePicker', () => {
         headerclearbtn.nativeElement.click();
 
         fixture.detectChanges();
-        selectedday = getElement('.selectedday');
-        expect(selectedday).toBe(null);
+        selecteddaybegin = getElement('.selecteddaybegin');
+        expect(selecteddaybegin).toBe(null);
 
         let selecteddaygreen = getElement('.selecteddaygreen');
         expect(selecteddaygreen).toBe(null);
@@ -1364,8 +1364,8 @@ describe('MyDateRangePicker', () => {
         currmonth[19].nativeElement.click();
 
         fixture.detectChanges();
-        let selectedday = getElement('.selectedday');
-        expect(selectedday).not.toBe(null);
+        let selecteddaybegin = getElement('.selecteddaybegin');
+        expect(selecteddaybegin).not.toBe(null);
 
         fixture.detectChanges();
         currmonth = getElements('.caltable tbody tr td');
@@ -1766,10 +1766,14 @@ describe('MyDateRangePicker', () => {
 
 
         fixture.detectChanges();
-        let selectedday = getElements('.selectedday');
-        expect(selectedday).not.toBe(null);
-        expect(selectedday[0].nativeElement.textContent.trim()).toBe('4');
-        expect(selectedday[1].nativeElement.textContent.trim()).toBe('18');
+        let selecteddaybegin = getElement('.selecteddaybegin');
+        expect(selecteddaybegin).not.toBe(null);
+        expect(selecteddaybegin.nativeElement.textContent.trim()).toBe('4');
+
+        fixture.detectChanges();
+        let selecteddayend = getElement('.selecteddayend');
+        expect(selecteddayend).not.toBe(null);
+        expect(selecteddayend.nativeElement.textContent.trim()).toBe('18');
 
         fixture.detectChanges();
         let range = getElements('.caltable .range');
@@ -1801,10 +1805,14 @@ describe('MyDateRangePicker', () => {
 
 
         fixture.detectChanges();
-        let selectedday = getElements('.selectedday');
-        expect(selectedday).not.toBe(null);
-        expect(selectedday[0].nativeElement.textContent.trim()).toBe('4');
-        expect(selectedday[1].nativeElement.textContent.trim()).toBe('18');
+        let selecteddaybegin = getElement('.selecteddaybegin');
+        expect(selecteddaybegin).not.toBe(null);
+        expect(selecteddaybegin.nativeElement.textContent.trim()).toBe('4');
+
+        fixture.detectChanges();
+        let selecteddayend = getElement('.selecteddayend');
+        expect(selecteddayend).not.toBe(null);
+        expect(selecteddayend.nativeElement.textContent.trim()).toBe('18');
 
         fixture.detectChanges();
         let range = getElements('.caltable .range');

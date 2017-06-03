@@ -344,7 +344,7 @@
 }
 
 .mydrp .range {
-    background: #D9F2E6;
+    background-color: #D9F2E6;
 }
 
 .mydrp .markcurrday,
@@ -353,11 +353,16 @@
     text-decoration: underline;
 }
 
-.mydrp .selectedday,
+.mydrp .datevalue {
+    background-color: inherit;
+}
+
+.mydrp .selecteddaybegin,
+.mydrp .selecteddayend,
 .mydrp .selectedmonth .monthvalue,
 .mydrp .selectedyear .yearvalue {
     border: none;
-    background-color: #8EBFFF !important;
+    background-color: #8EBFFF;
     border-radius: 2px;
 }
 
