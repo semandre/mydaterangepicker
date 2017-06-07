@@ -331,14 +331,19 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
             this.parseOptions();
         }
 
+        let dmChange: boolean = false;
         if (changes.hasOwnProperty("defaultMonth")) {
-            let dm: string = changes["defaultMonth"].currentValue;
+            let dm: any = changes["defaultMonth"].currentValue;
+            if (typeof dm === "object") {
+                dm = dm.defMonth;
+            }
             if (dm !== null && dm !== undefined && dm !== "") {
                 this.selectedMonth = this.parseSelectedMonth(dm);
             }
             else {
                 this.selectedMonth = {monthTxt: "", monthNbr: 0, year: 0};
             }
+            dmChange = true;
         }
 
         if (changes.hasOwnProperty("selDateRange")) {
@@ -368,7 +373,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                 }
             }
         }
-        if (this.visibleMonth.year === 0 && this.visibleMonth.monthNbr === 0) {
+        if (this.visibleMonth.year === 0 && this.visibleMonth.monthNbr === 0 || dmChange) {
             this.setVisibleMonth();
         }
         else {
