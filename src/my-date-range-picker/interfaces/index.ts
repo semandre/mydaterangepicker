@@ -14,3 +14,4 @@ export * from "./my-input-focus-blur.interface";
 export * from "./my-weekday.interface";
 export * from "./my-calendar-view-changed.interface";
 export * from "./my-date-selected.interface";
+export * from "./my-default-month.interface";
