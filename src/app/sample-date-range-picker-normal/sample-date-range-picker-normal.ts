@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyDateSelected, IMyInputFocusBlur} from 'mydaterangepicker';
+import {IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyDateSelected, IMyInputFocusBlur, IMyCalendarViewChanged} from 'mydaterangepicker';
 
 @Component({
     selector: 'sample-date-range-picker-normal',
@@ -91,6 +91,10 @@ export class SampleDateRangePickerNormal implements OnInit {
 
     onInputFieldChanged(event: IMyInputFieldChanged) {
         console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
+    }
+
+    onCalendarViewChanged(event: IMyCalendarViewChanged) {
+      console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
     }
 
     onDateSelected(event: IMyDateSelected) {
