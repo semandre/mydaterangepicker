@@ -675,8 +675,6 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
         let dInThisM: number = this.daysInMonth(m, y);
         let dInPrevM: number = this.daysInPrevMonth(m, y);
 
-        this.setHeaderBtnDisabledState(m, y);
-
         let dayNbr: number = 1;
         let cmo: number = this.prevMonthId;
         for (let i = 1; i < 7; i++) {
@@ -687,14 +685,23 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                 // Previous month
                 for (let j = pm; j <= dInPrevM; j++) {
                     let date: IMyDate = {year: m === 1 ? y - 1 : y, month: m === 1 ? 12 : m - 1, day: j};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates), range: false});
+                    week.push({dateObj: date,
+                        cmo: cmo, currDay: this.isCurrDay(j, m, y, cmo, today),
+                        dayNbr: this.getDayNumber(date),
+                        disabled: this.drus.isDisabledDay(date, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates),
+                        range: false});
                 }
                 cmo = this.currMonthId;
                 // Current month
                 let daysLeft: number = 7 - week.length;
                 for (let j = 0; j < daysLeft; j++) {
                     let date: IMyDate = {year: y, month: m, day: dayNbr};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates), range: false});
+                    week.push({dateObj: date,
+                        cmo: cmo,
+                        currDay: this.isCurrDay(dayNbr, m, y, cmo, today),
+                        dayNbr: this.getDayNumber(date),
+                        disabled: this.drus.isDisabledDay(date, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates),
+                        range: false});
                     dayNbr++;
                 }
             }
@@ -705,22 +712,23 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
                         // Next month
                         dayNbr = 1;
                         cmo = this.nextMonthId;
-                        if (m === 12) {
-                            y++;
-                            m = 1;
-                        }
-                        else {
-                            m++;
-                        }
                     }
-                    let date: IMyDate = {year: y, month: m, day: dayNbr};
-                    week.push({dateObj: date, cmo: cmo, currDay: this.isCurrDay(dayNbr, m, y, cmo, today), dayNbr: this.getDayNumber(date), disabled: this.drus.isDisabledDay(date, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates), range: false});
+                    let date: IMyDate = {year: cmo === this.nextMonthId && m === 12 ? y + 1 : y, month: cmo === this.currMonthId ? m : cmo === this.nextMonthId && m < 12 ? m + 1 : 1, day: dayNbr};
+                    week.push({dateObj: date,
+                        cmo: cmo,
+                        currDay: this.isCurrDay(dayNbr, m, y, cmo, today),
+                        dayNbr: this.getDayNumber(date),
+                        disabled: this.drus.isDisabledDay(date, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates),
+                        range: false});
                     dayNbr++;
                 }
             }
             let weekNbr: number = this.opts.showWeekNumbers  && this.opts.firstDayOfWeek === "mo" ? this.drus.getWeekNumber(week[0].dateObj) : 0;
             this.dates.push({week: week, weekNbr: weekNbr});
         }
+
+        this.setHeaderBtnDisabledState(m, y);
+
         if (viewChange) {
             // Notify parent
             this.calendarViewChanged.emit({year: y, month: m, first: {number: 1, weekday: this.getWeekday({year: y, month: m, day: 1})}, last: {number: dInThisM, weekday: this.getWeekday({year: y, month: m, day: dInThisM})}});

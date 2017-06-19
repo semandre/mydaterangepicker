@@ -20,7 +20,7 @@ export class SampleDateRangePickerNormal implements OnInit {
         inline: false,
         alignSelectorRight: false,
         indicateInvalidDateRange: true,
-        minYear: 1900,
+        minYear: 1970,
         maxYear: 2200,
         componentDisabled: false,
         showClearDateRangeBtn: true,

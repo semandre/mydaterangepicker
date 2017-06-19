@@ -29,7 +29,7 @@ export class DateRangeUtilService {
             if (date.day === 0 && date.month === 0 && date.year === 0) {
                 return invalidDateRange;
             }
-            if (this.isDisabledDay(date, disableUntil, disableSince, disableDates, disableDateRanges, enableDates)) {
+            if (this.isDisabledDay(date, minYear, maxYear, disableUntil, disableSince, disableDates, disableDateRanges, enableDates)) {
                 return invalidDateRange;
             }
             validDates.push(date);
@@ -92,13 +92,18 @@ export class DateRangeUtilService {
         return month;
     }
 
-    public isDisabledDay(date: IMyDate, disableUntil: IMyDate, disableSince: IMyDate, disableDates: Array<IMyDate>, disableDateRanges: Array<IMyDateRange>, enableDates: Array<IMyDate>): boolean {
+    public isDisabledDay(date: IMyDate, minYear: number, maxYear: number, disableUntil: IMyDate, disableSince: IMyDate, disableDates: Array<IMyDate>, disableDateRanges: Array<IMyDateRange>, enableDates: Array<IMyDate>): boolean {
         let dateMs: number = this.getTimeInMilliseconds(date);
         for (let d of enableDates) {
             if (d.year === date.year && d.month === date.month && d.day === date.day) {
                 return false;
             }
         }
+
+        if (date.year < minYear && date.month === 12 || date.year > maxYear && date.month === 1) {
+            return true;
+        }
+
         if (this.isInitializedDate(disableUntil) && dateMs <= this.getTimeInMilliseconds(disableUntil)) {
             return true;
         }
