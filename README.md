@@ -66,14 +66,14 @@ import {IMyDrpOptions} from 'mydaterangepicker';
 
 export class MyTestApp {
 
-    private myDateRangePickerOptions: IMyDrpOptions = {
+    myDateRangePickerOptions: IMyDrpOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
 
     // For example initialize to specific date (09.10.2018 - 19.10.2018). It is also possible
     // to set initial date range value using the selDateRange attribute.
-    private model: Object = {beginDate: {year: 2018, month: 10, day: 9},
+    private model: any = {beginDate: {year: 2018, month: 10, day: 9},
                              endDate: {year: 2018, month: 10, day: 19}};
 
     constructor() { }
@@ -102,7 +102,7 @@ import {IMyDrpOptions} from 'mydaterangepicker';
 
 export class MyTestApp implements OnInit {
 
-    private myDateRangePickerOptions: IMyDrpOptions = {
+    myDateRangePickerOptions: IMyDrpOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
@@ -124,9 +124,9 @@ export class MyTestApp implements OnInit {
     }
 
     setDateRange(): void {
-        // Set date range (today) using the setValue function
+        // Set date range (today) using the patchValue function
         let date = new Date();
-        this.myForm.setValue({myDateRange: {
+        this.myForm.patchValue({myDateRange: {
             beginDate: {
                 year: date.getFullYear(),
                 month: date.getMonth() + 1,
@@ -141,8 +141,8 @@ export class MyTestApp implements OnInit {
     }
 
     clearDateRange(): void {
-        // Clear the date range using the setValue function
-        this.myForm.setValue({myDateRange: ''});
+        // Clear the date range using the patchValue function
+        this.myForm.patchValue({myDateRange: ''});
     }
 }
 ```
@@ -170,7 +170,7 @@ import {IMyDrpOptions, IMyDateRangeModel} from 'mydaterangepicker';
 
 export class MyTestApp {
 
-    private myDateRangePickerOptions: IMyDrpOptions = {
+    myDateRangePickerOptions: IMyDrpOptions = {
         // other options...
         dateFormat: 'dd.mm.yyyy',
     };
