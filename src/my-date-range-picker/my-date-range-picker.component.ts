@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ElementRef, Renderer, ViewChild, ChangeDetectorRef, ViewEncapsulation, forwardRef } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy, SimpleChanges, ElementRef, Renderer, ViewChild, ChangeDetectorRef, ViewEncapsulation, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { IMyDateRange, IMyDate, IMyMonth, IMyCalendarDay, IMyCalendarMonth, IMyCalendarYear, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged, IMyInputFocusBlur, IMyDateSelected } from "./interfaces/index";
 import { DateRangeUtilService } from "./services/my-date-range-picker.date.range.util.service";
@@ -29,7 +29,7 @@ enum MonthId {prev = 1, curr = 2, next = 3}
     encapsulation: ViewEncapsulation.None
 })
 
-export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
+export class MyDateRangePicker implements OnChanges, OnDestroy, ControlValueAccessor {
     @Input() options: any;
     @Input() defaultMonth: string;
     @Input() selDateRange: string;
@@ -74,6 +74,8 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     beginDate: IMyDate = {year: 0, month: 0, day: 0};
     endDate: IMyDate = {year: 0, month: 0, day: 0};
     titleAreaText: string = "";
+
+    globalListener: Function;
 
     // Default options
     opts: IMyOptions = {
@@ -124,7 +126,7 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
     };
 
     constructor(public elem: ElementRef, private renderer: Renderer, private cdr: ChangeDetectorRef, private drus: DateRangeUtilService) {
-        renderer.listenGlobal("document", "click", (event: any) => {
+        this.globalListener = renderer.listenGlobal("document", "click", (event: any) => {
             if (this.showSelector && event.target && this.elem.nativeElement !== event.target && !this.elem.nativeElement.contains(event.target)) {
                 this.showSelector = false;
             }
@@ -318,6 +320,10 @@ export class MyDateRangePicker implements OnChanges, ControlValueAccessor {
 
     registerOnTouched(fn: any): void {
         this.onTouchedCb = fn;
+    }
+
+    ngOnDestroy(): void {
+        this.globalListener();
     }
 
     ngOnChanges(changes: SimpleChanges) {
