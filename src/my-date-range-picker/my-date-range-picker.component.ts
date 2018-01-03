@@ -231,7 +231,12 @@ export class MyDateRangePicker implements OnChanges, OnDestroy, ControlValueAcce
     onUserDateRangeInput(value: string): void {
         this.invalidDateRange = false;
         if (value.length === 0) {
-            this.clearDateRange();
+            if (this.drus.isInitializedDate(this.beginDate) && this.drus.isInitializedDate(this.endDate)) {
+                this.clearDateRange();
+            }
+            else {
+                this.inputFieldChanged.emit({value: value, dateRangeFormat: this.dateRangeFormat, valid: false});
+            }
         }
         else {
             let daterange: IMyDateRange = this.drus.isDateRangeValid(value, this.opts.dateFormat, this.opts.minYear, this.opts.maxYear, this.opts.disableUntil, this.opts.disableSince, this.opts.disableDates, this.opts.disableDateRanges, this.opts.enableDates, this.opts.monthLabels);
@@ -244,10 +249,8 @@ export class MyDateRangePicker implements OnChanges, OnDestroy, ControlValueAcce
                 this.invalidDateRange = true;
                 this.onChangeCb(null);
                 this.onTouchedCb();
+                this.inputFieldChanged.emit({value: value, dateRangeFormat: this.dateRangeFormat, valid: false});
             }
-        }
-        if (this.invalidDateRange) {
-            this.inputFieldChanged.emit({value: value, dateRangeFormat: this.dateRangeFormat, valid: !(value.length === 0 || this.invalidDateRange)});
         }
     }
 
