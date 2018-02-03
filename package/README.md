@@ -5,9 +5,10 @@
 [![Build Status](https://travis-ci.org/kekeh/mydaterangepicker.svg?branch=master)](https://travis-ci.org/kekeh/mydaterangepicker)
 [![codecov](https://codecov.io/gh/kekeh/mydaterangepicker/branch/master/graph/badge.svg)](https://codecov.io/gh/kekeh/mydaterangepicker)
 [![npm](https://img.shields.io/npm/v/mydaterangepicker.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/mydaterangepicker)
+[![npm](https://img.shields.io/npm/dm/mydaterangepicker.svg)](https://www.npmjs.com/package/mydaterangepicker)
 
 ## Description
-Highly configurable Angular date range picker. Compatible with __Angular2__ and __Angular4__ versions.
+Highly configurable Angular date range picker. Compatible __Angular2+__.
 
 ## Installation
 
@@ -36,5 +37,5 @@ Online demo is [here](http://kekeh.github.io/mydaterangepicker)
 
 ## Keywords
 * Date range picker
-* Angular2
-* Angular4
+* Angular2+
+* typescript
