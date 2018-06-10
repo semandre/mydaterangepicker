@@ -2,8 +2,5 @@
 
 ### build
 
-* ng build --aot --target=production --output-hashing none
+* ng build --output-hashing none
 
-or
-
-* npm run build-dist
