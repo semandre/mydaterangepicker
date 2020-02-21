@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy, SimpleChanges, ElementRef, Renderer, ViewChild, ChangeDetectorRef, ViewEncapsulation, forwardRef } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnChanges, OnDestroy, SimpleChanges, ElementRef, Renderer2, ViewChild, ChangeDetectorRef, ViewEncapsulation, forwardRef } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { IMyDateRange, IMyDate, IMyMonth, IMyCalendarDay, IMyCalendarMonth, IMyCalendarYear, IMyWeek, IMyDayLabels, IMyMonthLabels, IMyOptions, IMyDateRangeModel, IMyInputFieldChanged, IMyCalendarViewChanged, IMyInputFocusBlur, IMyDateSelected } from "./interfaces/index";
 import { DateRangeUtilService } from "./services/my-date-range-picker.date.range.util.service";
@@ -11,6 +11,7 @@ const myDrpTemplate: string = require("./my-date-range-picker.component.html");
 
 export const MYDRP_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
+    // tslint:disable-next-line:no-forward-ref
     useExisting: forwardRef(() => MyDateRangePicker),
     multi: true
 };
@@ -125,8 +126,8 @@ export class MyDateRangePicker implements OnChanges, OnDestroy, ControlValueAcce
         ariaLabelNextYear: <string> "Next Year"
     };
 
-    constructor(public elem: ElementRef, private renderer: Renderer, private cdr: ChangeDetectorRef, private drus: DateRangeUtilService) {
-        this.globalListener = renderer.listenGlobal("document", "click", (event: any) => {
+    constructor(public elem: ElementRef, private renderer: Renderer2, private cdr: ChangeDetectorRef, private drus: DateRangeUtilService) {
+        this.globalListener = renderer.listen("document", "click", (event: any) => {
             if (this.showSelector && event.target && this.elem.nativeElement !== event.target && !this.elem.nativeElement.contains(event.target)) {
                 this.showSelector = false;
             }
